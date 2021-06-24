@@ -1,6 +1,6 @@
 import flask
-import face_recognition
 from flask import render_template, request
+
 from faceComparisonUtil import compare_faces
 
 app = flask.Flask(__name__)
@@ -14,7 +14,7 @@ def upload_image():
 @app.route('/upload-success', methods=['POST'])
 def home():
     file = request.files['myfile']
-    known_image = "/Users/anil/Desktop/saurabh.jpeg"
-    unknown_image_path = "/Users/anil/Desktop/saurabh.jpeg"
+    known_image = "/Users/anil/Desktop/known_image.png"
+    unknown_image_path = "/Users/anil/Desktop/unknown.jpeg"
     compare_faces(known_image, unknown_image_path)
     return "done"
