@@ -1,6 +1,6 @@
 import cv2
-import face_recognition
-from faceComparisonUtil import extract_faces
+import glob
+from faceComparisonUtil import extract_face
 
 # Create a VideoCapture object and read from input file
 # If the input is the camera, pass 0 instead of the video file name
@@ -16,10 +16,15 @@ while cap.isOpened():
     # Capture frame-by-frame
     ret, frame = cap.read()
     if ret:
-        extract_faces(frame, sec)
-        count += 30  # i.e. at 30 fps, this advances one second
-        sec += 1
-        cap.set(cv2.CAP_PROP_POS_FRAMES, count)
+        face_image = extract_face(frame)
+        print(glob.glob("/Users/anil/Desktop/ai/wanted-criminals/*"))
+
+        if face_image is not None:
+            cv2.imwrite('/Users/anil/Desktop/ai/captured/frame{:d}.jpg'.format(sec), face_image)
+            count += 30  # i.e. at 30 fps, this advances one second
+            sec += 1
+            cap.set(cv2.CAP_PROP_POS_FRAMES, count)
+
         # Press Q on keyboard to  exit
         if cv2.waitKey(25) & 0xFF == ord('q'):
             break
