@@ -1,10 +1,10 @@
 import cv2
 import face_recognition
-from faceComparisonUtil import extract_faces
+from faceComparisonUtil import extract_face
 
 # Create a VideoCapture object and read from input file
 # If the input is the camera, pass 0 instead of the video file name
-cap = cv2.VideoCapture('/Users/anil/Desktop/1.mp4')
+cap = cv2.VideoCapture('/usr/local/squirrel-ai/1.mp4')
 count = 0
 sec = 0
 # Check if camera opened successfully
@@ -16,7 +16,8 @@ while cap.isOpened():
     # Capture frame-by-frame
     ret, frame = cap.read()
     if ret:
-        extract_faces(frame, sec)
+        face_image = extract_face(frame)
+        cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
         count += 30  # i.e. at 30 fps, this advances one second
         sec += 1
         cap.set(cv2.CAP_PROP_POS_FRAMES, count)
