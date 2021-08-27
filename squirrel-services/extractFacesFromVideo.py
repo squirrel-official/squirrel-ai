@@ -1,5 +1,5 @@
 import cv2
-import face_recognition
+
 from faceComparisonUtil import extract_face
 
 # Create a VideoCapture object and read from input file
