@@ -1,1 +1,1 @@
-python  /usr/local/squirrel-services/extractFacesFromLiveFeed.py
+python  /usr/local/squirrel-ai/service/extractFacesFromLiveFeed.py
