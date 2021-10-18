@@ -19,13 +19,13 @@ while cap.isOpened():
     ret, frame = cap.read()
     if ret:
         face_image = extract_face(frame)
-        print(glob.glob("/usr/local/squirrel-ai/wanted-criminals/*"))
-
+        # print(glob.glob("/usr/local/squirrel-ai/wanted-criminals/*"))
         if face_image is not None:
-            for filename in glob.glob('*.txt'):
+            for filename in glob.glob('*.jpeg'):
+                print(filename)
                 eachWantedImage = open(os.path.join(os.getcwd(), filename), 'r')
+                print(eachWantedImage)
                 compare_faces(eachWantedImage, face_image)
-
             cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
             count += 30  # i.e. at 30 fps, this advances one second
             sec += 1
