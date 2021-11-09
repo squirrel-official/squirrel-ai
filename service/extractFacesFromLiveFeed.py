@@ -2,6 +2,9 @@ import os
 
 import cv2
 import glob
+
+from face_recognition import load_image_file, face_encodings
+
 from faceComparisonUtil import extract_face, compare_faces
 
 # Create a VideoCapture object and read from input file
@@ -21,12 +24,12 @@ while cap.isOpened():
         face_image = extract_face(frame)
         # print(glob.glob("/usr/local/squirrel-ai/wanted-criminals/*"))
         if face_image is not None:
-            for filename in glob.glob('*.jpeg'):
-                print(filename)
-                eachWantedImage = open(os.path.join(os.getcwd(), filename), 'r')
-                print(eachWantedImage)
-                compare_faces(eachWantedImage, face_image)
-            cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
+            for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
+                criminal_image = load_image_file(eachWantedCriminalPath)
+                criminal_image_encoding = face_encodings(criminal_image)[0]
+                print(eachWantedCriminalPath)
+                if compare_faces(criminal_image_encoding, face_image):
+                    cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
             count += 30  # i.e. at 30 fps, this advances one second
             sec += 1
             cap.set(cv2.CAP_PROP_POS_FRAMES, count)
