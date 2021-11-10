@@ -25,14 +25,13 @@ def compare_faces(known_image_encoding, unknown_image_encoding):
         top, right, bottom, left = face_location
         unknown_face_image = unknown_image_encoding[top:bottom, left:right]
         pil_image = Image.fromarray(unknown_face_image)
-        unknown_encoding = face_recognition.face_encodings(unknown_face_image)[0]
-        face_compare_list = face_recognition.compare_faces([unknown_encoding], known_image_encoding)
-        # show the image if it  has matched
-        for face_compare in face_compare_list:
-            if face_compare:
-                print("Face comparison successful")
-                print(face_compare)
-                return True
+        for each_unknown_face_encoding in face_recognition.face_encodings(unknown_face_image):
+            face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding)
+            # show the image if it  has matched
+            for face_compare in face_compare_list:
+                if face_compare:
+                    print("Face comparison successful {}", face_compare)
+                    return True
 
 
 def compare_faces_with_path(known_image_path, unknown_image_path):
