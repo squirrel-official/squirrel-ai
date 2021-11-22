@@ -26,7 +26,7 @@ while cap.isOpened():
                 criminal_image = load_image_file(eachWantedCriminalPath)
                 criminal_image_encoding = face_encodings(criminal_image)[0]
                 print(eachWantedCriminalPath)
-                if compare_faces(criminal_image_encoding, face_image):
+                if compare_faces(criminal_image_encoding, face_image, eachWantedCriminalPath):
                     cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
             count += 30  # i.e. at 30 fps, this advances one second
             sec += 1

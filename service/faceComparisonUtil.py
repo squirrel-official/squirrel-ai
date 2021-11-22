@@ -10,15 +10,15 @@ def extract_face(image):
     for face_location in face_locations:
         # Print the location of each face in this image
         top, right, bottom, left = face_location
-        print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom,
-                                                                                                    right))
+        # print("A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom,
+        #                                                                                             right))
         # You can access the actual face itself like this:
         face_image = image[top:bottom, left:right]
         # pil_image = Image.fromarray(face_image)
         return face_image
 
 
-def compare_faces(known_image_encoding, unknown_image_encoding):
+def compare_faces(known_image_encoding, unknown_image_encoding, each_wanted_criminal_path):
     unknown_face_locations = face_recognition.face_locations(unknown_image_encoding)
 
     for face_location in unknown_face_locations:
@@ -26,11 +26,11 @@ def compare_faces(known_image_encoding, unknown_image_encoding):
         unknown_face_image = unknown_image_encoding[top:bottom, left:right]
         pil_image = Image.fromarray(unknown_face_image)
         for each_unknown_face_encoding in face_recognition.face_encodings(unknown_face_image):
-            face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding)
+            face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.5)
             # show the image if it  has matched
             for face_compare in face_compare_list:
                 if face_compare:
-                    print("Face comparison successful {}", face_compare)
+                    print("face comparison match with %s" % each_wanted_criminal_path)
                     return True
 
 
