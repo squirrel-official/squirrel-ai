@@ -2,7 +2,7 @@ face_recognition_models
 Click>=6.0
 dlib>=19.3.0
 numpy~=1.20.3
-Pillow~=8.2.0
+Pillow~=9.0.0
 scipy>=0.17.0
 easygui~=0.98.2
 setuptools~=57.0.0
