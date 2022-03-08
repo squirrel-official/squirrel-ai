@@ -1,5 +1,6 @@
 import cv2
 import glob
+from datetime import datetime
 
 from face_recognition import load_image_file, face_encodings
 
@@ -22,13 +23,16 @@ while cap.isOpened():
         face_image = extract_face(frame)
         # print(glob.glob("/usr/local/squirrel-ai/wanted-criminals/*"))
         if face_image is not None:
+            # saving the image to visitor folder
+            timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+            cv2.imwrite('/usr/local/squirrel-ai/visitor/'+timestamp+'.jpg', frame)
             for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
                 criminal_image = load_image_file(eachWantedCriminalPath)
                 criminal_image_encoding = face_encodings(criminal_image)[0]
-                # print(eachWantedCriminalPath)
+                print(eachWantedCriminalPath)
                 if compare_faces(criminal_image_encoding, face_image, eachWantedCriminalPath):
                     cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
-            count += 30  # i.e. at 30 fps, this advances one second
+            count = 3
             sec += 1
             cap.set(cv2.CAP_PROP_POS_FRAMES, count)
 
