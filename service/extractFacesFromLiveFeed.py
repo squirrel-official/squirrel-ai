@@ -29,7 +29,7 @@ while cap.isOpened():
             for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
                 criminal_image = load_image_file(eachWantedCriminalPath)
                 criminal_image_encoding = face_encodings(criminal_image)[0]
-                print(eachWantedCriminalPath)
+                # print(eachWantedCriminalPath)
                 if compare_faces(criminal_image_encoding, face_image, eachWantedCriminalPath):
                     cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
             count = 3
