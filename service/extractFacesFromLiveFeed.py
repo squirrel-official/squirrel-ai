@@ -11,9 +11,21 @@ from faceComparisonUtil import extract_face, compare_faces
 cap = cv2.VideoCapture(0)
 count = 0
 sec = 0
+criminal_cache = []
 # Check if camera opened successfully
 if not cap.isOpened():
     print("Error opening video stream or file")
+
+startDateTime = datetime.now()
+for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
+    criminal_image = load_image_file(eachWantedCriminalPath)
+    criminal_image_encoding = face_encodings(criminal_image)[0]
+    criminal_cache.append(criminal_image_encoding)
+
+endDateTime = datetime.now()
+# Once the loading is done then print
+print(criminal_cache)
+print(endDateTime - startDateTime)
 
 # Read until video is completed
 while cap.isOpened():
@@ -21,17 +33,16 @@ while cap.isOpened():
     ret, frame = cap.read()
     if ret:
         face_image = extract_face(frame)
-        # print(glob.glob("/usr/local/squirrel-ai/wanted-criminals/*"))
         if face_image is not None:
             # saving the image to visitor folder
-            timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-            cv2.imwrite('/usr/local/squirrel-ai/visitor/'+timestamp+'.jpg', frame)
-            for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
-                criminal_image = load_image_file(eachWantedCriminalPath)
-                criminal_image_encoding = face_encodings(criminal_image)[0]
-                # print(eachWantedCriminalPath)
-                if compare_faces(criminal_image_encoding, face_image, eachWantedCriminalPath):
+            startDateTime = datetime.now()
+            startTimestampStr = startDateTime.strftime("%Y%m%d-%H%M%S")
+            cv2.imwrite('/usr/local/squirrel-ai/visitor/'+startTimestampStr+'.jpg', frame)
+            for each_criminal_encoding in criminal_cache:
+                if compare_faces(each_criminal_encoding, face_image, "eachWantedCriminalPath"):
                     cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
+            endDateTime = datetime.now()
+            print(endDateTime - startDateTime)
             count = 3
             sec += 1
             cap.set(cv2.CAP_PROP_POS_FRAMES, count)

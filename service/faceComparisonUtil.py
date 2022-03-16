@@ -24,7 +24,7 @@ def compare_faces(known_image_encoding, unknown_image_encoding, each_wanted_crim
     for face_location in unknown_face_locations:
         top, right, bottom, left = face_location
         unknown_face_image = unknown_image_encoding[top:bottom, left:right]
-        pil_image = Image.fromarray(unknown_face_image)
+        # pil_image = Image.fromarray(unknown_face_image)
         for each_unknown_face_encoding in face_recognition.face_encodings(unknown_face_image):
             face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.5)
             # show the image if it  has matched
