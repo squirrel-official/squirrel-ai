@@ -24,7 +24,6 @@ def compare_faces(known_image_encoding, unknown_image_encoding, each_wanted_crim
     for face_location in unknown_face_locations:
         top, right, bottom, left = face_location
         unknown_face_image = unknown_image_encoding[top:bottom, left:right]
-        # pil_image = Image.fromarray(unknown_face_image)
         for each_unknown_face_encoding in face_recognition.face_encodings(unknown_face_image):
             face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.5)
             # show the image if it  has matched
@@ -32,6 +31,28 @@ def compare_faces(known_image_encoding, unknown_image_encoding, each_wanted_crim
                 if face_compare:
                     print("face comparison match with %s" % each_wanted_criminal_path)
                     return True
+
+
+def extract_unknown_face_encodings(unknown_image):
+    unknown_face_locations = face_recognition.face_locations(unknown_image)
+    unknown_face_encoding_list = []
+    for face_location in unknown_face_locations:
+        top, right, bottom, left = face_location
+        unknown_face_image = unknown_image[top:bottom, left:right]
+        for each_unknown_face_encoding in face_recognition.face_encodings(unknown_face_image):
+            unknown_face_encoding_list.append(each_unknown_face_encoding)
+    # Returning unknown face encodings
+    return unknown_face_encoding_list
+
+
+def compare_faces_with_encodings(known_image_encoding, unknown_image_encoding_list, each_wanted_criminal_path):
+    for each_unknown_face_encoding in unknown_image_encoding_list:
+        face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.5)
+        # show the image if it  has matched
+        for face_compare in face_compare_list:
+            if face_compare:
+                print("face comparison match with %s" % each_wanted_criminal_path)
+                return True
 
 
 def compare_faces_with_path(known_image_path, unknown_image_path):

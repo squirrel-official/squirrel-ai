@@ -1,10 +1,11 @@
 import cv2
 import glob
+import logging
 from datetime import datetime
 
 from face_recognition import load_image_file, face_encodings
 
-from faceComparisonUtil import extract_face, compare_faces
+from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
 
 # Create a VideoCapture object and read from input file
 # If the input is the camera, pass 0 instead of the video file name
@@ -24,7 +25,7 @@ for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals
 
 endDateTime = datetime.now()
 # Once the loading is done then print
-print(criminal_cache)
+print(len(criminal_cache))
 print(endDateTime - startDateTime)
 
 # Read until video is completed
@@ -32,15 +33,16 @@ while cap.isOpened():
     # Capture frame-by-frame
     ret, frame = cap.read()
     if ret:
-        face_image = extract_face(frame)
-        if face_image is not None:
+        unknown_face_image = extract_face(frame)
+        if unknown_face_image is not None:
+            unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
             # saving the image to visitor folder
             startDateTime = datetime.now()
             startTimestampStr = startDateTime.strftime("%Y%m%d-%H%M%S")
             cv2.imwrite('/usr/local/squirrel-ai/visitor/'+startTimestampStr+'.jpg', frame)
             for each_criminal_encoding in criminal_cache:
-                if compare_faces(each_criminal_encoding, face_image, "eachWantedCriminalPath"):
-                    cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), face_image)
+                if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings, "eachWantedCriminalPath"):
+                    cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), unknown_face_image)
             endDateTime = datetime.now()
             print(endDateTime - startDateTime)
             count = 3
