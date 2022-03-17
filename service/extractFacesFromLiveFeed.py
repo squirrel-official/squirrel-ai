@@ -25,8 +25,7 @@ for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals
 
 endDateTime = datetime.now()
 # Once the loading is done then print
-print(len(criminal_cache))
-print(endDateTime - startDateTime)
+print("Loaded {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
 
 # Read until video is completed
 while cap.isOpened():
@@ -44,7 +43,7 @@ while cap.isOpened():
                 if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings, "eachWantedCriminalPath"):
                     cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), unknown_face_image)
             endDateTime = datetime.now()
-            print(endDateTime - startDateTime)
+            print("Total comparison time is {0} seconds".format((endDateTime - startDateTime)))
             count = 3
             sec += 1
             cap.set(cv2.CAP_PROP_POS_FRAMES, count)
