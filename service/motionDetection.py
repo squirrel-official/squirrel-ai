@@ -1,9 +1,16 @@
 # import the opencv module
 import cv2
 
+from service.detection.object_detection_util import is_human_present
+
 # capturing video
 capture = cv2.VideoCapture(0)
 count = 0
+# setting the camera resolution and frame per second
+capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+capture.set(cv2.CAP_PROP_FPS, 10)
+
 while capture.isOpened():
     # to read frame by frame
     _, img_1 = capture.read()
@@ -27,11 +34,12 @@ while capture.isOpened():
     # to draw the bounding box when the motion is detected
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 300:
-            cv2.rectangle(img_1, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        if cv2.contourArea(contour) > 1000 and is_human_present(img_1):
+            cv2.rectangle(img_1, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), img_1)
     # cv2.drawContours(img_1, contours, -1, (0, 255, 0), 2)
 
     # display the output
-    cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), img_1)
+    # cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), img_1)
     if cv2.waitKey(100) == 13:
         exit()

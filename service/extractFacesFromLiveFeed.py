@@ -17,6 +17,11 @@ criminal_cache = []
 if not cap.isOpened():
     print("Error opening video stream or file")
 
+# setting the camera resolution and frame per second
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+cap.set(cv2.CAP_PROP_FPS, 10)
+
 startDateTime = datetime.now()
 for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
     criminal_image = load_image_file(eachWantedCriminalPath)
@@ -38,9 +43,10 @@ while cap.isOpened():
             # saving the image to visitor folder
             startDateTime = datetime.now()
             startTimestampStr = startDateTime.strftime("%Y%m%d-%H%M%S")
-            cv2.imwrite('/usr/local/squirrel-ai/visitor/'+startTimestampStr+'.jpg', frame)
+            cv2.imwrite('/usr/local/squirrel-ai/visitor/' + startTimestampStr + '.jpg', frame)
             for each_criminal_encoding in criminal_cache:
-                if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings, "eachWantedCriminalPath"):
+                if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
+                                                "eachWantedCriminalPath"):
                     cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(sec), unknown_face_image)
             endDateTime = datetime.now()
             print("Total comparison time is {0} seconds".format((endDateTime - startDateTime)))
