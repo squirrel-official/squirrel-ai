@@ -7,8 +7,8 @@ from detection.object_detection_util import is_human_present
 capture = cv2.VideoCapture(0)
 count = 0
 # setting the camera resolution and frame per second
-capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1296)
+capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 972)
 capture.set(cv2.CAP_PROP_FPS, 10)
 
 while capture.isOpened():
