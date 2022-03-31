@@ -1,7 +1,7 @@
 # import the opencv module
 import cv2
 
-from service.detection.object_detection_util import is_human_present
+from detection.object_detection_util import is_human_present
 
 # capturing video
 capture = cv2.VideoCapture(0)
