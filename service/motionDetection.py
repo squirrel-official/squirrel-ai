@@ -1,23 +1,59 @@
 # import the opencv module
 import cv2
+from datetime import datetime
+
+from face_recognition import load_image_file, face_encodings
 
 from detection.object_detection_util import is_human_present
+import glob
 
 # capturing video
+from service.faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
+
 capture = cv2.VideoCapture(0)
 count = 0
+criminal_cache = []
 # setting the camera resolution and frame per second
 capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1296)
 capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 972)
 capture.set(cv2.CAP_PROP_FPS, 10)
 
+startDateTime = datetime.now()
+for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
+    criminal_image = load_image_file(eachWantedCriminalPath)
+    criminal_image_encoding = face_encodings(criminal_image)[0]
+    criminal_cache.append(criminal_image_encoding)
+endDateTime = datetime.now()
+# Once the loading is done then print
+print("Loaded {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
+
+if not capture.isOpened():
+    print("Error opening video stream or file")
+
+
+def process_face(image, count_index):
+    unknown_face_image = extract_face(image)
+    if unknown_face_image is not None:
+        unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
+        # saving the image to visitor folder
+        start_date_time = datetime.now()
+        start_timestamp_str = start_date_time.strftime("%Y%m%d-%H%M%S")
+        cv2.imwrite('/usr/local/squirrel-ai/visitor/' + start_timestamp_str + '.jpg', image)
+        for each_criminal_encoding in criminal_cache:
+            if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
+                                            "eachWantedCriminalPath"):
+                cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(count_index), unknown_face_image)
+        end_date_time = datetime.now()
+        print("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
+        count_index += 1
+
+
 while capture.isOpened():
     # to read frame by frame
-    _, img_1 = capture.read()
-    _, img_2 = capture.read()
-    count = count + 1
+    _, image_1 = capture.read()
+    _, image_2 = capture.read()
     # find difference between two frames
-    diff = cv2.absdiff(img_1, img_2)
+    diff = cv2.absdiff(image_1, image_2)
 
     # to convert the frame to grayscale
     diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
@@ -34,9 +70,10 @@ while capture.isOpened():
     # to draw the bounding box when the motion is detected
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 1000 and is_human_present(img_1):
-            cv2.rectangle(img_1, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), img_1)
+        if cv2.contourArea(contour) > 1000 and is_human_present(image_1):
+            cv2.rectangle(image_1, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            process_face(image_1, count)
+            # cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), image_1)
     # cv2.drawContours(img_1, contours, -1, (0, 255, 0), 2)
 
     # display the output
