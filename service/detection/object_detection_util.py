@@ -11,3 +11,6 @@ def is_human_present(image):
                       (x + w, y + h),
                       (0, 0, 255), 2)
         return True
+
+
+
