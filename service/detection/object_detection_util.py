@@ -4,7 +4,6 @@ import cv2
 
 
 def is_human_present(hog, image):
-    logging.debug("Human identification triggered")
     bounding_box_coordinates, weights = hog.detectMultiScale(image, winStride=(4, 4), padding=(4, 4), scale=1.05)
     person = 0
     for x, y, w, h in bounding_box_coordinates:
@@ -15,11 +14,11 @@ def is_human_present(hog, image):
     if person > 0:
         return True
     else:
+        logging.debug("Human identification failed")
         return False
 
 
 def is_car_present(image):
-    logging.debug("Car identification triggered")
     car_cascade = cv2.CascadeClassifier("../cascades/cars.xml")
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -35,4 +34,5 @@ def is_car_present(image):
     if no_of_cars > 0:
         return True
     else:
+        logging.debug("Car identification failed")
         return False
