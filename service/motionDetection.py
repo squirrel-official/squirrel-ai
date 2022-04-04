@@ -1,7 +1,7 @@
 # import the opencv module
 import cv2
 from datetime import datetime
-
+import logging
 from face_recognition import load_image_file, face_encodings
 
 from detection.object_detection_util import is_human_present
@@ -13,9 +13,11 @@ from faceComparisonUtil import extract_face, extract_unknown_face_encodings, com
 capture = cv2.VideoCapture(0)
 count = 0
 criminal_cache = []
-# setting the camera resolution and frame per second
-capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1296)
-capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 972)
+logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+
+# setting the camera resolution and frame per second 1296 972
+capture.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
+capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
 capture.set(cv2.CAP_PROP_FPS, 10)
 
 startDateTime = datetime.now()
@@ -25,15 +27,16 @@ for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals
     criminal_cache.append(criminal_image_encoding)
 endDateTime = datetime.now()
 # Once the loading is done then print
-print("Loaded {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
+logging.info("Loaded {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
 
 if not capture.isOpened():
-    print("Error opening video stream or file")
+    logging.error("Error opening video stream or file")
 
 
 def process_face(image, count_index):
     unknown_face_image = extract_face(image)
     if unknown_face_image is not None:
+        logging.debug('A new person identified by face so processing it')
         unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
         # saving the image to visitor folder
         start_date_time = datetime.now()
@@ -44,7 +47,7 @@ def process_face(image, count_index):
                                             "eachWantedCriminalPath"):
                 cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(count_index), unknown_face_image)
         end_date_time = datetime.now()
-        print("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
+        logging.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
         count_index += 1
 
 
