@@ -3,19 +3,18 @@ import cv2
 from datetime import datetime
 import logging
 from face_recognition import load_image_file, face_encodings
-
 from detection.object_detection_util import is_human_present
 import glob
-
-# capturing video
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
-
-capture = cv2.VideoCapture(0)
+# Initializing things
 count = 0
 criminal_cache = []
 logging.basicConfig(filename='../logs/service.log', level=logging.DEBUG)
+hog = cv2.HOGDescriptor()
+hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 # setting the camera resolution and frame per second 1296 972
+capture = cv2.VideoCapture(0)
 capture.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
 capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
 capture.set(cv2.CAP_PROP_FPS, 10)
@@ -73,9 +72,9 @@ while capture.isOpened():
     # to draw the bounding box when the motion is detected
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 1000 and is_human_present(image_1):
-            cv2.rectangle(image_1, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            process_face(image_1, count)
+        if cv2.contourArea(contour) > 500 and is_human_present(hog, image_2):
+            cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            process_face(image_2, count)
             # cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), image_1)
     # cv2.drawContours(img_1, contours, -1, (0, 255, 0), 2)
 
