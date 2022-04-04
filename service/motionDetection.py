@@ -13,7 +13,7 @@ from faceComparisonUtil import extract_face, extract_unknown_face_encodings, com
 capture = cv2.VideoCapture(0)
 count = 0
 criminal_cache = []
-logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+logging.basicConfig(filename='example.log', level=logging.DEBUG)
 
 # setting the camera resolution and frame per second 1296 972
 capture.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
