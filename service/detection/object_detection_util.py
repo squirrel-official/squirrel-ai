@@ -12,9 +12,9 @@ def is_human_present(hog, image):
         person += 1
 
     if person > 0:
+        logging.debug("Human identification failed")
         return True
     else:
-        logging.debug("Human identification failed")
         return False
 
 
@@ -32,7 +32,7 @@ def is_car_present(image):
         no_of_cars += 1
 
     if no_of_cars > 0:
+        logging.debug("Car identification failed")
         return True
     else:
-        logging.debug("Car identification failed")
         return False
