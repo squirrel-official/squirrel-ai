@@ -1,7 +1,10 @@
+import logging
+
 import cv2
 
 
 def is_human_present(hog, image):
+    logging.debug("Human identification triggered")
     bounding_box_coordinates, weights = hog.detectMultiScale(image, winStride=(4, 4), padding=(4, 4), scale=1.05)
     person = 0
     for x, y, w, h in bounding_box_coordinates:
