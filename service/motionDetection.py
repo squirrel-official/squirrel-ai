@@ -3,7 +3,7 @@ import cv2
 from datetime import datetime
 import logging
 from face_recognition import load_image_file, face_encodings
-from detection.object_detection_util import is_human_present
+from detection.object_detection_util import is_human_present, is_car_present
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
 # Initializing things
@@ -72,7 +72,7 @@ while capture.isOpened():
     # to draw the bounding box when the motion is detected
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 200 and is_human_present(hog, image_2):
+        if cv2.contourArea(contour) > 200 and ( is_human_present(hog, image_2) or is_car_present(image_2)) :
             cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
             process_face(image_2, count)
             # cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), image_1)

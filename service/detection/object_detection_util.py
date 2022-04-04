@@ -16,3 +16,23 @@ def is_human_present(hog, image):
         return True
     else:
         return False
+
+
+def is_car_present(image):
+    logging.debug("Car identification triggered")
+    car_cascade = cv2.CascadeClassifier("../cascades/cars.xml")
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Detect cars
+    cars = car_cascade.detectMultiScale(gray, 1.1, 1)
+
+    no_of_cars = 0
+    # Draw border
+    for (x, y, w, h) in cars:
+        cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        no_of_cars += 1
+
+    if no_of_cars > 0:
+        return True
+    else:
+        return False
