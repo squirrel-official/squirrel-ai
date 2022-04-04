@@ -9,7 +9,7 @@ from faceComparisonUtil import extract_face, extract_unknown_face_encodings, com
 # Initializing things
 count = 0
 criminal_cache = []
-logging.basicConfig(filename='../logs/service.log', level=logging.DEBUG)
+logging.basicConfig(filename='../logs/service.log', level=logging.DEBUG, datefmt='%Y-%m-%d %H:%M:%S')
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
