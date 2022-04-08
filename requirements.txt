@@ -8,3 +8,4 @@ easygui~=0.98.2
 setuptools~=57.0.0
 Flask~=2.0.1
 opencv-python~=4.5.3.56
+tensorflow~=2.8.0
