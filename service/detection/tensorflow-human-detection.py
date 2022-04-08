@@ -139,7 +139,7 @@ def run_detector(inner_detector, path):
 
     converted_img = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
     start_time = time.time()
-    result = inner_detector(img)
+    result = inner_detector(converted_img)
     end_time = time.time()
 
     result = {key: value.numpy() for key, value in result.items()}
