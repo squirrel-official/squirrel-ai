@@ -1,3 +1,5 @@
+
+import cv2
 # For running inference on the TF-Hub module.
 import tensorflow as tf
 
@@ -18,7 +20,6 @@ from PIL import ImageOps
 
 # For measuring the inference time.
 import time
-import cv2
 
 # Print Tensorflow version
 print(tf.__version__)
@@ -163,4 +164,3 @@ detector = hub.load(module_handle).signatures['default']
 endDateTime = time.time()
 print(endDateTime - startDateTime)
 run_detector(detector, image_url)
-print(time.time() - endDateTime)
