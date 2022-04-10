@@ -39,13 +39,14 @@ IM_NAME = args.image
 IM_DIR = args.imagedir
 
 # If both an image AND a folder are specified, throw an error
-if (IM_NAME and IM_DIR):
+if IM_NAME and IM_DIR:
     print(
-        'Error! Please only use the --image argument or the --imagedir argument, not both. Issue "python TFLite_detection_image.py -h" for help.')
+        'Error! Please only use the --image argument or the --imagedir argument, not both. Issue "python '
+        'TFLite_detection_image.py -h" for help.')
     sys.exit()
 
 # If neither an image or a folder are specified, default to using 'test1.jpg' for image name
-if (not IM_NAME and not IM_DIR):
+if not IM_NAME and not IM_DIR:
     IM_NAME = 'test1.jpg'
 
 # Import TensorFlow libraries
@@ -66,7 +67,7 @@ else:
 # If using Edge TPU, assign filename for Edge TPU model
 if use_TPU:
     # If user has specified the name of the .tflite file, use that name, otherwise use default 'edgetpu.tflite'
-    if (GRAPH_NAME == 'detect.tflite'):
+    if GRAPH_NAME == 'detect.tflite':
         GRAPH_NAME = 'edgetpu.tflite'
 
 # Get path to current working directory
@@ -123,7 +124,7 @@ input_std = 127.5
 # because outputs are ordered differently for TF2 and TF1 models
 outname = output_details[0]['name']
 
-if ('StatefulPartitionedCall' in outname):  # This is a TF2 model
+if 'StatefulPartitionedCall' in outname:  # This is a TF2 model
     boxes_idx, classes_idx, scores_idx = 1, 3, 0
 else:  # This is a TF1 model
     boxes_idx, classes_idx, scores_idx = 0, 1, 2
@@ -135,7 +136,7 @@ capture = cv2.VideoCapture(0)
 
 if not capture.isOpened():
     print("Error opening video stream or file")
-count = 0;
+count = 0
 while capture.isOpened():
     _, image = capture.read()
     # Loop over every image and perform detection
@@ -164,9 +165,9 @@ while capture.isOpened():
     print(len(scores))
     # Loop over all detections and draw detection box if confidence is above minimum threshold
     for i in range(len(scores)):
-        if ((scores[i] > min_conf_threshold) and (scores[i] <= 1.0)):
-            # Get bounding box coordinates and draw box
-            # Interpreter can return coordinates that are outside of image dimensions, need to force them to be within image using max() and min()
+        if (scores[i] > min_conf_threshold) and (scores[i] <= 1.0):
+            # Get bounding box coordinates and draw box Interpreter can return coordinates that are outside of image
+            # dimensions, need to force them to be within image using max() and min()
             ymin = int(max(1, (boxes[i][0] * imH)))
             xmin = int(max(1, (boxes[i][1] * imW)))
             ymax = int(min(imH, (boxes[i][2] * imH)))
