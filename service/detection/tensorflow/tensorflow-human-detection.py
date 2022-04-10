@@ -155,7 +155,7 @@ def run_detector(inner_detector, path):
 # while capture.isOpened():
 # to read frame by frame
 # _, image_1 = capture.read()
-image_url = "/Users/anil/Desktop/2.png"
+image_url = "/Users/anil/Desktop/1.jpg"
 module_handle = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
 # @param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1",
 # "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
