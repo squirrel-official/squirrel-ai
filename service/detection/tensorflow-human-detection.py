@@ -1,6 +1,5 @@
 # For running inference on the TF-Hub module.
 import tensorflow as tf
-from datetime import datetime
 
 import tensorflow_hub as hub
 
@@ -20,6 +19,7 @@ from PIL import ImageOps
 
 # For measuring the inference time.
 import time
+import cv2
 
 # Print Tensorflow version
 print(tf.__version__)
@@ -29,11 +29,11 @@ print("The following GPU devices are available: %s" % tf.test.gpu_device_name())
 
 
 def display_image(image):
-    fig = plt.figure(figsize=(20, 15))
-    plt.grid(False)
-    plt.imshow(image)
-    plt.show()
-    # cv2.imwrite('/Users/anil/Desktop/frame-test.jpg', image)
+    # fig = plt.figure(figsize=(20, 15))
+    # plt.grid(False)
+    # plt.imshow(image)
+    # plt.show()
+    cv2.imwrite('/Users/anil/Desktop/frame-test.jpg', image)
 
 
 def download_and_resize_image(url, new_width=256, new_height=256,
@@ -134,34 +134,34 @@ def load_img(path):
 
 
 def run_detector(inner_detector, path):
-    img = load_img(path)
-    print("Images loaded")
-
-    converted_img = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
     start_time = time.time()
+    img = load_img(path)
+    converted_img = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
     result = inner_detector(converted_img)
-    end_time = time.time()
 
     result = {key: value.numpy() for key, value in result.items()}
 
-    print("Found %d objects." % len(result["detection_scores"]))
-    print("Inference time: ", end_time - start_time)
+    # print("Found %d objects." % len(result["detection_scores"]))
 
     image_with_boxes = draw_boxes(
         img.numpy(), result["detection_boxes"],
         result["detection_class_entities"], result["detection_scores"])
-    present = time.time()
-    print(present - start_time)
+    end_time = time.time()
+    print("Inference time: ", end_time - start_time)
     display_image(image_with_boxes)
 
 
-image_url = "/Users/anil/Desktop/Naxos_Taverna.jpeg"
+# capture = cv2.VideoCapture(0)
+# while capture.isOpened():
+# to read frame by frame
+# _, image_1 = capture.read()
+image_url = "/Users/anil/Desktop/2.png"
 module_handle = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"
 # @param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1",
 # "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
-startDateTime = datetime.now()
+startDateTime = time.time()
 detector = hub.load(module_handle).signatures['default']
-endDateTime = datetime.now()
+endDateTime = time.time()
 print(endDateTime - startDateTime)
 run_detector(detector, image_url)
-print(datetime.now() - endDateTime)
+print(time.time() - endDateTime)
