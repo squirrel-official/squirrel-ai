@@ -3,7 +3,7 @@ import cv2
 from datetime import datetime
 import logging
 from face_recognition import load_image_file, face_encodings
-from service.detection.opencv.object_detection_util import is_human_present, is_car_present
+from service.detection.opencv.detection_util import is_human_present, is_car_present
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
 
