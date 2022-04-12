@@ -8,7 +8,7 @@ import glob
 import importlib.util
 
 
-def detect_objects():
+def tensor_human_present(image):
     global line
     # Define and parse input arguments
     parser = argparse.ArgumentParser()
@@ -67,14 +67,6 @@ def detect_objects():
             GRAPH_NAME = 'edgetpu.tflite'
     # Get path to current working directory
     CWD_PATH = os.getcwd()
-    # Define path to images and grab all image filenames
-    if IM_DIR:
-        PATH_TO_IMAGES = os.path.join(CWD_PATH, IM_DIR)
-        images = glob.glob(PATH_TO_IMAGES + '/*')
-
-    elif IM_NAME:
-        PATH_TO_IMAGES = os.path.join(CWD_PATH, IM_NAME)
-        images = glob.glob(PATH_TO_IMAGES)
     # Path to .tflite file, which contains the model that is used for object detection
     PATH_TO_CKPT = os.path.join(CWD_PATH, MODEL_NAME, GRAPH_NAME)
     # Path to label map file
@@ -87,6 +79,7 @@ def detect_objects():
     # First label is '???', which has to be removed.
     if labels[0] == '???':
         del (labels[0])
+
     # Load the Tensorflow Lite model.
     # If using Edge TPU, use special load_delegate argument
     if use_TPU:
@@ -115,65 +108,51 @@ def detect_objects():
     # capture.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
     # capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
     # capture.set(cv2.CAP_PROP_FPS, 5)
-    if not capture.isOpened():
-        print("Error opening video stream or file")
-    count = 0
-    while capture.isOpened():
-        _, image = capture.read()
-        # Loop over every image and perform detection
-        print("starting")
-        # Load image and resize to expected shape [1xHxWx3]
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        print("starting 0.5")
-        imH, imW, _ = image.shape
-        image_resized = cv2.resize(image, (width, height))
-        input_data = np.expand_dims(image_resized, axis=0)
-        print("starting1")
-        # Normalize pixel values if using a floating model (i.e. if model is non-quantized)
-        if floating_model:
-            input_data = (np.float32(input_data) - input_mean) / input_std
 
-        # Perform the actual detection by running the model with the image as input
-        interpreter.set_tensor(input_details[0]['index'], input_data)
-        interpreter.invoke()
-        print("starting3")
-        # Retrieve detection results
-        boxes = interpreter.get_tensor(output_details[boxes_idx]['index'])[
-            0]  # Bounding box coordinates of detected objects
-        classes = interpreter.get_tensor(output_details[classes_idx]['index'])[0]  # Class index of detected objects
-        scores = interpreter.get_tensor(output_details[scores_idx]['index'])[0]  # Confidence of detected objects
-        print("starting4")
-        print(len(scores))
-        # Loop over all detections and draw detection box if confidence is above minimum threshold
-        for i in range(len(scores)):
-            if (scores[i] > min_conf_threshold) and (scores[i] <= 1.0):
-                # Get bounding box coordinates and draw box Interpreter can return coordinates that are outside of image
-                # dimensions, need to force them to be within image using max() and min()
-                ymin = int(max(1, (boxes[i][0] * imH)))
-                xmin = int(max(1, (boxes[i][1] * imW)))
-                ymax = int(min(imH, (boxes[i][2] * imH)))
-                xmax = int(min(imW, (boxes[i][3] * imW)))
+    print("starting tensorflow detection")
+    object_found = 0
+    # Load image and resize to expected shape [1xHxWx3]
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    imH, imW, _ = image.shape
+    image_resized = cv2.resize(image, (width, height))
+    input_data = np.expand_dims(image_resized, axis=0)
+    # Normalize pixel values if using a floating model (i.e. if model is non-quantized)
+    if floating_model:
+        input_data = (np.float32(input_data) - input_mean) / input_std
 
-                cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (10, 255, 0), 2)
+    # Perform the actual detection by running the model with the image as input
+    interpreter.set_tensor(input_details[0]['index'], input_data)
+    interpreter.invoke()
+    # Retrieve detection results
+    boxes = interpreter.get_tensor(output_details[boxes_idx]['index'])[
+        0]  # Bounding box coordinates of detected objects
+    classes = interpreter.get_tensor(output_details[classes_idx]['index'])[0]  # Class index of detected objects
+    scores = interpreter.get_tensor(output_details[scores_idx]['index'])[0]  # Confidence of detected objects
+    print(len(scores))
 
-                # Draw label
-                object_name = labels[int(classes[i])]  # Look up object name from "labels" array using class index
-                label = '%s: %d%%' % (object_name, int(scores[i] * 100))  # Example: 'person: 72%'
-                labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)  # Get font size
-                label_ymin = max(ymin, labelSize[1] + 10)  # Make sure not to draw label too close to top of window
-                cv2.rectangle(image, (xmin, label_ymin - labelSize[1] - 10),
-                              (xmin + labelSize[0], label_ymin + baseLine - 10), (255, 255, 255),
-                              cv2.FILLED)  # Draw white box to put label text in
-                cv2.putText(image, label, (xmin, label_ymin - 7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0),
-                            2)  # Draw label text
+    # Loop over all detections and draw detection box if confidence is above minimum threshold
+    for i in range(len(scores)):
+        if (scores[i] > min_conf_threshold) and (scores[i] <= 1.0):
+            # Get bounding box coordinates and draw box Interpreter can return coordinates that are outside of image
+            # dimensions, need to force them to be within image using max() and min()
+            ymin = int(max(1, (boxes[i][0] * imH)))
+            xmin = int(max(1, (boxes[i][1] * imW)))
+            ymax = int(min(imH, (boxes[i][2] * imH)))
+            xmax = int(min(imW, (boxes[i][3] * imW)))
 
-        # All the results have been drawn on the image, now display the image
-        print("displaying image")
-        cv2.imwrite('/Users/anil/Desktop/captured/motion{:d}.jpg'.format(count), image)
-        count += 1
+            cv2.rectangle(image, (xmin, ymin), (xmax, ymax), (10, 255, 0), 2)
 
+            # Draw label
+            object_name = labels[int(classes[i])]  # Look up object name from "labels" array using class index
+            label = '%s: %d%%' % (object_name, int(scores[i] * 100))  # Example: 'person: 72%'
+            labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)  # Get font size
+            label_ymin = max(ymin, labelSize[1] + 10)  # Make sure not to draw label too close to top of window
+            cv2.rectangle(image, (xmin, label_ymin - labelSize[1] - 10),
+                          (xmin + labelSize[0], label_ymin + baseLine - 10), (255, 255, 255),
+                          cv2.FILLED)  # Draw white box to put label text in
+            cv2.putText(image, label, (xmin, label_ymin - 7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0),
+                        2)  # Draw label text
+            object_found = 1
+            print("object_found")
 
-detect_objects()
-
-# Clean up
-# cv2.destroyAllWindows()
+    return bool(object_found)

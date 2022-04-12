@@ -3,11 +3,13 @@ import cv2
 from datetime import datetime
 import logging
 from face_recognition import load_image_file, face_encodings
-from service.detection.opencv.detection_util import is_human_present, is_car_present
+from detection.opencv.detection_util import is_human_present, is_car_present
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
 
 # Initializing things
+from detection.tensorflow.util import tensor_human_present
+
 count = 0
 criminal_cache = []
 logging.basicConfig(filename='../logs/service.log', level=logging.DEBUG, datefmt='%Y-%m-%d %H:%M:%S')
@@ -40,8 +42,6 @@ def process_face(image, count_index):
         unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
         # saving the image to visitor folder
         start_date_time = datetime.now()
-        start_timestamp_str = start_date_time.strftime("%Y%m%d-%H%M%S")
-        cv2.imwrite('/usr/local/squirrel-ai/visitor/' + start_timestamp_str + '.jpg', image)
         for each_criminal_encoding in criminal_cache:
             if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
                                             "eachWantedCriminalPath"):
@@ -73,13 +73,9 @@ while capture.isOpened():
     # to draw the bounding box when the motion is detected
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 500 and (is_human_present(hog, image_2) or is_car_present(image_2)):
+        if cv2.contourArea(contour) > 500 and tensor_human_present(image_2):
             cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
             process_face(image_2, count)
-            cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), image_1)
-    # cv2.drawContours(img_1, contours, -1, (0, 255, 0), 2)
-
-    # display the output
-    # cv2.imwrite('/usr/local/squirrel-ai/captured/motion{:d}.jpg'.format(count), img_1)
+            cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg', image_2)
     if cv2.waitKey(100) == 13:
         exit()
