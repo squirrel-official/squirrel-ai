@@ -87,10 +87,6 @@ def tensor_human_present(image):
         boxes_idx, classes_idx, scores_idx = 1, 3, 0
     else:  # This is a TF1 model
         boxes_idx, classes_idx, scores_idx = 0, 1, 2
-    capture = cv2.VideoCapture(0)
-    # capture.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
-    # capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
-    # capture.set(cv2.CAP_PROP_FPS, 5)
 
     print("starting tensorflow detection")
     object_found = 0
