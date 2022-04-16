@@ -8,7 +8,7 @@ import glob
 import importlib.util
 
 
-def tensor_human_present(image):
+def tensor_coco_ssd_mobilenet(image):
     global line
     # Define and parse input arguments
     parser = argparse.ArgumentParser()
