@@ -19,7 +19,7 @@ def tensor_coco_ssd_mobilenet(image):
     parser.add_argument('--labels', help='Name of the labelmap file, if different than labelmap.txt',
                         default='labelmap.txt')
     parser.add_argument('--threshold', help='Minimum confidence threshold for displaying detected objects',
-                        default=0.5)
+                        default=0.6)
     parser.add_argument('--edgetpu', help='Use Coral Edge TPU Accelerator to speed up detection',
                         action='store_true')
     args = parser.parse_args()
@@ -87,8 +87,6 @@ def tensor_coco_ssd_mobilenet(image):
         boxes_idx, classes_idx, scores_idx = 1, 3, 0
     else:  # This is a TF1 model
         boxes_idx, classes_idx, scores_idx = 0, 1, 2
-
-    print("starting tensorflow detection")
     object_found = 0
     # Load image and resize to expected shape [1xHxWx3]
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
