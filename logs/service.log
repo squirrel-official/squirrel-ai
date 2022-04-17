@@ -312,3 +312,401 @@ INFO:root:Loaded 54 images in 0:00:17.203765 seconds
 DEBUG:root:Car identification passed
 DEBUG:root:Car identification passed
 DEBUG:root:Human identification passed
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 285038
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 90040
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'iCCP' 41 3178
+DEBUG:PIL.PngImagePlugin:iCCP profile name b'ICC Profile'
+DEBUG:PIL.PngImagePlugin:Compression method 0
+DEBUG:PIL.PngImagePlugin:STREAM b'eXIf' 3231 138
+DEBUG:PIL.PngImagePlugin:STREAM b'pHYs' 3381 9
+DEBUG:PIL.PngImagePlugin:STREAM b'iTXt' 3402 472
+DEBUG:PIL.PngImagePlugin:STREAM b'iDOT' 3886 28
+DEBUG:PIL.PngImagePlugin:b'iDOT' 3886 28 (unknown)
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 3926 16384
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 212740
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 17654
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 36141
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 73009
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 19747
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 93733
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 285038
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 90040
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'iCCP' 41 3178
+DEBUG:PIL.PngImagePlugin:iCCP profile name b'ICC Profile'
+DEBUG:PIL.PngImagePlugin:Compression method 0
+DEBUG:PIL.PngImagePlugin:STREAM b'eXIf' 3231 138
+DEBUG:PIL.PngImagePlugin:STREAM b'pHYs' 3381 9
+DEBUG:PIL.PngImagePlugin:STREAM b'iTXt' 3402 472
+DEBUG:PIL.PngImagePlugin:STREAM b'iDOT' 3886 28
+DEBUG:PIL.PngImagePlugin:b'iDOT' 3886 28 (unknown)
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 3926 16384
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 212740
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 17654
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 36141
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 73009
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 19747
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 93733
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'cHRM' 57 32
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 101 201256
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 28326
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 75236
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 102970
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 75105
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 127427
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 149139
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 41851
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 121503
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 428387
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 241520
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 98587
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'iCCP' 41 3178
+DEBUG:PIL.PngImagePlugin:iCCP profile name b'ICC Profile'
+DEBUG:PIL.PngImagePlugin:Compression method 0
+DEBUG:PIL.PngImagePlugin:STREAM b'eXIf' 3231 138
+DEBUG:PIL.PngImagePlugin:STREAM b'pHYs' 3381 9
+DEBUG:PIL.PngImagePlugin:STREAM b'iTXt' 3402 472
+DEBUG:PIL.PngImagePlugin:STREAM b'iDOT' 3886 28
+DEBUG:PIL.PngImagePlugin:b'iDOT' 3886 28 (unknown)
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 3926 16384
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'iCCP' 41 3178
+DEBUG:PIL.PngImagePlugin:iCCP profile name b'ICC Profile'
+DEBUG:PIL.PngImagePlugin:Compression method 0
+DEBUG:PIL.PngImagePlugin:STREAM b'eXIf' 3231 138
+DEBUG:PIL.PngImagePlugin:STREAM b'pHYs' 3381 9
+DEBUG:PIL.PngImagePlugin:STREAM b'iTXt' 3402 472
+DEBUG:PIL.PngImagePlugin:STREAM b'iDOT' 3886 28
+DEBUG:PIL.PngImagePlugin:b'iDOT' 3886 28 (unknown)
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 3926 16384
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 302583
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 92057
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 221479
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 65636
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 14338
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 26429
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'cHRM' 70 32
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 114 136227
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 65694
+INFO:root:Loaded 54 images in 0:00:15.289171 seconds
+DEBUG:tensorflow:Falling back to TensorFlow client; we recommended you install the Cloud TPU client directly with pip install cloud-tpu-client.
+DEBUG:h5py._conv:Creating converter from 7 to 5
+DEBUG:h5py._conv:Creating converter from 5 to 7
+DEBUG:h5py._conv:Creating converter from 7 to 5
+DEBUG:h5py._conv:Creating converter from 5 to 7
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.021627 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.006065 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.007344 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.002813 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.006171 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.001100 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.001711 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.001030 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.006002 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.000018 seconds
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 285038
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 90040
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'iCCP' 41 3178
+DEBUG:PIL.PngImagePlugin:iCCP profile name b'ICC Profile'
+DEBUG:PIL.PngImagePlugin:Compression method 0
+DEBUG:PIL.PngImagePlugin:STREAM b'eXIf' 3231 138
+DEBUG:PIL.PngImagePlugin:STREAM b'pHYs' 3381 9
+DEBUG:PIL.PngImagePlugin:STREAM b'iTXt' 3402 472
+DEBUG:PIL.PngImagePlugin:STREAM b'iDOT' 3886 28
+DEBUG:PIL.PngImagePlugin:b'iDOT' 3886 28 (unknown)
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 3926 16384
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 212740
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 17654
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 36141
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 73009
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 19747
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 93733
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'cHRM' 57 32
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 101 201256
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 28326
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 75236
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 102970
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 75105
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 127427
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 149139
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 41851
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 121503
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 428387
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 241520
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 98587
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'iCCP' 41 3178
+DEBUG:PIL.PngImagePlugin:iCCP profile name b'ICC Profile'
+DEBUG:PIL.PngImagePlugin:Compression method 0
+DEBUG:PIL.PngImagePlugin:STREAM b'eXIf' 3231 138
+DEBUG:PIL.PngImagePlugin:STREAM b'pHYs' 3381 9
+DEBUG:PIL.PngImagePlugin:STREAM b'iTXt' 3402 472
+DEBUG:PIL.PngImagePlugin:STREAM b'iDOT' 3886 28
+DEBUG:PIL.PngImagePlugin:b'iDOT' 3886 28 (unknown)
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 3926 16384
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'iCCP' 41 3178
+DEBUG:PIL.PngImagePlugin:iCCP profile name b'ICC Profile'
+DEBUG:PIL.PngImagePlugin:Compression method 0
+DEBUG:PIL.PngImagePlugin:STREAM b'eXIf' 3231 138
+DEBUG:PIL.PngImagePlugin:STREAM b'pHYs' 3381 9
+DEBUG:PIL.PngImagePlugin:STREAM b'iTXt' 3402 472
+DEBUG:PIL.PngImagePlugin:STREAM b'iDOT' 3886 28
+DEBUG:PIL.PngImagePlugin:b'iDOT' 3886 28 (unknown)
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 3926 16384
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 302583
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 92057
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 41 1
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 54 4
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 70 221479
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 65636
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 41 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 821 14338
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 26429
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'cHRM' 70 32
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 114 136227
+DEBUG:PIL.PngImagePlugin:STREAM b'IHDR' 16 13
+DEBUG:PIL.PngImagePlugin:STREAM b'gAMA' 41 4
+DEBUG:PIL.PngImagePlugin:STREAM b'sRGB' 57 1
+DEBUG:PIL.PngImagePlugin:STREAM b'PLTE' 70 768
+DEBUG:PIL.PngImagePlugin:STREAM b'IDAT' 850 65694
+INFO:root:Loaded 54 images in 0:00:19.374886 seconds
+DEBUG:tensorflow:Falling back to TensorFlow client; we recommended you install the Cloud TPU client directly with pip install cloud-tpu-client.
+DEBUG:h5py._conv:Creating converter from 7 to 5
+DEBUG:h5py._conv:Creating converter from 5 to 7
+DEBUG:h5py._conv:Creating converter from 7 to 5
+DEBUG:h5py._conv:Creating converter from 5 to 7
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.000019 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.008088 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.008305 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.000018 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.000019 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.000018 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.001117 seconds
+DEBUG:root:A new person identified by face so processing it
+DEBUG:root:Total comparison time is 0:00:00.000018 seconds
