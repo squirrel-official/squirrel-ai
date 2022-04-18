@@ -6,12 +6,12 @@ import numpy as np
 import importlib.util
 
 
-def tensor_coco_ssd_mobilenet(image):
+def tensor_coco_ssd_mobilenet(image, ssd_model_path):
     global line
     # Define and parse input arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--modeldir', help='Folder the .tflite file is located in',
-                        required=True)
+                        required=True, default=ssd_model_path)
     parser.add_argument('--graph', help='Name of the .tflite file, if different than detect.tflite',
                         default='detect.tflite')
     parser.add_argument('--labels', help='Name of the labelmap file, if different than labelmap.txt',

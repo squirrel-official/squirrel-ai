@@ -2,10 +2,9 @@
 
 import cv2
 
-import utils
-from object_detector import ObjectDetector
-from object_detector import ObjectDetectorOptions
-
+from detection.tensorflow.object_detector import ObjectDetector
+from detection.tensorflow.object_detector import ObjectDetectorOptions
+from detection.tensorflow.utils import visualize
 
 def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
     """Continuously run inference on images acquired from the camera.
@@ -34,9 +33,8 @@ def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
 
     print(len(detections))
     # Draw points and edges on input image
-    image = utils.visualize(image, detections)
+    image = visualize(image, detections)
 
     cv2.imshow('object_detector', image)
 
     cv2.destroyAllWindows()
-

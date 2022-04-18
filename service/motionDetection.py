@@ -8,7 +8,7 @@ from faceComparisonUtil import extract_face, extract_unknown_face_encodings, com
 
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
-from service.detection.tensorflow.tf_lite_algorithm import perform_object_detection
+from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 
 count = 0
 criminal_cache = []
@@ -75,7 +75,7 @@ while capture.isOpened():
     # to draw the bounding box when the motion is detected
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 500 and tensor_coco_ssd_mobilenet(image_2) \
+        if cv2.contourArea(contour) > 500 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path) \
                 and perform_object_detection(image_2, efficientdet_lite0_path, bool(0)):
             cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
             process_face(image_2, count)
