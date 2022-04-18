@@ -16,7 +16,7 @@ _TEXT_COLOR = (0, 0, 255)  # red
 def visualize(
         image,
         detections,
-) -> np.ndarray:
+):
     """Draws bounding boxes on the input image and return it.
 
   Args:
@@ -26,6 +26,7 @@ def visualize(
   Returns:
     Image with bounding boxes.
   """
+    detections_exist = 0
     for detection in detections:
         # Draw bounding_box
         start_point = detection.bounding_box.left, detection.bounding_box.top
@@ -41,5 +42,5 @@ def visualize(
                          _MARGIN + _ROW_SIZE + detection.bounding_box.top)
         cv2.putText(image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
                     _FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
-
-    return image
+        detections_exist = 1
+    return bool(detections_exist)

@@ -34,4 +34,4 @@ def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
 
     print(len(detections))
     # Draw points and edges on input image
-    visualize(image, detections)
+    return visualize(image, detections)
