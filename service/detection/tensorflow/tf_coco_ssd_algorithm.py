@@ -103,7 +103,6 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path):
         0]  # Bounding box coordinates of detected objects
     classes = interpreter.get_tensor(output_details[classes_idx]['index'])[0]  # Class index of detected objects
     scores = interpreter.get_tensor(output_details[scores_idx]['index'])[0]  # Confidence of detected objects
-    print(len(scores))
 
     # Loop over all detections and draw detection box if confidence is above minimum threshold
     for i in range(len(scores)):
@@ -120,6 +119,7 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path):
             # Draw label
             object_name = labels[int(classes[i])]  # Look up object name from "labels" array using class index
             label = '%s: %d%%' % (object_name, int(scores[i] * 100))  # Example: 'person: 72%'
+            print(label)
             labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)  # Get font size
             label_ymin = max(ymin, labelSize[1] + 10)  # Make sure not to draw label too close to top of window
             cv2.rectangle(image, (xmin, label_ymin - labelSize[1] - 10),
@@ -129,5 +129,4 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path):
                         2)  # Draw label text
             object_found = 1
             print("object_found")
-
     return bool(object_found)
