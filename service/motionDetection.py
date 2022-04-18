@@ -3,12 +3,12 @@ import cv2
 from datetime import datetime
 import logging
 from face_recognition import load_image_file, face_encodings
-from detection.opencv.detection_util import is_human_present, is_car_present
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
 
 # Initializing things
-from detection.tensorflow.util import tensor_coco_ssd_mobilenet
+from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
+from service.detection.tensorflow.tf_lite_algorithm import perform_object_detection
 
 count = 0
 criminal_cache = []
@@ -22,6 +22,8 @@ capture.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
 capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
 capture.set(cv2.CAP_PROP_FPS, 10)
 
+ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
+efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0'
 startDateTime = datetime.now()
 for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
     criminal_image = load_image_file(eachWantedCriminalPath)
@@ -73,7 +75,8 @@ while capture.isOpened():
     # to draw the bounding box when the motion is detected
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 500 and tensor_coco_ssd_mobilenet(image_2):
+        if cv2.contourArea(contour) > 500 and tensor_coco_ssd_mobilenet(image_2) \
+                and perform_object_detection(image_2, efficientdet_lite0_path, bool(0)):
             cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
             process_face(image_2, count)
             cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg', image_2)
