@@ -31,7 +31,7 @@ def visualize(
         # Draw bounding_box
         start_point = detection.bounding_box.left, detection.bounding_box.top
         end_point = detection.bounding_box.right, detection.bounding_box.bottom
-        cv2.rectangle(image, start_point, end_point, _TEXT_COLOR, 3)
+        # cv2.rectangle(image, start_point, end_point, _TEXT_COLOR, 3)
 
         # Draw label and score
         category = detection.categories[0]

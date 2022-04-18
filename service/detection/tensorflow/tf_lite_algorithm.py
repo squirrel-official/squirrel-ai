@@ -32,6 +32,5 @@ def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
     # Run object detection estimation using the model.
     detections = detector.detect(image)
 
-    print(len(detections))
     # Draw points and edges on input image
     return visualize(image, detections)
