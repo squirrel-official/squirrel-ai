@@ -23,7 +23,7 @@ capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
 capture.set(cv2.CAP_PROP_FPS, 10)
 
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
-efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0'
+efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
 startDateTime = datetime.now()
 for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
     criminal_image = load_image_file(eachWantedCriminalPath)
