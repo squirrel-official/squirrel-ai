@@ -14,8 +14,8 @@ _TEXT_COLOR = (0, 0, 255)  # red
 
 
 def visualize(
-        image: np.ndarray,
-        detections: List[Detection],
+        image,
+        detections,
 ) -> np.ndarray:
     """Draws bounding boxes on the input image and return it.
 

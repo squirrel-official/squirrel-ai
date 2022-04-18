@@ -34,8 +34,4 @@ def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
 
     print(len(detections))
     # Draw points and edges on input image
-    image = visualize(image, detections)
-
-    cv2.imshow('object_detector', image)
-
-    cv2.destroyAllWindows()
+    visualize(image, detections)
