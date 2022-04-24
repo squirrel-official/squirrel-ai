@@ -12,7 +12,9 @@ from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 
 count = 0
 criminal_cache = []
-logging.basicConfig(filename='../logs/service.log', level=logging.DEBUG, datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(filename='../logs/service.log', format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
+                                                           'funcName)s: %(message)s', level=logging.DEBUG,
+                    datefmt='%Y-%m-%d %H:%M:%S')
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
@@ -75,7 +77,7 @@ while capture.isOpened():
     # to draw the bounding box when the motion is detected
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 500 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path) \
+        if cv2.contourArea(contour) > 1200 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path) \
                 and perform_object_detection(image_2, efficientdet_lite0_path, bool(0)):
             print("The validation is successful")
             cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
