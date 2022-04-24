@@ -6,6 +6,7 @@ from face_recognition import load_image_file, face_encodings
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
 
+rotation_angle = cv2.ROTATE_180
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
@@ -20,8 +21,8 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 # setting the camera resolution and frame per second 1296 972
 capture = cv2.VideoCapture(0)
-capture.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
-capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
+capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
 capture.set(cv2.CAP_PROP_FPS, 10)
 
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
@@ -59,6 +60,10 @@ while capture.isOpened():
     # to read frame by frame
     _, image_1 = capture.read()
     _, image_2 = capture.read()
+
+    image_1 = cv2.rotate(image_1, rotation_angle)
+    image_2 = cv2.rotate(image_2, rotation_angle)
+
     # find difference between two frames
     diff = cv2.absdiff(image_1, image_2)
 
