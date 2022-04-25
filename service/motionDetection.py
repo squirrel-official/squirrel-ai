@@ -34,9 +34,6 @@ endDateTime = datetime.now()
 # Once the loading is done then print
 logging.info("Loaded {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
 
-if not capture.isOpened():
-    logging.error("Error opening video stream or file")
-
 
 def process_face(image, count_index):
     unknown_face_image = extract_face(image)
@@ -55,11 +52,14 @@ def process_face(image, count_index):
 
 
 def start(camera_id):
+
     # setting the camera resolution and frame per second 1296 972
     capture = cv2.VideoCapture(camera_id)
     capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
     capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
     capture.set(cv2.CAP_PROP_FPS, 10)
+    if not capture.isOpened():
+        logging.error("Error opening video stream or file")
     global x, y
     while capture.isOpened():
         # to read frame by frame
