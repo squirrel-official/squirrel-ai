@@ -1,14 +1,12 @@
 # import the opencv module
-from concurrent.futures import thread
-
 import cv2
 from datetime import datetime
 import logging
 from face_recognition import load_image_file, face_encodings
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
-from threading import Thread
-import time
+import threading
+
 
 rotation_angle = cv2.ROTATE_180
 # Initializing things
@@ -51,7 +49,7 @@ def process_face(image, count_index):
         count_index += 1
 
 
-def start(camera_id):
+def main_method(camera_id):
 
     # setting the camera resolution and frame per second 1296 972
     capture = cv2.VideoCapture(camera_id)
@@ -98,6 +96,9 @@ def start(camera_id):
             exit()
 
 
-thread.start_new_thread(start, 0)
-thread.start_new_thread(start, 2)
-thread.start_new_thread(start, 4)
+t1 = threading.Thread(target=main_method, args=(0,))
+t2 = threading.Thread(target=main_method, args=(2,))
+t3 = threading.Thread(target=main_method, args=(4,))
+t1.start()
+t2.start()
+t3.start()
