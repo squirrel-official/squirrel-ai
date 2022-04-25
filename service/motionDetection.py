@@ -1,10 +1,14 @@
 # import the opencv module
+from concurrent.futures import thread
+
 import cv2
 from datetime import datetime
 import logging
 from face_recognition import load_image_file, face_encodings
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
+from threading import Thread
+import time
 
 rotation_angle = cv2.ROTATE_180
 # Initializing things
@@ -18,12 +22,6 @@ logging.basicConfig(filename='../logs/service.log', format='%(asctime)s.%(msecs)
                     datefmt='%Y-%m-%d %H:%M:%S')
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-
-# setting the camera resolution and frame per second 1296 972
-capture = cv2.VideoCapture(0)
-capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-capture.set(cv2.CAP_PROP_FPS, 10)
 
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
@@ -56,37 +54,50 @@ def process_face(image, count_index):
         count_index += 1
 
 
-while capture.isOpened():
-    # to read frame by frame
-    _, image_1 = capture.read()
-    _, image_2 = capture.read()
+def start(camera_id):
+    # setting the camera resolution and frame per second 1296 972
+    capture = cv2.VideoCapture(camera_id)
+    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+    capture.set(cv2.CAP_PROP_FPS, 10)
+    global x, y
+    while capture.isOpened():
+        # to read frame by frame
+        _, image_1 = capture.read()
+        _, image_2 = capture.read()
 
-    image_1 = cv2.rotate(image_1, rotation_angle)
-    image_2 = cv2.rotate(image_2, rotation_angle)
+        image_1 = cv2.rotate(image_1, rotation_angle)
+        image_2 = cv2.rotate(image_2, rotation_angle)
 
-    # find difference between two frames
-    diff = cv2.absdiff(image_1, image_2)
+        # find difference between two frames
+        diff = cv2.absdiff(image_1, image_2)
 
-    # to convert the frame to grayscale
-    diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+        # to convert the frame to grayscale
+        diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
 
-    # apply some blur to smoothen the frame
-    diff_blur = cv2.GaussianBlur(diff_gray, (5, 5), 0)
+        # apply some blur to smoothen the frame
+        diff_blur = cv2.GaussianBlur(diff_gray, (5, 5), 0)
 
-    # to get the binary image
-    _, thresh_bin = cv2.threshold(diff_blur, 20, 255, cv2.THRESH_BINARY)
+        # to get the binary image
+        _, thresh_bin = cv2.threshold(diff_blur, 20, 255, cv2.THRESH_BINARY)
 
-    # to find contours
-    contours, hierarchy = cv2.findContours(thresh_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        # to find contours
+        contours, hierarchy = cv2.findContours(thresh_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-    # to draw the bounding box when the motion is detected
-    for contour in contours:
-        x, y, w, h = cv2.boundingRect(contour)
-        if cv2.contourArea(contour) > 1200 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path) \
-                and perform_object_detection(image_2, efficientdet_lite0_path, bool(0)):
-            print("The validation is successful")
-            cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            process_face(image_2, count)
-            cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg', image_2)
-    if cv2.waitKey(100) == 13:
-        exit()
+        # to draw the bounding box when the motion is detected
+        for contour in contours:
+            x, y, w, h = cv2.boundingRect(contour)
+            if cv2.contourArea(contour) > 1200 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path) \
+                    and perform_object_detection(image_2, efficientdet_lite0_path, bool(0)):
+                print("The validation is successful")
+                cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                process_face(image_2, count)
+                cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
+                            image_2)
+        if cv2.waitKey(100) == 13:
+            exit()
+
+
+thread.start_new_thread(start, 0)
+thread.start_new_thread(start, 2)
+thread.start_new_thread(start, 4)
