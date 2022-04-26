@@ -7,7 +7,6 @@ import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
 import threading
 
-
 rotation_angle = cv2.ROTATE_180
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
@@ -15,8 +14,9 @@ from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 
 count = 0
 criminal_cache = []
-logging.basicConfig(filename='../logs/service.log', format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
-                                                           'funcName)s: %(message)s', level=logging.DEBUG,
+logging.basicConfig(filename='/usr/local/squirrel-ai/logs/service.log',
+                    format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
+                           'funcName)s: %(message)s', level=logging.DEBUG,
                     datefmt='%Y-%m-%d %H:%M:%S')
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
@@ -50,7 +50,6 @@ def process_face(image, count_index):
 
 
 def main_method(camera_id):
-
     # setting the camera resolution and frame per second 1296 972
     capture = cv2.VideoCapture(camera_id)
     capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
