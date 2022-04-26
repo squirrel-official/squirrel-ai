@@ -86,7 +86,7 @@ def main_method(camera_id):
             x, y, w, h = cv2.boundingRect(contour)
             if cv2.contourArea(contour) > 1200 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path) \
                     and perform_object_detection(image_2, efficientdet_lite0_path, bool(0)):
-                print("The validation is successful")
+                logging.debug("The validation is successful")
                 cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 process_face(image_2, count)
                 cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
