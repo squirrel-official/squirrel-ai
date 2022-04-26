@@ -7,7 +7,7 @@ from detection.tensorflow.object_detector import ObjectDetectorOptions
 from detection.tensorflow.utils import visualize
 
 
-def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
+def perform_object_detection(image, model: str, enable_edgetpu: bool, logging) -> None:
     """Continuously run inference on images acquired from the camera.
 
   Args:
@@ -26,7 +26,7 @@ def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
 
     # Continuously capture images from the camera and run inference
 
-    print("Object detection starts for tflite")
+    logging.debug("Object detection starts for tflite")
     image = cv2.flip(image, 1)
 
     # Run object detection estimation using the model.

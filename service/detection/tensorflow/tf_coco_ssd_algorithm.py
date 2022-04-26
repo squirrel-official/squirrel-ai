@@ -6,7 +6,7 @@ import numpy as np
 import importlib.util
 
 
-def tensor_coco_ssd_mobilenet(image, ssd_model_path):
+def tensor_coco_ssd_mobilenet(image, ssd_model_path, logging):
     global line
     # Define and parse input arguments
     parser = argparse.ArgumentParser()
@@ -119,7 +119,7 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path):
             # Draw label
             object_name = labels[int(classes[i])]  # Look up object name from "labels" array using class index
             label = '%s: %d%%' % (object_name, int(scores[i] * 100))  # Example: 'person: 72%'
-            print(label)
+            logging.debug(label)
             labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)  # Get font size
             label_ymin = max(ymin, labelSize[1] + 10)  # Make sure not to draw label too close to top of window
             # cv2.rectangle(image, (xmin, label_ymin - labelSize[1] - 10),
@@ -128,5 +128,4 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path):
             cv2.putText(image, label, (xmin, label_ymin - 7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0),
                         2)  # Draw label text
             object_found = 1
-            print("object_found")
     return bool(object_found)
