@@ -14,6 +14,8 @@ from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 
 count = 0
 criminal_cache = []
+known_person_cache = []
+
 logging.basicConfig(filename='/usr/local/squirrel-ai/logs/service.log',
                     format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
                            'funcName)s: %(message)s', level=logging.DEBUG,
@@ -23,6 +25,7 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
+
 startDateTime = datetime.now()
 for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
     criminal_image = load_image_file(eachWantedCriminalPath)
@@ -30,7 +33,16 @@ for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals
     criminal_cache.append(criminal_image_encoding)
 endDateTime = datetime.now()
 # Once the loading is done then print
-logging.info("Loaded {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
+logging.info("Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
+
+startDateTime = datetime.now()
+for eachWantedKnownPersonPath in glob.glob('/usr/local/squirrel-ai/known/*'):
+    known_person_image = load_image_file(eachWantedKnownPersonPath)
+    known_person_image_encoding = face_encodings(known_person_image)[0]
+    known_person_cache.append(known_person_image_encoding)
+endDateTime = datetime.now()
+# Once the loading is done then print
+logging.info("Loaded known  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
 
 
 def process_face(image, count_index):
@@ -44,6 +56,12 @@ def process_face(image, count_index):
             if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
                                             "eachWantedCriminalPath"):
                 cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(count_index), unknown_face_image)
+
+        for each_known_encoding in known_person_cache:
+            if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
+                                            "eachWantedKnownPath"):
+                cv2.imwrite('/usr/local/squirrel-ai/captured/known-frame{:d}.jpg'.format(count_index), unknown_face_image)
+
         end_date_time = datetime.now()
         logging.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
         count_index += 1
