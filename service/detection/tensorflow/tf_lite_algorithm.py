@@ -26,7 +26,6 @@ def perform_object_detection(image, model: str, enable_edgetpu: bool, logging) -
 
     # Continuously capture images from the camera and run inference
 
-    logging.debug("Object detection starts for tflite")
     image = cv2.flip(image, 1)
 
     # Run object detection estimation using the model.
