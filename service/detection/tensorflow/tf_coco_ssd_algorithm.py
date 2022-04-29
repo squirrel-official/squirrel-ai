@@ -125,7 +125,7 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path, logging):
             # cv2.rectangle(image, (xmin, label_ymin - labelSize[1] - 10),
             #               (xmin + labelSize[0], label_ymin + baseLine - 10), (255, 255, 255),
             #               cv2.FILLED)  # Draw white box to put label text in
-            cv2.putText(image, label, (xmin, label_ymin - 7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0),
-                        2)  # Draw label text
+            # cv2.putText(image, label, (xmin, label_ymin - 7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0),
+            #             2)  # Draw label text
             object_found = 1
     return bool(object_found)
