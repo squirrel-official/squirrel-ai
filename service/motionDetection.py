@@ -60,7 +60,8 @@ def process_face(image, count_index):
         for each_known_encoding in known_person_cache:
             if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
                                             "eachWantedKnownPath"):
-                cv2.imwrite('/usr/local/squirrel-ai/captured/known-frame{:d}.jpg'.format(count_index), unknown_face_image)
+                cv2.imwrite('/usr/local/squirrel-ai/captured/known-frame{:d}.jpg'.format(count_index),
+                            unknown_face_image)
 
         end_date_time = datetime.now()
         logging.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
@@ -70,9 +71,10 @@ def process_face(image, count_index):
 def main_method(camera_id):
     # setting the camera resolution and frame per second 1296 972
     capture = cv2.VideoCapture(camera_id)
-    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-    capture.set(cv2.CAP_PROP_FPS, 10)
+    if camera_id == 2:
+        capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
+        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+        capture.set(cv2.CAP_PROP_FPS, 10)
     if not capture.isOpened():
         logging.error("Error opening video stream or file")
     global x, y
@@ -102,7 +104,7 @@ def main_method(camera_id):
         # to draw the bounding box when the motion is detected
         for contour in contours:
             x, y, w, h = cv2.boundingRect(contour)
-            if cv2.contourArea(contour) > 1200 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path,  logging) \
+            if cv2.contourArea(contour) > 1200 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path, logging) \
                     and perform_object_detection(image_2, efficientdet_lite0_path, bool(0), logging):
                 cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 process_face(image_2, count)
