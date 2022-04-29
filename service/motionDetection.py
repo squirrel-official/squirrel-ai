@@ -42,7 +42,7 @@ for eachWantedKnownPersonPath in glob.glob('/usr/local/squirrel-ai/known/*'):
     known_person_cache.append(known_person_image_encoding)
 endDateTime = datetime.now()
 # Once the loading is done then print
-logging.info("Loaded known  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
+logging.info("Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
 
 
 def process_face(image, count_index):
