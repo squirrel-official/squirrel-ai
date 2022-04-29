@@ -119,9 +119,12 @@ def main_method(camera_id):
             exit()
 
 
-t1 = threading.Thread(target=main_method, args=(0,))
-t2 = threading.Thread(target=main_method, args=(2,))
-t3 = threading.Thread(target=main_method, args=(4,))
-t1.start()
-t2.start()
-t3.start()
+try:
+    t1 = threading.Thread(target=main_method, args=(0,))
+    t2 = threading.Thread(target=main_method, args=(2,))
+    t3 = threading.Thread(target=main_method, args=(4,))
+    t1.start()
+    t2.start()
+    t3.start()
+except Exception as e:
+    logging.error("Oops!", e.__class__, "occurred.")
