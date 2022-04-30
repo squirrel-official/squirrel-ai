@@ -68,7 +68,6 @@ def process_face(image, count_index):
 
 
 def main_method(videoUrl):
-    frame_count = 0
     capture = cv2.VideoCapture(videoUrl)
     if not capture.isOpened():
         logging.error("Error opening video file")
@@ -83,10 +82,7 @@ def main_method(videoUrl):
             cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
                         image)
             # logic to limit the frames so that only limited frames per second are processed
-            frame_per_second = capture.get(cv2.CAP_PROP_FPS)
-            if frame_per_second > 10:
-                frame_count = count + frame_per_second / 3
-                capture.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
+            capture.set(cv2.CAP_PROP_POS_FRAMES, 5)
         else:
             capture.release()
             break
@@ -95,6 +91,7 @@ def main_method(videoUrl):
 try:
     for eachVideoUrl in glob.glob('/var/lib/motion/*'):
         main_method(eachVideoUrl)
+        print(eachVideoUrl)
         fileName = os.path.basename(eachVideoUrl)
         os.rename(eachVideoUrl, "/usr/local/squirrel-ai/archives/" + fileName)
 except Exception as e:
