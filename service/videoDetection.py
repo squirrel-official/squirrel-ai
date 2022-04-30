@@ -76,10 +76,9 @@ def main_method(videoUrl):
 
     while capture.isOpened():
         # to read frame by frame
-        _, image = capture.read()
-        if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
+        ret, image = capture.read()
+        if ret and tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                 and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
-            # cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
             process_face(image, count)
             cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
                         image)
@@ -91,4 +90,4 @@ try:
         fileName = os.path.basename(eachVideoUrl)
         os.rename(eachVideoUrl, "/usr/local/squirrel-ai/archives/"+fileName)
 except Exception as e:
-    logging.error("Oops!", e.__class__, "occurred.")
+    logging.error("An exception : ", e, "occurred.")
