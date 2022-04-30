@@ -81,6 +81,9 @@ def main_method(videoUrl):
             if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
                 process_face(image, frame_count)
+                cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
+                            image)
+
             frame_count += 5  # i.e. at 5 fps, this advances one second
             capture.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
         else:
