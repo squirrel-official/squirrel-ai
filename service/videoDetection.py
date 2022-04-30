@@ -73,16 +73,16 @@ def main_method(videoUrl):
         logging.error("Error opening video file")
     global x, y
 
+    frame_count = 0
+
     while capture.isOpened():
-        # to read frame by frame
         ret, image = capture.read()
-        if ret and tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
-                and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
-            process_face(image, count)
-            cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
-                        image)
-            # logic to limit the frames so that only limited frames per second are processed
-            capture.set(cv2.CAP_PROP_POS_FRAMES, 5)
+        if ret:
+            if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
+                    and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
+                process_face(image, frame_count)
+            frame_count += 5  # i.e. at 5 fps, this advances one second
+            capture.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
         else:
             capture.release()
             break
