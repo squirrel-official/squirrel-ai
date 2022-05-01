@@ -92,10 +92,11 @@ def main_method(videoUrl):
 
 
 try:
-    for eachVideoUrl in glob.glob('/var/lib/motion/*'):
-        main_method(eachVideoUrl)
-        print(eachVideoUrl)
-        fileName = os.path.basename(eachVideoUrl)
-        os.rename(eachVideoUrl, "/usr/local/squirrel-ai/archives/" + fileName)
+    while True:
+        for eachVideoUrl in glob.glob('/var/lib/motion/*'):
+            main_method(eachVideoUrl)
+            print(eachVideoUrl)
+            fileName = os.path.basename(eachVideoUrl)
+            os.rename(eachVideoUrl, "/usr/local/squirrel-ai/archives/" + fileName)
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
