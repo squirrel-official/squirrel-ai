@@ -74,10 +74,11 @@ def main_method(videoUrl):
     global x, y
 
     frame_count = 0
-
+    file_processed = 0
     while capture.isOpened():
         ret, image = capture.read()
         if ret:
+            file_processed = 1
             if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
                 process_face(image, frame_count)
@@ -89,14 +90,20 @@ def main_method(videoUrl):
         else:
             capture.release()
             break
+    # Archive the file since it has been processed
+    if bool(file_processed):
+        archive_file(eachVideoUrl)
+
+
+def archive_file(each_video_url):
+    print(each_video_url)
+    file_name = os.path.basename(eachVideoUrl)
+    os.rename(eachVideoUrl, "/usr/local/squirrel-ai/archives/" + file_name)
 
 
 try:
     while True:
         for eachVideoUrl in glob.glob('/var/lib/motion/*'):
             main_method(eachVideoUrl)
-            print(eachVideoUrl)
-            fileName = os.path.basename(eachVideoUrl)
-            os.rename(eachVideoUrl, "/usr/local/squirrel-ai/archives/" + fileName)
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
