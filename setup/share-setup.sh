@@ -23,7 +23,7 @@ sudo nano /etc/samba/smb.conf
 
 [motion-service]
   comment = motion service
-  path = /var/lib/motion
+  path = /var/log/motion
   read only = no
   browsable = yes
 
