@@ -22,6 +22,8 @@ pip3 install tflite-support
 sudo apt install python3-h5py -y
 pip3 install tensorflow-aarch64
 
+pip3 install -r /usr/local/squirrel-ai/requirements.txt
+
 mkdir /usr/local/squirrel-ai/wanted-criminals
 mkdir  /usr/local/squirrel-ai/captured
 mkdir  /usr/local/squirrel-ai/logs
