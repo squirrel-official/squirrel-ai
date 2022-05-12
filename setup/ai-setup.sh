@@ -16,7 +16,7 @@ pip3 install Pillow
 pip3 install dlib --force-reinstall --no-cache-dir --global-option=build_ext
 pip3 install face_recognition -v
 pip3 install opencv-contrib-python -v
-apt-get install -y python3-opencv
+sudo apt-get install -y python3-opencv
 
 pip3 install tflite-support
 sudo apt install python3-h5py -y

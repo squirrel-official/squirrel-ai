@@ -4,7 +4,7 @@ sudo nano /boot/firmware/config.txt
 start_x=1
 
 sudo apt update
-sudo apt install samba
+sudo apt install samba -y
 
 sudo nano /etc/samba/smb.conf
 #add the following to file
@@ -32,3 +32,9 @@ sudo nano /etc/samba/smb.conf
   path = /etc/motion/
   read only = no
   browsable = yes
+
+
+#create password
+sudo smbpasswd -a pi
+
+sudo service smbd restart
