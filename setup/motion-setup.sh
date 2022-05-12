@@ -9,7 +9,7 @@ root  ALL=(ALL:ALL) NOPASSWD: /usr/local/person-service/src/main/resources/detec
 #Update motion permissions
 sudo chmod -R 777 /var/log/motion
 sudo chmod -R 777 /var/lib/motion
-
+sudo chmod -R 777 /etc/motion
 #enable motion to automatically start and add the following line to bottom of file
 sudo crontab -e
 @reboot  motion -b
