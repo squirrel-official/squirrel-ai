@@ -27,6 +27,12 @@ sudo nano /etc/samba/smb.conf
   read only = no
   browsable = yes
 
+[captured-videos]
+  comment = motion service
+  path = /var/lib/motion
+  read only = no
+  browsable = yes
+
 [motion-config]
   comment = motion service
   path = /etc/motion/
