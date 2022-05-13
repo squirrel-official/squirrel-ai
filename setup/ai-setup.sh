@@ -1,4 +1,4 @@
-# Ubuntu 22.04 server 64 bit
+# Ubuntu 20.04 server 64 bit
 cd /usr/local/
 sudo chmod -R 777 .
 
@@ -15,6 +15,7 @@ sudo apt-get install -y cmake
 pip3 install Pillow
 pip3 install dlib --force-reinstall --no-cache-dir --global-option=build_ext
 pip3 install face_recognition -v
+pip3 install numpy --upgrade
 pip3 install opencv-contrib-python -v
 sudo apt-get install -y python3-opencv
 
@@ -22,8 +23,6 @@ pip3 install tflite-support
 sudo apt install python3-h5py -y
 pip3 install tensorflow-aarch64
 sudo apt-get install libportaudio2
-
-pip3 install -r /usr/local/squirrel-ai/requirements.txt
 
 mkdir /usr/local/squirrel-ai/wanted-criminals
 mkdir  /usr/local/squirrel-ai/captured
