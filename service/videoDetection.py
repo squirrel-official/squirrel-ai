@@ -96,14 +96,15 @@ def main_method(videoUrl):
 
 
 def archive_file(each_video_url):
-    print(each_video_url)
-    file_name = os.path.basename(eachVideoUrl)
-    os.rename(eachVideoUrl, "/usr/local/squirrel-ai/archives/" + file_name)
+    print("Archiving {0}".format(each_video_url))
+    file_name = os.path.basename(each_video_url)
+    os.rename(each_video_url, "/usr/local/squirrel-ai/archives/" + file_name)
 
 
 try:
     while True:
         for eachVideoUrl in glob.glob('/var/lib/motion/*'):
+            print("Processing {0}".format(eachVideoUrl))
             main_method(eachVideoUrl)
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
