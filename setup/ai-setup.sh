@@ -21,6 +21,7 @@ sudo apt-get install -y python3-opencv
 pip3 install tflite-support
 sudo apt install python3-h5py -y
 pip3 install tensorflow-aarch64
+sudo apt-get install libportaudio2
 
 pip3 install -r /usr/local/squirrel-ai/requirements.txt
 
