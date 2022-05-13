@@ -92,7 +92,7 @@ def main_method(videoUrl):
             break
     # Archive the file since it has been processed
     if bool(file_processed):
-        archive_file(eachVideoUrl)
+        archive_file(videoUrl)
 
 
 def archive_file(each_video_url):
