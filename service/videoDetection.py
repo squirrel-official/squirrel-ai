@@ -75,21 +75,21 @@ def main_method(videoUrl):
 
     frame_count = 0
     file_processed = 0
-    while capture.isOpened():
+    if capture.isOpened():
         ret, image = capture.read()
-        if ret:
+        video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+        logging.debug("Number of frames:{0} ".format(video_length))
+        while ret:
             file_processed = 1
             if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
                 process_face(image, frame_count)
                 cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
                             image)
-
-            frame_count += 5  # i.e. at 5 fps, this advances one second
-            capture.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
-        else:
-            capture.release()
-            break
+            ret, image = capture.read()
+    else:
+        capture.release()
+        logging.debug("released {0}".format(videoUrl))
     # Archive the file since it has been processed
     if bool(file_processed):
         archive_file(videoUrl)
