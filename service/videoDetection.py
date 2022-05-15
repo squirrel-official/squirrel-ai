@@ -70,7 +70,7 @@ def process_face(image, count_index):
 def main_method(videoUrl):
     capture = cv2.VideoCapture(videoUrl)
     if not capture.isOpened():
-        logging.error("Error opening video file")
+        logging.error("Error opening video file {}".format(videoUrl))
     global x, y
 
     frame_count = 0
