@@ -87,7 +87,7 @@ def main_method(videoUrl):
                     and perform_object_detection(sharpened_image, efficientdet_lite0_path, bool(0), logging):
                 process_face(sharpened_image, frame_count)
                 cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
-                            image)
+                            sharpened_image)
             ret, image = capture.read()
     else:
         capture.release()
