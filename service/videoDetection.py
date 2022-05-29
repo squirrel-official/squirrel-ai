@@ -55,7 +55,7 @@ def process_face(image, count_index):
         for each_criminal_encoding in criminal_cache:
             if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
                                             "eachWantedCriminalPath"):
-                cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(count_index), unknown_face_image)
+                cv2.imwrite('/usr/local/squirrel-ai/captured/crimininal-frame{:d}.jpg'.format(count_index), unknown_face_image)
 
         for each_known_encoding in known_person_cache:
             if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
@@ -63,6 +63,9 @@ def process_face(image, count_index):
                 cv2.imwrite('/usr/local/squirrel-ai/captured/known-frame{:d}.jpg'.format(count_index),
                             unknown_face_image)
         end_date_time = datetime.now()
+
+        cv2.imwrite('/usr/local/squirrel-ai/captured/face-frame{:d}.jpg'.format(count_index),
+                    unknown_face_image)
         logging.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
         count_index += 1
 
