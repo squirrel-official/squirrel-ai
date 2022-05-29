@@ -69,38 +69,33 @@ def process_face(image, count_index):
 
 
 def main_method(videoUrl):
-    stat = os.stat(videoUrl)
-    file_creation_time = stat.st_birthtime
-    # current time minus 5 seconds
-    current_time = time.time() * 1000.0 - 5000
-    if current_time > file_creation_time:
-        capture = cv2.VideoCapture(videoUrl)
-        if not capture.isOpened():
-            logging.error("Error opening video file {}".format(videoUrl))
-        global x, y
+    capture = cv2.VideoCapture(videoUrl)
+    if not capture.isOpened():
+        logging.error("Error opening video file {}".format(videoUrl))
+    global x, y
 
-        frame_count = 0
-        file_processed = 0
-        if capture.isOpened():
+    frame_count = 0
+    file_processed = 0
+    if capture.isOpened():
+        ret, image = capture.read()
+        video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+        logging.debug("Number of frames:{0} ".format(video_length))
+        while ret:
+            file_processed = 1
+            sharpen_kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+            sharpened_image = cv2.filter2D(image, -1, sharpen_kernel)
+            if tensor_coco_ssd_mobilenet(sharpened_image, ssd_model_path, logging) \
+                    and perform_object_detection(sharpened_image, efficientdet_lite0_path, bool(0), logging):
+                process_face(sharpened_image, frame_count)
+                cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
+                            sharpened_image)
             ret, image = capture.read()
-            video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
-            logging.debug("Number of frames:{0} ".format(video_length))
-            while ret:
-                file_processed = 1
-                sharpen_kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
-                sharpened_image = cv2.filter2D(image, -1, sharpen_kernel)
-                if tensor_coco_ssd_mobilenet(sharpened_image, ssd_model_path, logging) \
-                        and perform_object_detection(sharpened_image, efficientdet_lite0_path, bool(0), logging):
-                    process_face(sharpened_image, frame_count)
-                    cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
-                                sharpened_image)
-                ret, image = capture.read()
-        else:
-            capture.release()
-            logging.debug("released {0}".format(videoUrl))
-        # Archive the file since it has been processed
-        if bool(file_processed):
-            archive_file(videoUrl)
+    else:
+        capture.release()
+        logging.debug("released {0}".format(videoUrl))
+    # Archive the file since it has been processed
+    if bool(file_processed):
+        archive_file(videoUrl)
 
 
 def archive_file(each_video_url):
