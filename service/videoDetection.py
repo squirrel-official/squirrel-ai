@@ -62,7 +62,6 @@ def process_face(image, count_index):
                                             "eachWantedKnownPath"):
                 cv2.imwrite('/usr/local/squirrel-ai/captured/known-frame{:d}.jpg'.format(count_index),
                             unknown_face_image)
-
         end_date_time = datetime.now()
         logging.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
         count_index += 1
@@ -90,8 +89,6 @@ def main_method(videoUrl):
                 process_face(sharpened_image, frame_count)
                 cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
                             sharpened_image)
-            frame_count += 5  # i.e. at 30 fps, this advances one second
-            capture.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
             ret, image = capture.read()
 
     else:
