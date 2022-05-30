@@ -1,4 +1,6 @@
 # import the opencv module
+from configparser import ConfigParser
+
 import cv2
 from datetime import datetime
 import logging
@@ -10,6 +12,7 @@ import os
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 from detection.opencv.detection_util import is_human_present
+import logging
 
 count = 0
 criminal_cache = []
@@ -54,7 +57,8 @@ def process_face(image, count_index):
         for each_criminal_encoding in criminal_cache:
             if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
                                             "eachWantedCriminalPath"):
-                cv2.imwrite('/usr/local/squirrel-ai/captured/crimininal-frame{:d}.jpg'.format(count_index), unknown_face_image)
+                cv2.imwrite('/usr/local/squirrel-ai/captured/crimininal-frame{:d}.jpg'.format(count_index),
+                            unknown_face_image)
 
         for each_known_encoding in known_person_cache:
             if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
@@ -86,7 +90,7 @@ def main_method(videoUrl):
             if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
                 process_face(image, frame_count)
-
+            logging.debug("passed object detection".format(video_length))
             if is_human_present(cv2.HOGDescriptor_getDefaultPeopleDetector(), image):
                 cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
                             image)
@@ -94,22 +98,33 @@ def main_method(videoUrl):
 
     else:
         capture.release()
-        logging.debug("released {0}".format(videoUrl))
+        logging.info("released {0}".format(videoUrl))
     # Archive the file since it has been processed
     if bool(file_processed):
         archive_file(videoUrl)
 
 
 def archive_file(each_video_url):
-    logging.debug("Archiving {0}".format(each_video_url))
+    logging.info("Archiving {0}".format(each_video_url))
     file_name = os.path.basename(each_video_url)
     os.rename(each_video_url, "/usr/local/squirrel-ai/archives/" + file_name)
 
 
+def set_config_level():
+    config = ConfigParser.RawConfigParser()
+    config.read('/usr/local/squirrel-ai/config.properties')
+    log_level = config.get('LogSection', 'log.level')
+    if log_level == 'DEBUG':
+        logging.getLogger().setLevel(logging.DEBUG)
+    else:
+        logging.getLogger().setLevel(logging.ERROR)
+
+
+set_config_level()
 try:
     while True:
         for eachVideoUrl in glob.glob('/var/lib/motion/*'):
-            logging.debug("Processing {0}".format(eachVideoUrl))
+            logging.info("Processing {0}".format(eachVideoUrl))
             main_method(eachVideoUrl)
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
