@@ -6,11 +6,10 @@ from face_recognition import load_image_file, face_encodings
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
 import os
-import numpy as np
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
-import time
+from detection.opencv.detection_util import is_human_present
 
 count = 0
 criminal_cache = []
@@ -84,14 +83,13 @@ def main_method(videoUrl):
         logging.debug("Number of frames:{0} ".format(video_length))
         while ret:
             file_processed = 1
-            sharpen_kernel = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
-            cv2.filter2D(image, -1, sharpen_kernel)
-            sharpened_image = image
-            if tensor_coco_ssd_mobilenet(sharpened_image, ssd_model_path, logging) \
-                    and perform_object_detection(sharpened_image, efficientdet_lite0_path, bool(0), logging):
-                process_face(sharpened_image, frame_count)
+            if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
+                    and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
+                process_face(image, frame_count)
+
+            if is_human_present(cv2.HOGDescriptor_getDefaultPeopleDetector(), image):
                 cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
-                            sharpened_image)
+                            image)
             ret, image = capture.read()
 
     else:
