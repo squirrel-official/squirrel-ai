@@ -1,6 +1,5 @@
 # import the opencv module
-from configparser import ConfigParser
-
+import configparser
 import cv2
 from datetime import datetime
 import logging
@@ -89,9 +88,8 @@ def main_method(videoUrl):
             file_processed = 1
             if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
+                logging.debug("passed object detection".format(video_length))
                 process_face(image, frame_count)
-            logging.debug("passed object detection".format(video_length))
-            if is_human_present(cv2.HOGDescriptor_getDefaultPeopleDetector(), image):
                 cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
                             image)
             ret, image = capture.read()
@@ -111,9 +109,9 @@ def archive_file(each_video_url):
 
 
 def set_config_level():
-    config = ConfigParser.RawConfigParser()
+    config = configparser.ConfigParser()
     config.read('/usr/local/squirrel-ai/config.properties')
-    log_level = config.get('LogSection', 'log.level')
+    log_level = config.read('log.level')
     if log_level == 'DEBUG':
         logging.getLogger().setLevel(logging.DEBUG)
     else:
