@@ -109,7 +109,8 @@ def main_method(videoUrl):
 
     else:
         capture.release()
-        logging.info("released {0}".format(videoUrl))
+        file_processed = 1
+        logging.error("Archiving the file, seems to be some issue with file. released {0}".format(videoUrl))
     # Archive the file since it has been processed
     if bool(file_processed):
         archive_file(videoUrl)
