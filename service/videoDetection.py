@@ -125,7 +125,8 @@ def archive_file(each_video_url):
 def set_config_level():
     config = configparser.ConfigParser()
     config.read(CONFIG_PROPERTIES)
-    log_level = config.read('log.level')
+    log_level = config['DEFAULT']['log.level']
+    logging.info("changing log level to {0}".format(log_level))
     if log_level == 'DEBUG':
         logging.getLogger().setLevel(logging.DEBUG)
     else:
