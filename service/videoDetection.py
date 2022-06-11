@@ -43,8 +43,12 @@ efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/effic
 startDateTime = datetime.now()
 for eachWantedCriminalPath in glob.glob(WANTED_CRIMINALS_PATH):
     criminal_image = load_image_file(eachWantedCriminalPath)
-    criminal_image_encoding = face_encodings(criminal_image)[0]
-    criminal_cache.append(criminal_image_encoding)
+    try:
+        criminal_image_encoding = face_encodings(criminal_image)[0]
+        criminal_cache.append(criminal_image_encoding)
+    except IndexError as e:
+        logging.error("An exception occurred while reading {0}".format(eachWantedCriminalPath))
+
 endDateTime = datetime.now()
 # Once the loading is done then print
 logging.info("Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
@@ -52,8 +56,11 @@ logging.info("Loaded criminal  {0} images in {1} seconds".format(len(criminal_ca
 startDateTime = datetime.now()
 for eachWantedKnownPersonPath in glob.glob(FAMILIAR_FACES_PATH):
     known_person_image = load_image_file(eachWantedKnownPersonPath)
-    known_person_image_encoding = face_encodings(known_person_image)[0]
-    known_person_cache.append(known_person_image_encoding)
+    try:
+        known_person_image_encoding = face_encodings(known_person_image)[0]
+        known_person_cache.append(known_person_image_encoding)
+    except IndexError as e:
+        logging.error("An exception occurred while reading {0}".format(eachWantedKnownPersonPath))
 endDateTime = datetime.now()
 # Once the loading is done then print
 logging.info("Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
