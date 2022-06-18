@@ -104,16 +104,18 @@ def main_method(videoUrl):
         ret, image = capture.read()
         video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
         logging.debug("Number of frames:{0} ".format(video_length))
-        while ret:
+        if video_length > 0:
+            while ret:
+                file_processed = 1
+                if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
+                        and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
+                    logging.debug("passed object detection".format(video_length))
+                    process_face(image, frame_count)
+                    cv2.imwrite(UNKNOWN_VISITORS_PATH + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
+                                image)
+                ret, image = capture.read()
+        else:
             file_processed = 1
-            if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
-                    and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
-                logging.debug("passed object detection".format(video_length))
-                process_face(image, frame_count)
-                cv2.imwrite(UNKNOWN_VISITORS_PATH + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
-                            image)
-            ret, image = capture.read()
-
     else:
         capture.release()
         file_processed = 1
