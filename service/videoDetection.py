@@ -146,7 +146,9 @@ set_config_level()
 try:
     while True:
         for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
-            logging.info("Processing {0}".format(eachVideoUrl))
+            stat_info = os.stat(eachVideoUrl)
+            size = stat_info.st_size
+            logging.info(" Processing file {} of size {} mb ".format(eachVideoUrl, size))
             main_method(eachVideoUrl)
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
