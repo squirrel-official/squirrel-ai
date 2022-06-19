@@ -148,7 +148,7 @@ try:
         for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
             stat_info = os.stat(eachVideoUrl)
             size = stat_info.st_size
-            logging.info(" Processing file {} of size {} mb ".format(eachVideoUrl, size))
+            logging.info(" Processing file {} of size {} mb ".format(eachVideoUrl, size/(1024*1024)))
             main_method(eachVideoUrl)
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
