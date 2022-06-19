@@ -102,7 +102,7 @@ def main_method(videoUrl):
     file_processed = 0
     if capture.isOpened():
         ret, image = capture.read()
-        video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT)) - 1
+        video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         logging.debug("Number of frames:{0} ".format(video_length))
         if video_length > 0:
             while ret:
