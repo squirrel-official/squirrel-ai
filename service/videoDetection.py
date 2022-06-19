@@ -115,7 +115,7 @@ def main_method(videoUrl):
                                 image)
                 ret, image = capture.read()
         else:
-            file_processed = 1
+            file_processed = 0
     else:
         capture.release()
         file_processed = 1
