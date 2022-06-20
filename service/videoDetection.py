@@ -152,7 +152,7 @@ try:
             date_time = eachVideoUrl[-18: -4]
             dateTimeFromFileName = datetime.strptime(date_time, DATE_TIME_FORMAT)
             if (currentDateTime - dateTimeFromFileName).seconds > 30:
-                logging.info(" Processing file {} of size {} mb ".format(eachVideoUrl, size / (1024 * 1024)))
+                logging.info(" Processing file {} of size {} mb with extracted time as {}".format(eachVideoUrl, size / (1024 * 1024), dateTimeFromFileName))
                 main_method(eachVideoUrl)
             else:
                 logging.info("Not processing-date time difference for file {} is {} ".format(eachVideoUrl,
