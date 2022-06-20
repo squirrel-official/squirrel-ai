@@ -11,6 +11,8 @@ from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 import logging
 
+EXECUTION_DELAY = 10
+
 MOTION_VIDEO_URL = '/var/lib/motion/*'
 CONFIG_PROPERTIES = '/usr/local/squirrel-ai/config.properties'
 ARCHIVE_URL = "/usr/local/squirrel-ai/data/archives/"
@@ -151,7 +153,7 @@ try:
 
             date_time = eachVideoUrl[-18: -4]
             dateTimeFromFileName = datetime.strptime(date_time, DATE_TIME_FORMAT)
-            if (currentDateTime - dateTimeFromFileName).seconds > 30:
+            if (currentDateTime - dateTimeFromFileName).seconds > EXECUTION_DELAY:
                 logging.info(" Processing file {} of size {} mb with extracted time as {}".format(eachVideoUrl, size / (1024 * 1024), dateTimeFromFileName))
                 main_method(eachVideoUrl)
             else:
