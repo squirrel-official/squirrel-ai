@@ -2,7 +2,6 @@
 import configparser
 import cv2
 from datetime import datetime
-import logging
 from face_recognition import load_image_file, face_encodings
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
@@ -11,7 +10,6 @@ import os
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 import logging
-
 
 MOTION_VIDEO_URL = '/var/lib/motion/*'
 CONFIG_PROPERTIES = '/usr/local/squirrel-ai/config.properties'
@@ -143,12 +141,21 @@ def set_config_level():
 
 
 set_config_level()
+DATE_TIME_FORMAT = "%Y%m%d%H%M%S"
 try:
     while True:
+        currentDateTime = datetime.strptime(datetime.today().strftime(DATE_TIME_FORMAT), DATE_TIME_FORMAT)
         for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
             stat_info = os.stat(eachVideoUrl)
             size = stat_info.st_size
-            logging.info(" Processing file {} of size {} mb ".format(eachVideoUrl, size/(1024*1024)))
-            main_method(eachVideoUrl)
+
+            date_time = eachVideoUrl[-18: -4]
+            dateTimeFromFileName = datetime.strptime(date_time, DATE_TIME_FORMAT)
+            if (currentDateTime - dateTimeFromFileName).seconds > 30:
+                logging.info(" Processing file {} of size {} mb ".format(eachVideoUrl, size / (1024 * 1024)))
+                main_method(eachVideoUrl)
+            else:
+                logging.info("Not processing-date time difference for file {} is {} ".format(eachVideoUrl,
+                                                                                             (currentDateTime - dateTimeFromFileName).seconds))
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
