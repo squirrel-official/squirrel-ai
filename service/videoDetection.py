@@ -93,6 +93,8 @@ def process_face(image, count_index):
 
 
 def main_method(videoUrl):
+    start_index = videoUrl.rindex("/") + 1
+    camera_id = videoUrl[start_index: start_index + 1]
     capture = cv2.VideoCapture(videoUrl)
     if not capture.isOpened():
         logging.error("Error opening video file {}".format(videoUrl))
@@ -111,8 +113,9 @@ def main_method(videoUrl):
                         and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
                     logging.debug("passed object detection".format(video_length))
                     process_face(image, frame_count)
-                    cv2.imwrite(UNKNOWN_VISITORS_PATH + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
-                                image)
+                    cv2.imwrite(
+                        UNKNOWN_VISITORS_PATH + camera_id + "-" + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
+                        image)
                 ret, image = capture.read()
         else:
             file_processed = 0
@@ -154,7 +157,9 @@ try:
             date_time = eachVideoUrl[-18: -4]
             dateTimeFromFileName = datetime.strptime(date_time, DATE_TIME_FORMAT)
             if (currentDateTime - dateTimeFromFileName).seconds > EXECUTION_DELAY:
-                logging.info(" Processing file {} of size {} mb with extracted time as {}".format(eachVideoUrl, size / (1024 * 1024), dateTimeFromFileName))
+                logging.info(" Processing file {} of size {} mb with extracted time as {}".format(eachVideoUrl,
+                                                                                                  size / (1024 * 1024),
+                                                                                                  dateTimeFromFileName))
                 main_method(eachVideoUrl)
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
