@@ -11,8 +11,8 @@ from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 import logging
 
-EXECUTION_DELAY = 5
 
+EXECUTION_DELAY = 5
 MOTION_VIDEO_URL = '/var/lib/motion/*'
 CONFIG_PROPERTIES = '/usr/local/squirrel-ai/config.properties'
 ARCHIVE_URL = "/usr/local/squirrel-ai/data/archives/"
