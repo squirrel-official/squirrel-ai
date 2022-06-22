@@ -129,7 +129,7 @@ def main_method(videoUrl):
         logging.error("Archiving the file, seems to be some issue with file. released {0}".format(videoUrl))
     # Archive the file since it has been processed
     if bool(file_processed):
-        requests.post(UNKNOWN_VISITORS_PATH)
+        requests.post(VISITOR_NOTIFICATION_URL)
         archive_file(videoUrl)
 
 
