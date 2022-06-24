@@ -11,6 +11,7 @@ from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 import logging
 import requests
+import sys
 
 EXECUTION_DELAY = 2
 
@@ -44,31 +45,39 @@ hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
+DATE_TIME_FORMAT = "%Y%m%d%H%M%S"
 
-startDateTime = datetime.now()
-for eachWantedCriminalPath in glob.glob(WANTED_CRIMINALS_PATH):
-    criminal_image = load_image_file(eachWantedCriminalPath)
-    try:
-        criminal_image_encoding = face_encodings(criminal_image)[0]
-        criminal_cache.append(criminal_image_encoding)
-    except IndexError as e:
-        logging.error("An exception occurred while reading {0}".format(eachWantedCriminalPath))
 
-endDateTime = datetime.now()
-# Once the loading is done then print
-logging.info("Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
+def load_criminal_images():
+    global startDateTime, e, endDateTime
+    startDateTime = datetime.now()
+    for eachWantedCriminalPath in glob.glob(WANTED_CRIMINALS_PATH):
+        criminal_image = load_image_file(eachWantedCriminalPath)
+        try:
+            criminal_image_encoding = face_encodings(criminal_image)[0]
+            criminal_cache.append(criminal_image_encoding)
+        except IndexError as e:
+            logging.error("An exception occurred while reading {0}".format(eachWantedCriminalPath))
+    endDateTime = datetime.now()
+    # Once the loading is done then print
+    logging.info(
+        "Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
 
-startDateTime = datetime.now()
-for eachWantedKnownPersonPath in glob.glob(FAMILIAR_FACES_PATH):
-    known_person_image = load_image_file(eachWantedKnownPersonPath)
-    try:
-        known_person_image_encoding = face_encodings(known_person_image)[0]
-        known_person_cache.append(known_person_image_encoding)
-    except IndexError as e:
-        logging.error("An exception occurred while reading {0}".format(eachWantedKnownPersonPath))
-endDateTime = datetime.now()
-# Once the loading is done then print
-logging.info("Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
+
+def load_known_images():
+    global startDateTime, e, endDateTime
+    startDateTime = datetime.now()
+    for eachWantedKnownPersonPath in glob.glob(FAMILIAR_FACES_PATH):
+        known_person_image = load_image_file(eachWantedKnownPersonPath)
+        try:
+            known_person_image_encoding = face_encodings(known_person_image)[0]
+            known_person_cache.append(known_person_image_encoding)
+        except IndexError as e:
+            logging.error("An exception occurred while reading {0}".format(eachWantedKnownPersonPath))
+    endDateTime = datetime.now()
+    # Once the loading is done then print
+    logging.info(
+        "Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
 
 
 def process_face(image, count_index):
@@ -150,9 +159,18 @@ def set_config_level():
         logging.getLogger().setLevel(logging.ERROR)
 
 
-set_config_level()
-DATE_TIME_FORMAT = "%Y%m%d%H%M%S"
+def handle_exception(exc_type, exc_value, exc_traceback):
+    if issubclass(exc_type, KeyboardInterrupt):
+        sys.__excepthook__(exc_type, exc_value, exc_traceback)
+        return
+
+
 try:
+    load_criminal_images()
+    load_known_images()
+    set_config_level()
+    sys.excepthook = handle_exception
+
     while True:
         currentDateTime = datetime.strptime(datetime.today().strftime(DATE_TIME_FORMAT), DATE_TIME_FORMAT)
         for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
