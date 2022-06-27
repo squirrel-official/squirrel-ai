@@ -24,10 +24,10 @@ sudo apt install python3-h5py -y
 pip3 install tensorflow-aarch64
 sudo apt-get install libportaudio2
 
-mkdir /usr/local/squirrel-ai/wanted-criminals
-mkdir  /usr/local/squirrel-ai/captured
-mkdir  /usr/local/squirrel-ai/logs
-mkdir /usr/local/squirrel-ai/visitor
-mkdir /usr/local/squirrel-ai/archives
+#Added for RaspberryPi
+echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install python3-tflite-runtime
 
 sudo chmod -R 777 .
