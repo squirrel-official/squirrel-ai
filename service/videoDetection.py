@@ -184,6 +184,5 @@ try:
                                                                                                   dateTimeFromFileName))
                 main_method(eachVideoUrl)
 
-        logging.debug("All files processed")
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
