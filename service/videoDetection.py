@@ -130,7 +130,7 @@ def main_method(videoUrl):
                 ret, image = capture.read()
         else:
             file_processed = 0
-            logging.debug("file {} and  number of frames:{0} not processed".format(eachVideoUrl, video_length))
+            logging.debug("file {0} and  number of frames:{1} not processed".format(eachVideoUrl, video_length))
     else:
         capture.release()
         stat_info = os.stat(eachVideoUrl)
