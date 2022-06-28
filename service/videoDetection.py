@@ -107,6 +107,8 @@ def main_method(videoUrl):
     start_index = videoUrl.rindex("/") + 1
     camera_id = videoUrl[start_index: start_index + 1]
     capture = cv2.VideoCapture(videoUrl)
+    stat_info = os.stat(eachVideoUrl)
+    size = stat_info.st_size
     if not capture.isOpened():
         logging.error("Error opening video file {}".format(videoUrl))
     global x, y
@@ -130,11 +132,9 @@ def main_method(videoUrl):
                 ret, image = capture.read()
         else:
             file_processed = 0
-            logging.debug("file {0} and  number of frames:{1} not processed".format(eachVideoUrl, video_length))
+            logging.debug("file {0} and  number of frames:{1} and size {2} not processed".format(eachVideoUrl, video_length, size))
     else:
         capture.release()
-        stat_info = os.stat(eachVideoUrl)
-        size = stat_info.st_size
         # file_processed = 1
         logging.error("Not processed eems to be some issue with file {0} with size {1}".format(videoUrl, size))
     # Archive the file since it has been processed
