@@ -116,8 +116,8 @@ def main_method(videoUrl):
     if capture.isOpened():
         ret, image = capture.read()
         video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
-        logging.debug("Number of frames:{0} ".format(video_length))
         if video_length > 0:
+            logging.info(" Processing file {} and  number of frames:{0}".format(eachVideoUrl, video_length))
             while ret:
                 file_processed = 1
                 if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
@@ -174,7 +174,6 @@ try:
     while True:
         currentDateTime = datetime.strptime(datetime.today().strftime(DATE_TIME_FORMAT), DATE_TIME_FORMAT)
         for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
-            logging.info(" Processing file {}".format(eachVideoUrl))
             main_method(eachVideoUrl)
 
 except Exception as e:
