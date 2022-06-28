@@ -117,7 +117,7 @@ def main_method(videoUrl):
         ret, image = capture.read()
         video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         if video_length > 0:
-            logging.info(" Processing file {} and  number of frames:{0}".format(eachVideoUrl, video_length))
+            logging.info(" Processing file {0} and  number of frames:{1}".format(eachVideoUrl, video_length))
             while ret:
                 file_processed = 1
                 if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
