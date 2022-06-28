@@ -13,8 +13,6 @@ import logging
 import requests
 import sys
 
-EXECUTION_DELAY = 2
-
 CRIMINAL_NOTIFICATION_URL = 'http://my-security.local:8087/criminal'
 VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
 FRIEND_NOTIFICATION_URL = 'http://my-security.local:8087/friend'
@@ -174,15 +172,8 @@ try:
     while True:
         currentDateTime = datetime.strptime(datetime.today().strftime(DATE_TIME_FORMAT), DATE_TIME_FORMAT)
         for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
-            stat_info = os.stat(eachVideoUrl)
-            size = stat_info.st_size
-            date_time = eachVideoUrl[-18: -4]
-            dateTimeFromFileName = datetime.strptime(date_time, DATE_TIME_FORMAT)
-            if (currentDateTime - dateTimeFromFileName).seconds > EXECUTION_DELAY:
-                logging.info(" Processing file {} of size {} mb with extracted time as {}".format(eachVideoUrl,
-                                                                                                  size / (1024 * 1024),
-                                                                                                  dateTimeFromFileName))
-                main_method(eachVideoUrl)
+            logging.info(" Processing file {}".format(eachVideoUrl))
+            main_method(eachVideoUrl)
 
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
