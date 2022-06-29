@@ -176,8 +176,8 @@ try:
     sys.excepthook = handle_exception
 
     while True:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
+        for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
+            with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
                 executor.submit(main_method, eachVideoUrl)
 
 except Exception as e:
