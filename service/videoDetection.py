@@ -12,6 +12,7 @@ from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 import logging
 import requests
 import sys
+import concurrent.futures
 
 CRIMINAL_NOTIFICATION_URL = 'http://my-security.local:8087/criminal'
 VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
@@ -132,7 +133,9 @@ def main_method(videoUrl):
                 ret, image = capture.read()
         else:
             file_processed = 0
-            logging.debug("file {0} and  number of frames:{1} and size {2} not processed".format(eachVideoUrl, video_length, size))
+            logging.debug(
+                "file {0} and  number of frames:{1} and size {2} not processed".format(eachVideoUrl, video_length,
+                                                                                       size))
     else:
         capture.release()
         # file_processed = 1
@@ -173,9 +176,9 @@ try:
     sys.excepthook = handle_exception
 
     while True:
-        currentDateTime = datetime.strptime(datetime.today().strftime(DATE_TIME_FORMAT), DATE_TIME_FORMAT)
-        for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
-            main_method(eachVideoUrl)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
+                executor.submit(main_method, eachVideoUrl)
 
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
