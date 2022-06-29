@@ -124,7 +124,7 @@ def main_method(videoUrl):
                 file_processed = 1
                 if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                         and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
-                    logging.debug("passed object detection".format(video_length))
+                    logging.info("passed object detection".format(video_length))
                     process_face(image, frame_count)
                     cv2.imwrite(
                         UNKNOWN_VISITORS_PATH + camera_id + "-" + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
