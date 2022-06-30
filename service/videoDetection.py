@@ -12,7 +12,6 @@ from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 import logging
 import requests
 import sys
-import concurrent.futures
 
 CRIMINAL_NOTIFICATION_URL = 'http://my-security.local:8087/criminal'
 VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
@@ -177,8 +176,7 @@ try:
 
     while True:
         for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
-            with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-                executor.submit(main_method, eachVideoUrl)
+            main_method(eachVideoUrl)
 
 except Exception as e:
     logging.error("An exception : ", e, "occurred.")
