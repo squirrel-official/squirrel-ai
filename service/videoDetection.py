@@ -138,7 +138,7 @@ def main_method(videoUrl):
     else:
         capture.release()
         # file_processed = 1
-        logging.error("Not processed eems to be some issue with file {0} with size {1}".format(videoUrl, size))
+        logging.debug("Not processed seems to be some issue with file {0} with size {1}".format(videoUrl, size))
     # Archive the file since it has been processed
     if bool(file_processed):
         requests.post(VISITOR_NOTIFICATION_URL)
