@@ -115,6 +115,7 @@ def main_method(videoUrl):
 
     frame_count = 0
     file_processed = 0
+    image_number = 1
     if capture.isOpened():
         ret, image = capture.read()
         video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -127,8 +128,10 @@ def main_method(videoUrl):
                     logging.info("passed object detection".format(video_length))
                     process_face(image, frame_count)
                     cv2.imwrite(
-                        UNKNOWN_VISITORS_PATH + camera_id + "-" + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
+                        UNKNOWN_VISITORS_PATH + camera_id + "-" + datetime.now().strftime(
+                            "%Y%m%d-%H%M%S") + "-" + image_number + '.jpg',
                         image)
+                    image_number += 1
                 ret, image = capture.read()
         else:
             file_processed = 0
