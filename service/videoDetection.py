@@ -127,10 +127,9 @@ def main_method(videoUrl):
                         and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
                     logging.info("passed object detection".format(video_length))
                     process_face(image, frame_count)
-                    cv2.imwrite(
-                        UNKNOWN_VISITORS_PATH + camera_id + "-" + datetime.now().strftime(
-                            "%Y%m%d-%H%M%S") + "-" + image_number + '.jpg',
-                        image)
+                    complete_file_name = UNKNOWN_VISITORS_PATH + camera_id + "-" + image_number + "-" + datetime.now().strftime(
+                            "%Y%m%d-%H%M%S") + '.jpg'
+                    cv2.imwrite(complete_file_name, image)
                     image_number += 1
                 ret, image = capture.read()
         else:
