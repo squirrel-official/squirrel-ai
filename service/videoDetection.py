@@ -180,4 +180,4 @@ try:
             main_method(eachVideoUrl)
 
 except Exception as e:
-    logging.error("An exception : ", e, "occurred.")
+    logging.error("An exception occurred.")
