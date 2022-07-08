@@ -78,6 +78,13 @@ def load_known_images():
         "Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
 
 
+def extract_blur(image, file_name):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    fm = cv2.Laplacian(gray, cv2.CV_64F).var()
+    logging.info(
+        "blur ratio {0} for {}".format(fm, file_name))
+
+
 def process_face(image, count_index):
     unknown_face_image = extract_face(image)
     if unknown_face_image is not None:
@@ -127,8 +134,10 @@ def main_method(videoUrl):
                         and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
                     logging.info("passed object detection".format(video_length))
                     process_face(image, frame_count)
-                    complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
+                    complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
+                        image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
                     cv2.imwrite(complete_file_name, image)
+                    extract_blur(image, complete_file_name)
                     image_number += 1
                 ret, image = capture.read()
         else:
