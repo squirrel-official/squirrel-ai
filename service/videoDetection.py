@@ -82,7 +82,7 @@ def extract_blur(image, file_name):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     fm = cv2.Laplacian(gray, cv2.CV_64F).var()
     logging.info(
-        "blur ratio {0} for {}".format(fm, file_name))
+        "blur ratio {0} for {1}".format(fm, file_name))
 
 
 def process_face(image, count_index):
