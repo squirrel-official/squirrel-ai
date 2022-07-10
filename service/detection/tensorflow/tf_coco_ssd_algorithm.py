@@ -17,7 +17,7 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path, logging):
     parser.add_argument('--labels', help='Name of the labelmap file, if different than labelmap.txt',
                         default='labelmap.txt')
     parser.add_argument('--threshold', help='Minimum confidence threshold for displaying detected objects',
-                        default=0.6)
+                        default=0.7)
     parser.add_argument('--edgetpu', help='Use Coral Edge TPU Accelerator to speed up detection',
                         action='store_true')
     args = parser.parse_args()
@@ -118,7 +118,7 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path, logging):
 
             # Draw label
             object_name = labels[int(classes[i])]  # Look up object name from "labels" array using class index
-            if object_name == 'person' or object_name == 'knife':
+            if object_name == 'person' or object_name == 'knife' or object_name == 'dog' or object_name == 'cat' or object_name == 'bicycle':
                 label = '%s: %d%%' % (object_name, int(scores[i] * 100))  # Example: 'person: 72%'
                 logging.debug(label)
                 labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)  # Get font size

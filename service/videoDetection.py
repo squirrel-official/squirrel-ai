@@ -190,3 +190,4 @@ try:
 
 except Exception as e:
     logging.error("An exception occurred.")
+    logging.error(e, exc_info=True)
