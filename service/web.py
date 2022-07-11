@@ -26,4 +26,5 @@ def get_countries():
 
 
 if __name__ == "__web__":
-    app.run(debug=True)
+    logging.info("flask started")
+    app.run(debug=True, host='0.0.0.0', port=80)
