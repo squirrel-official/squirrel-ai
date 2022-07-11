@@ -1,6 +1,7 @@
 import logging
 
 from flask import Flask, request, jsonify
+from waitress import serve
 
 from videoDetection import load_criminal_images, load_known_images, set_config_level, MOTION_VIDEO_URL, main_method
 
@@ -17,3 +18,7 @@ def get_countries():
     complete_video_path = MOTION_VIDEO_URL+video_file_name
     main_method(complete_video_path)
     return jsonify("success")
+
+
+if __name__ == "__main__":
+    serve(app, host="0.0.0.0", port=8080)
