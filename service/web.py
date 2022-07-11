@@ -11,6 +11,11 @@ set_config_level()
 app = Flask(__name__)
 
 
+@app.route("/")
+def index():
+    return "<h1>Welcome to Intelligent detection service!</h1>"
+
+
 @app.get("/trigger-analysis")
 def get_countries():
     video_file_name = request.args.get('file')
@@ -20,4 +25,4 @@ def get_countries():
     return jsonify("success")
 
 
-serve(app, host="0.0.0.0", port=9999)
+serve(app, port=9999)
