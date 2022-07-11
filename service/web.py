@@ -25,4 +25,5 @@ def get_countries():
     return jsonify("success")
 
 
-serve(app, port=9999)
+if __name__ == "__web__":
+    app.run(debug=True)
