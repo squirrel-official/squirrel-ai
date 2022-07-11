@@ -15,7 +15,7 @@ app = Flask(__name__)
 def get_countries():
     video_file_name = request.args.get('file')
     logging.info("Video file name {0}".format(video_file_name))
-    complete_video_path = MOTION_VIDEO_URL+video_file_name
+    complete_video_path = MOTION_VIDEO_URL + video_file_name
     main_method(complete_video_path)
     return jsonify("success")
 
