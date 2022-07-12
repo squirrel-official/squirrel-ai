@@ -114,7 +114,7 @@ def main_method(videoUrl):
     start_index = videoUrl.rindex("/") + 1
     camera_id = videoUrl[start_index: start_index + 1]
     capture = cv2.VideoCapture(videoUrl)
-    stat_info = os.stat(eachVideoUrl)
+    stat_info = os.stat(videoUrl)
     size = stat_info.st_size
     if not capture.isOpened():
         logging.error("Error opening video file {}".format(videoUrl))
@@ -127,7 +127,7 @@ def main_method(videoUrl):
         ret, image = capture.read()
         video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         if video_length > 0:
-            logging.info(" Processing file {0} and  number of frames:{1}".format(eachVideoUrl, video_length))
+            logging.info(" Processing file {0} and  number of frames:{1}".format(videoUrl, video_length))
             while ret:
                 file_processed = 1
                 if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
@@ -143,7 +143,7 @@ def main_method(videoUrl):
         else:
             file_processed = 0
             logging.debug(
-                "file {0} and  number of frames:{1} and size {2} not processed".format(eachVideoUrl, video_length,
+                "file {0} and  number of frames:{1} and size {2} not processed".format(videoUrl, video_length,
                                                                                        size))
     else:
         capture.release()
@@ -178,16 +178,20 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         return
 
 
-try:
-    load_criminal_images()
-    load_known_images()
-    set_config_level()
-    sys.excepthook = handle_exception
+def start():
+    try:
+        load_criminal_images()
+        load_known_images()
+        set_config_level()
+        sys.excepthook = handle_exception
 
-    while True:
-        for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
-            main_method(eachVideoUrl)
+        while True:
+            for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
+                main_method(eachVideoUrl)
 
-except Exception as e:
-    logging.error("An exception occurred.")
-    logging.error(e, exc_info=True)
+    except Exception as e:
+        logging.error("An exception occurred.")
+        logging.error(e, exc_info=True)
+
+
+start()
