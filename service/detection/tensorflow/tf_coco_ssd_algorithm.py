@@ -7,18 +7,11 @@ import importlib.util
 
 
 def tensor_coco_ssd_mobilenet(image, ssd_model_path, logging):
-    global line
-    # Define and parse input arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--edgetpu', help='Use Coral Edge TPU Accelerator to speed up detection',
-                        action='store_true')
-
-    args = parser.parse_args()
-    MODEL_NAME = ssd_model_path
+    MODEL_NAME = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
     GRAPH_NAME = 'detect.tflite'
     LABELMAP_NAME = 'labelmap.txt'
     min_conf_threshold = float(0.7)
-    use_TPU = args.edgetpu
+    use_TPU = False
 
     # Import TensorFlow libraries
     # If tflite_runtime is installed, import interpreter from tflite_runtime, else import from regular tensorflow
