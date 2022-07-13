@@ -10,21 +10,14 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path, logging):
     global line
     # Define and parse input arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('--modeldir', help='Folder the .tflite file is located in',
-                        default=ssd_model_path)
-    parser.add_argument('--graph', help='Name of the .tflite file, if different than detect.tflite',
-                        default='detect.tflite')
-    parser.add_argument('--labels', help='Name of the labelmap file, if different than labelmap.txt',
-                        default='labelmap.txt')
-    parser.add_argument('--threshold', help='Minimum confidence threshold for displaying detected objects',
-                        default=0.7)
     parser.add_argument('--edgetpu', help='Use Coral Edge TPU Accelerator to speed up detection',
                         action='store_true')
+
     args = parser.parse_args()
-    MODEL_NAME = args.modeldir
-    GRAPH_NAME = args.graph
-    LABELMAP_NAME = args.labels
-    min_conf_threshold = float(args.threshold)
+    MODEL_NAME = ssd_model_path
+    GRAPH_NAME = 'detect.tflite'
+    LABELMAP_NAME = 'labelmap.txt'
+    min_conf_threshold = float(0.7)
     use_TPU = args.edgetpu
 
     # Import TensorFlow libraries
