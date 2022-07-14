@@ -81,7 +81,7 @@ def load_known_images():
 def extract_blur(image, file_name):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     fm = cv2.Laplacian(gray, cv2.CV_64F).var()
-    logging.info(
+    logging.debug(
         "blur ratio {0} for {1}".format(fm, file_name))
 
 
@@ -132,12 +132,12 @@ def main_method(videoUrl):
                 file_processed = 1
                 if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                         and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
-                    logging.info("passed object detection".format(video_length))
+                    logging.debug("passed object detection".format(video_length))
                     process_face(image, frame_count)
                     complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
                         image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
                     cv2.imwrite(complete_file_name, image)
-                    extract_blur(image, complete_file_name)
+                    # extract_blur(image, complete_file_name)
                     image_number += 1
                 ret, image = capture.read()
         else:
