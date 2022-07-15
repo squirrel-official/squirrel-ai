@@ -1,7 +1,7 @@
 import logging
 
 from flask import Flask, request, jsonify
-
+from waitress import serve
 
 from videoDetection import load_criminal_images, load_known_images, set_config_level, main_method
 
@@ -30,4 +30,4 @@ if __name__ == '__main__':
     load_criminal_images()
     load_known_images()
     set_config_level()
-    app.run()
+    serve(app, host="0.0.0.0", port=5000)
