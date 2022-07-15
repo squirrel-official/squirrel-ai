@@ -2,7 +2,7 @@ import sys
 import requests
 import logging
 
-logging.basicConfig(filename='/usr/local/squirrel-ai/logs/service.log',
+logging.basicConfig(filename='/usr/local/squirrel-ai/logs/notification.log',
                     format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
                            'funcName)s: %(message)s', level=logging.DEBUG,
                     datefmt='%Y-%m-%d %H:%M:%S')
