@@ -16,7 +16,7 @@ def index():
     return "<h1>Welcome to Intelligent detection service!</h1>"
 
 
-@app.route("/trigger-analysis")
+@app.post("/trigger-analysis")
 def get_countries():
     motion_video_directory = '/var/lib/motion/'
     video_file_name = request.args.get('file')
