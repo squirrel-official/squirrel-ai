@@ -19,7 +19,7 @@ def index():
 @app.route("/trigger-analysis", methods=['POST'])
 def get_countries():
     motion_video_directory = '/var/lib/motion/'
-    video_file_name = request.args.get('file')
+    video_file_name = request.form.get('file')
     logging.info("Video file name {0}".format(video_file_name))
     complete_video_path = motion_video_directory + video_file_name
     main_method(complete_video_path)
