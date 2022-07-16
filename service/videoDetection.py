@@ -34,10 +34,6 @@ count = 0
 criminal_cache = []
 known_person_cache = []
 
-logging.basicConfig(filename='/usr/local/squirrel-ai/logs/service.log',
-                    format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
-                           'funcName)s: %(message)s', level=logging.DEBUG,
-                    datefmt='%Y-%m-%d %H:%M:%S')
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
@@ -162,6 +158,10 @@ def archive_file(each_video_url):
 
 
 def set_config_level():
+    logging.basicConfig(filename='/usr/local/squirrel-ai/logs/service.log',
+                        format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
+                               'funcName)s: %(message)s', level=logging.DEBUG,
+                        datefmt='%Y-%m-%d %H:%M:%S')
     config = configparser.ConfigParser()
     config.read(CONFIG_PROPERTIES)
     log_level = config['DEFAULT']['log.level']
