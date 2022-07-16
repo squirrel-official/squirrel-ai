@@ -11,5 +11,5 @@ logging.info("Inside the Analyze video notification having argument {}".format(l
 
 if len(sys.argv) == 2:
     logging.info(sys.argv[1])
-    NOTIFICATION_URL = 'http://127.0.0.1:5000/trigger-analysis?file='+sys.argv[1]
+    NOTIFICATION_URL = 'http://my-security.local:5000/trigger-analysis?file='+sys.argv[1]
     data = requests.post(NOTIFICATION_URL, "Trigger analysis")
