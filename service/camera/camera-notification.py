@@ -12,4 +12,4 @@ if len(sys.argv) == 2:
     logging.info(sys.argv[1])
     NOTIFICATION_URL = 'http://my-security.local:8087/notification?camera-id='+sys.argv[1]
 
-data = requests.post(NOTIFICATION_URL, "General Camera Information")
+requests.post(NOTIFICATION_URL, "General Camera Information")
