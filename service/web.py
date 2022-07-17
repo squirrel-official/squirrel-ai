@@ -5,9 +5,9 @@ from waitress import serve
 
 from videoDetection import load_criminal_images, load_known_images, set_config_level, main_method
 
-# load_criminal_images()
-# load_known_images()
-# set_config_level()
+load_criminal_images()
+load_known_images()
+set_config_level()
 app = Flask(__name__)
 
 
@@ -25,7 +25,4 @@ def get_countries():
 
 
 if __name__ == '__main__':
-    load_criminal_images()
-    load_known_images()
-    set_config_level()
     serve(app, host="0.0.0.0", port=5000)
