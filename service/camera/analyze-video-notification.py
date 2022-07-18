@@ -8,8 +8,6 @@ logging.basicConfig(filename='/usr/local/squirrel-ai/logs/notification.log',
                            'funcName)s: %(message)s', level=logging.INFO,
                     datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger("Analyze-Video-Notification")
-
-logger.info("Inside the Analyze video notification having argument {}".format(len(sys.argv)))
 if len(sys.argv) == 2:
     file_name = sys.argv[1]
     logger.info("Start : {0}".format(file_name))
