@@ -45,4 +45,4 @@ def analyze_video():
 if __name__ == '__main__':
     load_criminal_images()
     load_known_images()
-    serve(app, host="0.0.0.0", port=5000)
+    serve(app, host="0.0.0.0", port=5000, threaded=True)
