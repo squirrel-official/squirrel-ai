@@ -45,7 +45,7 @@ logger = customLogging.get_logger("VideoDetection")
 
 
 def load_criminal_images():
-    global startDateTime, e, endDateTime
+    global startDateTime, e
     startDateTime = datetime.now()
     for eachWantedCriminalPath in glob.glob(WANTED_CRIMINALS_PATH):
         criminal_image = load_image_file(eachWantedCriminalPath)
@@ -54,14 +54,13 @@ def load_criminal_images():
             criminal_cache.append(criminal_image_encoding)
         except IndexError as e:
             logger.error("An exception occurred while reading {0}".format(eachWantedCriminalPath))
-    endDateTime = datetime.now()
     # Once the loading is done then print
     logger.info(
-        "Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
+        "Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (datetime.now() - startDateTime)))
 
 
 def load_known_images():
-    global startDateTime, e, endDateTime
+    global startDateTime, e
     startDateTime = datetime.now()
     for eachWantedKnownPersonPath in glob.glob(FAMILIAR_FACES_PATH):
         known_person_image = load_image_file(eachWantedKnownPersonPath)
@@ -70,10 +69,9 @@ def load_known_images():
             known_person_cache.append(known_person_image_encoding)
         except IndexError as e:
             logger.error("An exception occurred while reading {0}".format(eachWantedKnownPersonPath))
-    endDateTime = datetime.now()
     # Once the loading is done then print
     logger.info(
-        "Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
+        "Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (datetime.now() - startDateTime)))
 
 
 def extract_blur(image, file_name):
