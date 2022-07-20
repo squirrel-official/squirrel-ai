@@ -1,10 +1,10 @@
-import logging
+import customLogging
 from gevent.pywsgi import WSGIServer
 from flask import Flask, request, jsonify
 from videoDetection import load_criminal_images, load_known_images, main_method
 
 app = Flask(__name__)
-logger = logging.get_logger("WebController")
+logger = customLogging.get_logger("WebController")
 
 
 @app.route("/")

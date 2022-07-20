@@ -1,7 +1,7 @@
 # import the opencv module
 import cv2
 from datetime import datetime
-import logging
+import customLogging
 from face_recognition import load_image_file, face_encodings
 import glob
 from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
@@ -16,10 +16,7 @@ count = 0
 criminal_cache = []
 known_person_cache = []
 
-logging.basicConfig(filename='/usr/local/squirrel-ai/logs/service.log',
-                    format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
-                           'funcName)s: %(message)s', level=logging.DEBUG,
-                    datefmt='%Y-%m-%d %H:%M:%S')
+logger = customLogging.get_logger("MotionDetection")
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
@@ -33,7 +30,7 @@ for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals
     criminal_cache.append(criminal_image_encoding)
 endDateTime = datetime.now()
 # Once the loading is done then print
-logging.info("Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
+logger.info("Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
 
 startDateTime = datetime.now()
 for eachWantedKnownPersonPath in glob.glob('/usr/local/squirrel-ai/known/*'):
@@ -42,13 +39,13 @@ for eachWantedKnownPersonPath in glob.glob('/usr/local/squirrel-ai/known/*'):
     known_person_cache.append(known_person_image_encoding)
 endDateTime = datetime.now()
 # Once the loading is done then print
-logging.info("Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
+logger.info("Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
 
 
 def process_face(image, count_index):
     unknown_face_image = extract_face(image)
     if unknown_face_image is not None:
-        logging.debug('A new person identified by face so processing it')
+        logger.debug('A new person identified by face so processing it')
         unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
         # saving the image to visitor folder
         start_date_time = datetime.now()
@@ -64,7 +61,7 @@ def process_face(image, count_index):
                             unknown_face_image)
 
         end_date_time = datetime.now()
-        logging.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
+        logger.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
         count_index += 1
 
 
@@ -81,7 +78,7 @@ def main_method(camera_id):
         capture.set(cv2.CAP_PROP_FPS, 10)
 
     if not capture.isOpened():
-        logging.error("Error opening video stream or file")
+        logger.error("Error opening video stream or file")
     global x, y
     while capture.isOpened():
         # to read frame by frame
@@ -127,4 +124,4 @@ try:
     t2.start()
     t3.start()
 except Exception as e:
-    logging.error("Oops!", e.__class__, "occurred.")
+    logger.error("Oops!", e.__class__, "occurred.")

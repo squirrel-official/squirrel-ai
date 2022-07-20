@@ -9,7 +9,7 @@ import os
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
-import logging
+import customLogging
 import requests
 import sys
 
@@ -41,20 +41,7 @@ ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
 DATE_TIME_FORMAT = "%Y%m%d%H%M%S"
 
-
-def set_config_level():
-    logging.basicConfig(filename='/usr/local/squirrel-ai/logs/service.log',
-                        format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
-                               'funcName)s: %(message)s', level=logging.DEBUG,
-                        datefmt='%Y-%m-%d %H:%M:%S')
-    config = configparser.ConfigParser()
-    config.read(CONFIG_PROPERTIES)
-    log_level = config['DEFAULT']['log.level']
-    logging.info("changing log level to {0}".format(log_level))
-    if log_level == 'DEBUG':
-        logging.getLogger().setLevel(logging.DEBUG)
-    else:
-        logging.getLogger().setLevel(logging.ERROR)
+logger = customLogging.get_logger("VideoDetection")
 
 
 def load_criminal_images():
@@ -66,10 +53,10 @@ def load_criminal_images():
             criminal_image_encoding = face_encodings(criminal_image)[0]
             criminal_cache.append(criminal_image_encoding)
         except IndexError as e:
-            logging.error("An exception occurred while reading {0}".format(eachWantedCriminalPath))
+            logger.error("An exception occurred while reading {0}".format(eachWantedCriminalPath))
     endDateTime = datetime.now()
     # Once the loading is done then print
-    logging.info(
+    logger.info(
         "Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
 
 
@@ -82,24 +69,24 @@ def load_known_images():
             known_person_image_encoding = face_encodings(known_person_image)[0]
             known_person_cache.append(known_person_image_encoding)
         except IndexError as e:
-            logging.error("An exception occurred while reading {0}".format(eachWantedKnownPersonPath))
+            logger.error("An exception occurred while reading {0}".format(eachWantedKnownPersonPath))
     endDateTime = datetime.now()
     # Once the loading is done then print
-    logging.info(
+    logger.info(
         "Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
 
 
 def extract_blur(image, file_name):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     fm = cv2.Laplacian(gray, cv2.CV_64F).var()
-    logging.debug(
+    logger.debug(
         "blur ratio {0} for {1}".format(fm, file_name))
 
 
 def process_face(image, count_index):
     unknown_face_image = extract_face(image)
     if unknown_face_image is not None:
-        logging.debug('A new person identified by face so processing it')
+        logger.debug('A new person identified by face so processing it')
         unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
         # saving the image to visitor folder
         start_date_time = datetime.now()
@@ -117,7 +104,7 @@ def process_face(image, count_index):
                             unknown_face_image)
                 requests.post(FRIEND_NOTIFICATION_URL)
         end_date_time = datetime.now()
-        logging.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
+        logger.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
         count_index += 1
 
 
@@ -128,7 +115,7 @@ def main_method(videoUrl):
     stat_info = os.stat(videoUrl)
     size = stat_info.st_size
     if not capture.isOpened():
-        logging.error("Error opening video file {}".format(videoUrl))
+        logger.error("Error opening video file {}".format(videoUrl))
     global x, y
 
     frame_count = 0
@@ -138,12 +125,12 @@ def main_method(videoUrl):
         ret, image = capture.read()
         video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         if video_length > 0:
-            logging.info(" Processing file {0} and  number of frames:{1}".format(videoUrl, video_length))
+            logger.info(" Processing file {0} and  number of frames:{1}".format(videoUrl, video_length))
             while ret:
                 file_processed = 1
-                if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
-                        and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
-                    logging.debug("passed object detection".format(video_length))
+                if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
+                        and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
+                    logger.debug("passed object detection".format(video_length))
                     process_face(image, frame_count)
                     complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
                         image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
@@ -153,13 +140,13 @@ def main_method(videoUrl):
                 ret, image = capture.read()
         else:
             file_processed = 0
-            logging.debug(
+            logger.debug(
                 "file {0} and  number of frames:{1} and size {2} not processed".format(videoUrl, video_length,
                                                                                        size))
     else:
         capture.release()
         # file_processed = 1
-        logging.debug("Not processed seems to be some issue with file {0} with size {1}".format(videoUrl, size))
+        logger.debug("Not processed seems to be some issue with file {0} with size {1}".format(videoUrl, size))
     # Archive the file since it has been processed
     if bool(file_processed):
         requests.post(VISITOR_NOTIFICATION_URL)
@@ -167,7 +154,7 @@ def main_method(videoUrl):
 
 
 def archive_file(each_video_url):
-    logging.info("Archiving {0}".format(each_video_url))
+    logger.info("Archiving {0}".format(each_video_url))
     file_name = os.path.basename(each_video_url)
     os.rename(each_video_url, ARCHIVE_URL + file_name)
 
@@ -180,7 +167,6 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 def start():
     try:
-        set_config_level()
         load_criminal_images()
         load_known_images()
         sys.excepthook = handle_exception
@@ -189,7 +175,7 @@ def start():
                 main_method(eachVideoUrl)
 
     except Exception as e:
-        logging.error("An exception occurred.")
-        logging.error(e, exc_info=True)
+        logger.error("An exception occurred.")
+        logger.error(e, exc_info=True)
 
 # start()

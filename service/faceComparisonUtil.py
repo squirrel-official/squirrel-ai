@@ -1,8 +1,10 @@
-import logging
+import customLogging
 from PIL import Image
 
 import face_recognition
 from face_recognition import load_image_file, face_encodings
+
+logger = customLogging.get_logger("FaceComparisonUtil")
 
 
 def extract_face(image):
@@ -68,7 +70,7 @@ def compare_faces_with_path(known_image_path, unknown_image_path):
 
         # Print the location of each face in this image
         top, right, bottom, left = face_location
-        logging.debug(
+        logger.debug(
             "A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom,
                                                                                                   right))
 
