@@ -16,3 +16,4 @@ matplotlib~=3.4.2
 scikit-image~=0.18.1
 requests~=2.25.1
 waitress~=2.1.2
+gevent~=21.12.0

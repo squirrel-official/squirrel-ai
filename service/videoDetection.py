@@ -96,10 +96,10 @@ def extract_blur(image, file_name):
         "blur ratio {0} for {1}".format(fm, file_name))
 
 
-def process_face(image, count_index, logger):
+def process_face(image, count_index):
     unknown_face_image = extract_face(image)
     if unknown_face_image is not None:
-        logger.debug('A new person identified by face so processing it')
+        logging.debug('A new person identified by face so processing it')
         unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
         # saving the image to visitor folder
         start_date_time = datetime.now()
@@ -117,18 +117,18 @@ def process_face(image, count_index, logger):
                             unknown_face_image)
                 requests.post(FRIEND_NOTIFICATION_URL)
         end_date_time = datetime.now()
-        logger.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
+        logging.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
         count_index += 1
 
 
-def main_method(videoUrl, logger):
+def main_method(videoUrl):
     start_index = videoUrl.rindex("/") + 1
     camera_id = videoUrl[start_index: start_index + 1]
     capture = cv2.VideoCapture(videoUrl)
     stat_info = os.stat(videoUrl)
     size = stat_info.st_size
     if not capture.isOpened():
-        logger.error("Error opening video file {}".format(videoUrl))
+        logging.error("Error opening video file {}".format(videoUrl))
     global x, y
 
     frame_count = 0
@@ -138,13 +138,13 @@ def main_method(videoUrl, logger):
         ret, image = capture.read()
         video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         if video_length > 0:
-            logger.info(" Processing file {0} and  number of frames:{1}".format(videoUrl, video_length))
+            logging.info(" Processing file {0} and  number of frames:{1}".format(videoUrl, video_length))
             while ret:
                 file_processed = 1
                 if tensor_coco_ssd_mobilenet(image, ssd_model_path, logging) \
                         and perform_object_detection(image, efficientdet_lite0_path, bool(0), logging):
-                    logger.debug("passed object detection".format(video_length))
-                    process_face(image, frame_count, logger)
+                    logging.debug("passed object detection".format(video_length))
+                    process_face(image, frame_count)
                     complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
                         image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
                     cv2.imwrite(complete_file_name, image)
@@ -153,21 +153,21 @@ def main_method(videoUrl, logger):
                 ret, image = capture.read()
         else:
             file_processed = 0
-            logger.debug(
+            logging.debug(
                 "file {0} and  number of frames:{1} and size {2} not processed".format(videoUrl, video_length,
                                                                                        size))
     else:
         capture.release()
         # file_processed = 1
-        logger.debug("Not processed seems to be some issue with file {0} with size {1}".format(videoUrl, size))
+        logging.debug("Not processed seems to be some issue with file {0} with size {1}".format(videoUrl, size))
     # Archive the file since it has been processed
     if bool(file_processed):
         requests.post(VISITOR_NOTIFICATION_URL)
-        archive_file(videoUrl, logger)
+        archive_file(videoUrl)
 
 
-def archive_file(each_video_url, logger):
-    logger.info("Archiving {0}".format(each_video_url))
+def archive_file(each_video_url):
+    logging.info("Archiving {0}".format(each_video_url))
     file_name = os.path.basename(each_video_url)
     os.rename(each_video_url, ARCHIVE_URL + file_name)
 
@@ -184,13 +184,12 @@ def start():
         load_criminal_images()
         load_known_images()
         sys.excepthook = handle_exception
-        logger = logging.getLogger("VideoDetection")
         while True:
             for eachVideoUrl in glob.glob(MOTION_VIDEO_URL):
-                main_method(eachVideoUrl, logger)
+                main_method(eachVideoUrl)
 
     except Exception as e:
-        logger.error("An exception occurred.")
-        logger.error(e, exc_info=True)
+        logging.error("An exception occurred.")
+        logging.error(e, exc_info=True)
 
 # start()

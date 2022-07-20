@@ -1,32 +1,10 @@
 import logging
 from gevent.pywsgi import WSGIServer
 from flask import Flask, request, jsonify
-from waitress import serve
-import configparser
-
-from videoDetection import load_criminal_images, load_known_images, main_method, CONFIG_PROPERTIES
+from videoDetection import load_criminal_images, load_known_images, main_method
 
 app = Flask(__name__)
-
-
-def load_logging_level():
-    logging.basicConfig(filename='/usr/local/squirrel-ai/logs/service.log',
-                        format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %('
-                               'funcName)s: %(message)s', level=logging.DEBUG,
-                        datefmt='%Y-%m-%d %H:%M:%S')
-    config = configparser.ConfigParser()
-    config.read(CONFIG_PROPERTIES)
-    log_level = config['DEFAULT']['log.level']
-    logging.info("changing log level to {0}".format(log_level))
-    weblogger = logging.getLogger("WebController")
-    if log_level == 'DEBUG':
-        weblogger.setLevel(logging.DEBUG)
-    else:
-        weblogger.setLevel(logging.ERROR)
-    return weblogger
-
-
-logger = load_logging_level()
+logger = logging.get_logger("WebController")
 
 
 @app.route("/")
@@ -37,8 +15,9 @@ def index():
 @app.route("/trigger-analysis", methods=['POST'])
 def analyze_video():
     video_file = request.form.get('file')
-    logger.info("Video file name {0}".format(video_file))
-    main_method(video_file, logger)
+    logger.info("Start: video file name {0}".format(video_file))
+    main_method(video_file)
+    logger.info("End: video file name {0}".format(video_file))
     return jsonify("success")
 
 
