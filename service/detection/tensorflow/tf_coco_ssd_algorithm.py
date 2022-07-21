@@ -6,7 +6,7 @@ import numpy as np
 import importlib.util
 
 
-def tensor_coco_ssd_mobilenet(image, ssd_model_path, logging):
+def tensor_coco_ssd_mobilenet(image, ssd_model_path):
     MODEL_NAME = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
     GRAPH_NAME = 'detect.tflite'
     LABELMAP_NAME = 'labelmap.txt'
@@ -106,7 +106,6 @@ def tensor_coco_ssd_mobilenet(image, ssd_model_path, logging):
             object_name = labels[int(classes[i])]  # Look up object name from "labels" array using class index
             if object_name == 'person' or object_name == 'knife' or object_name == 'dog' or object_name == 'cat' or object_name == 'bicycle':
                 label = '%s: %d%%' % (object_name, int(scores[i] * 100))  # Example: 'person: 72%'
-                logging.debug(label)
                 labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)  # Get font size
                 label_ymin = max(ymin, labelSize[1] + 10)  # Make sure not to draw label too close to top of window
                 # cv2.rectangle(image, (xmin, label_ymin - labelSize[1] - 10),
