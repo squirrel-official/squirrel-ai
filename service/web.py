@@ -16,10 +16,9 @@ def index():
 @app.route("/trigger-analysis", methods=['POST'])
 def analyze_video():
     video_file = request.form.get('file')
-    logger.info("Start: video file name {0}".format(video_file))
     start_time = time.time()
     main_method(video_file)
-    logger.info("End: video file name {0} in {1}".format(video_file, round(time.time() - start_time)))
+    logger.info("End: processed video file name {0} in {1} seconds".format(video_file, round(time.time() - start_time)))
     return jsonify("success")
 
 
