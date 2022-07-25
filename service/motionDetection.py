@@ -19,9 +19,7 @@ MOTION_VIDEO_URL = '/var/lib/motion/*'
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
 NOTIFICATION_URL = 'http://my-security.local:8087/notification?camera-id'
 
-
 GARAGE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/1/stream'
-
 
 count = 0
 criminal_cache = []
@@ -32,7 +30,6 @@ logger = get_logger("Motion Detection")
 
 
 def analyze_each_video(videoUrl, camera_id):
-
     capture = cv2.VideoCapture(videoUrl)
     stat_info = os.stat(videoUrl)
     size = stat_info.st_size
@@ -73,13 +70,15 @@ def analyze_each_video(videoUrl, camera_id):
         archive_file(videoUrl)
 
 
-def detect_from_videos():
+def start_monitoring():
     try:
         load_criminal_images()
         load_known_images()
-        analyze_each_video(GARAGE_EXTERNAL_CAMERA_STREAM,1)
+        analyze_each_video(GARAGE_EXTERNAL_CAMERA_STREAM, 1)
 
     except Exception as e:
         logger.error("An exception occurred.")
         logger.error(e, exc_info=True)
 
+
+start_monitoring()
