@@ -10,15 +10,13 @@ from imageLoadService import load_criminal_images, load_known_images
 
 import requests
 
-VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
-MOTION_VIDEO_URL = '/var/lib/motion/*'
 
 # For writing
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
 
 GARAGE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/1/stream'
 GATE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/2/stream'
-NOTIFICATION_URL = 'http://my-security.local:8087/notification?camera-id='
+NOTIFICATION_URL = 'http://my-security.local:8087/attach-notify?camera-id='
 count = 0
 criminal_cache = []
 known_person_cache = []
