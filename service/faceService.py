@@ -1,13 +1,13 @@
 import time
 
-from logging import customLogging
+from customLogging.customLogging import get_logger
 from PIL import Image
 import cv2
 import face_recognition
 from face_recognition import load_image_file, face_encodings
 import requests
 
-logger = customLogging.get_logger("FaceComparisonUtil")
+logger = get_logger("FaceComparisonUtil")
 MOTION_VIDEO_URL = '/var/lib/motion/*'
 CONFIG_PROPERTIES = '/usr/local/squirrel-ai/config.properties'
 ARCHIVE_URL = "/usr/local/squirrel-ai/data/archives/"
