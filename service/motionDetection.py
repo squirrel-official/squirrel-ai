@@ -1,127 +1,84 @@
 # import the opencv module
 import cv2
 from datetime import datetime
-import customLogging
-from face_recognition import load_image_file, face_encodings
-import glob
-from faceComparisonUtil import extract_face, extract_unknown_face_encodings, compare_faces_with_encodings
-import threading
-
-rotation_angle = cv2.ROTATE_180
+import os
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
+from service.faceService import analyze_face
+from service.fileService import archive_file
+from service.imageLoadService import load_criminal_images, load_known_images
+from service.logging import customLogging
+import requests
+
+VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
+MOTION_VIDEO_URL = '/var/lib/motion/*'
+
+# For writing
+UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
+NOTIFICATION_URL = 'http://my-security.local:8087/notification?camera-id'
+
+
+GARAGE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/1/stream'
+
 
 count = 0
 criminal_cache = []
 known_person_cache = []
-
-logger = customLogging.get_logger("MotionDetection")
-hog = cv2.HOGDescriptor()
-hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
-
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
-
-startDateTime = datetime.now()
-for eachWantedCriminalPath in glob.glob('/usr/local/squirrel-ai/wanted-criminals/*'):
-    criminal_image = load_image_file(eachWantedCriminalPath)
-    criminal_image_encoding = face_encodings(criminal_image)[0]
-    criminal_cache.append(criminal_image_encoding)
-endDateTime = datetime.now()
-# Once the loading is done then print
-logger.info("Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (endDateTime - startDateTime)))
-
-startDateTime = datetime.now()
-for eachWantedKnownPersonPath in glob.glob('/usr/local/squirrel-ai/known/*'):
-    known_person_image = load_image_file(eachWantedKnownPersonPath)
-    known_person_image_encoding = face_encodings(known_person_image)[0]
-    known_person_cache.append(known_person_image_encoding)
-endDateTime = datetime.now()
-# Once the loading is done then print
-logger.info("Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (endDateTime - startDateTime)))
+logger = customLogging.get_logger("Motion Detection")
 
 
-def process_face(image, count_index):
-    unknown_face_image = extract_face(image)
-    if unknown_face_image is not None:
-        logger.debug('A new person identified by face so processing it')
-        unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
-        # saving the image to visitor folder
-        start_date_time = datetime.now()
-        for each_criminal_encoding in criminal_cache:
-            if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
-                                            "eachWantedCriminalPath"):
-                cv2.imwrite('/usr/local/squirrel-ai/captured/frame{:d}.jpg'.format(count_index), unknown_face_image)
+def analyze_each_video(videoUrl, camera_id):
 
-        for each_known_encoding in known_person_cache:
-            if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
-                                            "eachWantedKnownPath"):
-                cv2.imwrite('/usr/local/squirrel-ai/captured/known-frame{:d}.jpg'.format(count_index),
-                            unknown_face_image)
-
-        end_date_time = datetime.now()
-        logger.debug("Total comparison time is {0} seconds".format((end_date_time - start_date_time)))
-        count_index += 1
-
-
-def main_method(camera_id):
-    # setting the camera resolution and frame per second 1296 972
-    capture = cv2.VideoCapture(camera_id)
-    if camera_id == 2:
-        capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-        capture.set(cv2.CAP_PROP_FPS, 10)
-    elif camera_id == 0:
-        capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)
-        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-        capture.set(cv2.CAP_PROP_FPS, 10)
-
+    capture = cv2.VideoCapture(videoUrl)
+    stat_info = os.stat(videoUrl)
+    size = stat_info.st_size
     if not capture.isOpened():
-        logger.error("Error opening video stream or file")
-    global x, y
-    while capture.isOpened():
-        # to read frame by frame
-        _, image_1 = capture.read()
-        _, image_2 = capture.read()
+        logger.error("Error opening video file {}".format(videoUrl))
 
-        image_1 = cv2.rotate(image_1, rotation_angle)
-        image_2 = cv2.rotate(image_2, rotation_angle)
-
-        # find difference between two frames
-        diff = cv2.absdiff(image_1, image_2)
-
-        # to convert the frame to grayscale
-        diff_gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-
-        # apply some blur to smoothen the frame
-        diff_blur = cv2.GaussianBlur(diff_gray, (5, 5), 0)
-
-        # to get the binary image
-        _, thresh_bin = cv2.threshold(diff_blur, 20, 255, cv2.THRESH_BINARY)
-
-        # to find contours
-        contours, hierarchy = cv2.findContours(thresh_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-        # to draw the bounding box when the motion is detected
-        for contour in contours:
-            x, y, w, h = cv2.boundingRect(contour)
-            if cv2.contourArea(contour) > 1200 and tensor_coco_ssd_mobilenet(image_2, ssd_model_path, logging) \
-                    and perform_object_detection(image_2, efficientdet_lite0_path, bool(0), logging):
-                # cv2.rectangle(image_2, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                process_face(image_2, count)
-                cv2.imwrite('/usr/local/squirrel-ai/visitor/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg',
-                            image_2)
-        if cv2.waitKey(100) == 13:
-            exit()
+    frame_count = 0
+    file_processed = 0
+    image_number = 1
+    if capture.isOpened():
+        ret, image = capture.read()
+        video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        if video_length > 0:
+            logger.info(" Processing file {0} and  number of frames:{1}".format(videoUrl, video_length))
+            while ret:
+                file_processed = 1
+                if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
+                        and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
+                    logger.debug("passed object detection".format(video_length))
+                    analyze_face(image, frame_count)
+                    complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
+                        image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
+                    cv2.imwrite(complete_file_name, image)
+                    image_number += 1
+                ret, image = capture.read()
+        else:
+            file_processed = 0
+            logger.debug(
+                "file {0} and  number of frames:{1} and size {2} not processed".format(videoUrl, video_length,
+                                                                                       size))
+    else:
+        capture.release()
+        # file_processed = 1
+        logger.debug("Not processed seems to be some issue with file {0} with size {1}".format(videoUrl, size))
+    # Archive the file since it has been processed
+    if bool(file_processed):
+        requests.post(VISITOR_NOTIFICATION_URL)
+        archive_file(videoUrl)
 
 
-try:
-    t1 = threading.Thread(target=main_method, args=(0,))
-    t2 = threading.Thread(target=main_method, args=(2,))
-    t3 = threading.Thread(target=main_method, args=(4,))
-    t1.start()
-    t2.start()
-    t3.start()
-except Exception as e:
-    logger.error("Oops!", e.__class__, "occurred.")
+def detect_from_videos():
+    try:
+        load_criminal_images()
+        load_known_images()
+        analyze_each_video(GARAGE_EXTERNAL_CAMERA_STREAM,1)
+
+    except Exception as e:
+        logger.error("An exception occurred.")
+        logger.error(e, exc_info=True)
+

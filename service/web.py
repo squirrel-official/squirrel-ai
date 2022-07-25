@@ -1,4 +1,4 @@
-import customLogging
+from service.logging import customLogging
 from gevent.pywsgi import WSGIServer
 from flask import Flask, request, jsonify
 from videoDetection import load_criminal_images, load_known_images, analyze_each_video

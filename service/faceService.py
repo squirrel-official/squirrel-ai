@@ -1,10 +1,53 @@
-import customLogging
-from PIL import Image
+import time
 
+from service.logging import customLogging
+from PIL import Image
+import cv2
 import face_recognition
 from face_recognition import load_image_file, face_encodings
+import requests
 
 logger = customLogging.get_logger("FaceComparisonUtil")
+MOTION_VIDEO_URL = '/var/lib/motion/*'
+CONFIG_PROPERTIES = '/usr/local/squirrel-ai/config.properties'
+ARCHIVE_URL = "/usr/local/squirrel-ai/data/archives/"
+
+# For writing
+UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
+CAPTURED_CRIMINALS_PATH = '/usr/local/squirrel-ai/result/captured-criminals/'
+KNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/known-visitors/'
+
+# For reading
+FAMILIAR_FACES_PATH = '/usr/local/squirrel-ai/data/familiar-faces/*'
+WANTED_CRIMINALS_PATH = '/usr/local/squirrel-ai/data/wanted-criminals/*'
+
+CRIMINAL_NOTIFICATION_URL = 'http://my-security.local:8087/criminal'
+VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
+FRIEND_NOTIFICATION_URL = 'http://my-security.local:8087/friend'
+
+
+def analyze_face(image, count_index, criminal_cache, known_person_cache):
+    unknown_face_image = extract_face(image)
+    if unknown_face_image is not None:
+        logger.debug('A new person identified by face so processing it')
+        unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
+        # saving the image to visitor folder
+        start_date_time = time.time()
+        for each_criminal_encoding in criminal_cache:
+            if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
+                                            "eachWantedCriminalPath"):
+                cv2.imwrite('{}criminal-frame{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, count_index),
+                            unknown_face_image)
+                requests.post(CRIMINAL_NOTIFICATION_URL)
+
+        for each_known_encoding in known_person_cache:
+            if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
+                                            "eachWantedKnownPath"):
+                cv2.imwrite('{}known-frame{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
+                            unknown_face_image)
+                requests.post(FRIEND_NOTIFICATION_URL)
+        logger.debug("Total comparison time is {0} seconds".format((time.time() - start_date_time)))
+        count_index += 1
 
 
 def extract_face(image):
