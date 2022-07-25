@@ -1,7 +1,7 @@
 import customLogging
 from gevent.pywsgi import WSGIServer
 from flask import Flask, request, jsonify
-from videoDetection import load_criminal_images, load_known_images, main_method
+from videoDetection import load_criminal_images, load_known_images, analyze_each_video
 import time
 
 app = Flask(__name__)
@@ -17,7 +17,7 @@ def index():
 def analyze_video():
     video_file = request.form.get('file')
     start_time = time.time()
-    main_method(video_file)
+    analyze_each_video(video_file)
     logger.info("End: processed video file name {0} in {1} seconds".format(video_file, round(time.time() - start_time)))
     return jsonify("success")
 
