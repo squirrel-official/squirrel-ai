@@ -31,8 +31,6 @@ logger = get_logger("Motion Detection")
 
 def analyze_each_video(videoUrl, camera_id):
     capture = cv2.VideoCapture(videoUrl)
-    stat_info = os.stat(videoUrl)
-    size = stat_info.st_size
     if not capture.isOpened():
         logger.error("Error opening video file {}".format(videoUrl))
 
@@ -58,12 +56,11 @@ def analyze_each_video(videoUrl, camera_id):
         else:
             file_processed = 0
             logger.debug(
-                "file {0} and  number of frames:{1} and size {2} not processed".format(videoUrl, video_length,
-                                                                                       size))
+                "file {0} and  number of frames:{1}  not processed".format(videoUrl, video_length))
     else:
         capture.release()
         # file_processed = 1
-        logger.debug("Not processed seems to be some issue with file {0} with size {1}".format(videoUrl, size))
+        logger.debug("Not processed seems to be some issue with file {0}".format(videoUrl))
     # Archive the file since it has been processed
     if bool(file_processed):
         requests.post(VISITOR_NOTIFICATION_URL)
