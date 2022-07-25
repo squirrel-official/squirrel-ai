@@ -1,9 +1,9 @@
 import cv2
 
-from service.logging import customLogging
+from customLogging.customLogging import get_logger
 import os
 
-logger = customLogging.get_logger("Motion Detection")
+logger = get_logger("Motion Detection")
 ARCHIVE_URL = "/usr/local/squirrel-ai/data/archives/"
 
 
