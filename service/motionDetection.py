@@ -27,15 +27,15 @@ efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/effic
 logger = get_logger("Motion Detection")
 
 
-def analyze_each_video(videoUrl, camera_id):
-    capture = cv2.VideoCapture(videoUrl)
+def monitor_camera_stream(streamUrl, camera_id):
+    capture = cv2.VideoCapture(streamUrl)
     if not capture.isOpened():
-        logger.error("Error opening video file {}".format(videoUrl))
+        logger.error("Error opening video file {}".format(streamUrl))
 
     frame_count = 0
     if capture.isOpened():
         ret, image = capture.read()
-        logger.info(" Processing file {0} ".format(videoUrl))
+        logger.info(" Processing file {0} ".format(streamUrl))
         while ret:
             if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
@@ -53,8 +53,8 @@ def start_monitoring():
     try:
         load_criminal_images()
         load_known_images()
-        analyze_each_video(GARAGE_EXTERNAL_CAMERA_STREAM, 1)
-        analyze_each_video(GATE_EXTERNAL_CAMERA_STREAM, 2)
+        monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1)
+        monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2)
 
     except Exception as e:
         logger.error("An exception occurred.")
