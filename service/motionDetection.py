@@ -41,7 +41,7 @@ def analyze_each_video(videoUrl, camera_id):
             if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                 logger.debug("passed object detection")
-                analyze_face(image, frame_count)
+                analyze_face(image, frame_count, criminal_cache, known_person_cache)
                 complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + datetime.now().strftime(
                     "%Y%m%d%H%M") + '.jpg'
                 cv2.imwrite(complete_file_name, image)

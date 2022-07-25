@@ -26,6 +26,8 @@ efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/effic
 
 logger = get_logger("VideoDetection")
 
+criminal_cache = []
+known_person_cache = []
 
 def analyze_each_video(videoUrl):
     start_index = videoUrl.rindex("/") + 1
@@ -49,7 +51,7 @@ def analyze_each_video(videoUrl):
                 if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
                         and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                     logger.debug("passed object detection".format(video_length))
-                    analyze_face(image, frame_count)
+                    analyze_face(image, frame_count, criminal_cache, known_person_cache)
                     complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
                         image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
                     cv2.imwrite(complete_file_name, image)
