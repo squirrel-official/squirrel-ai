@@ -1,9 +1,7 @@
 import time
 import glob
-
 from face_recognition import load_image_file, face_encodings
-
-from service.logging import customLogging
+from customLogging.customLogging import get_logger
 
 count = 0
 criminal_cache = []
@@ -13,7 +11,7 @@ known_person_cache = []
 FAMILIAR_FACES_PATH = '/usr/local/squirrel-ai/data/familiar-faces/*'
 WANTED_CRIMINALS_PATH = '/usr/local/squirrel-ai/data/wanted-criminals/*'
 
-logger = customLogging.get_logger("ImageLoadService")
+logger = get_logger("ImageLoadService")
 
 
 def load_criminal_images():
