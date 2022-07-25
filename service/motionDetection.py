@@ -7,7 +7,6 @@ import os
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 from faceService import analyze_face
-from fileService import archive_file
 from imageLoadService import load_criminal_images, load_known_images
 
 import requests
@@ -35,21 +34,17 @@ def analyze_each_video(videoUrl, camera_id):
         logger.error("Error opening video file {}".format(videoUrl))
 
     frame_count = 0
-    file_processed = 0
-    image_number = 1
     if capture.isOpened():
         ret, image = capture.read()
         logger.info(" Processing file {0} ".format(videoUrl))
         while ret:
-            file_processed = 1
             if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                 logger.debug("passed object detection")
                 analyze_face(image, frame_count)
-                complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
-                    image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
+                complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + datetime.now().strftime(
+                    "%Y%m%d%H%M") + '.jpg'
                 cv2.imwrite(complete_file_name, image)
-                image_number += 1
             ret, image = capture.read()
 
 

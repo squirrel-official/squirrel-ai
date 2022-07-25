@@ -7,7 +7,7 @@ from detection.tensorflow.object_detector import ObjectDetectorOptions
 from detection.tensorflow.utils import visualize
 
 
-def perform_object_detection(image, model: str, enable_edgetpu: bool, logging) -> None:
+def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
     """Continuously run inference on images acquired from the camera.
 
   Args:

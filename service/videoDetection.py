@@ -11,7 +11,7 @@ from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 from service.faceService import analyze_face
 from service.fileService import archive_file
 from service.imageLoadService import load_criminal_images, load_known_images
-from service.logging import customLogging
+from customLogging.customLogging import get_logger
 import requests
 
 VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
@@ -24,7 +24,7 @@ UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
 
-logger = customLogging.get_logger("VideoDetection")
+logger = get_logger("VideoDetection")
 
 
 def analyze_each_video(videoUrl):
