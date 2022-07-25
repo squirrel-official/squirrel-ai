@@ -7,7 +7,7 @@ from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 from faceService import analyze_face
 from imageLoadService import load_criminal_images, load_known_images
-
+import threading
 import requests
 
 
@@ -52,8 +52,12 @@ def start_monitoring():
     try:
         load_criminal_images()
         load_known_images()
-        monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1)
-        monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2)
+        t1 = threading.Thread(target=monitor_camera_stream, args=(GARAGE_EXTERNAL_CAMERA_STREAM, 1))
+        t2 = threading.Thread(target=monitor_camera_stream, args=(GATE_EXTERNAL_CAMERA_STREAM,2))
+        t1.start()
+        t2.start()
+        # monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1)
+        # monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2)
 
     except Exception as e:
         logger.error("An exception occurred.")
