@@ -29,6 +29,7 @@ logger = get_logger("VideoDetection")
 criminal_cache = []
 known_person_cache = []
 
+
 def analyze_each_video(videoUrl):
     start_index = videoUrl.rindex("/") + 1
     camera_id = videoUrl[start_index: start_index + 1]

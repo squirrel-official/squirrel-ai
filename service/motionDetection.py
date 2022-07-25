@@ -16,10 +16,9 @@ MOTION_VIDEO_URL = '/var/lib/motion/*'
 
 # For writing
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
-NOTIFICATION_URL = 'http://my-security.local:8087/notification?camera-id'
 
 GARAGE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/1/stream'
-
+NOTIFICATION_URL = 'http://my-security.local:8087/notification?camera-id='
 count = 0
 criminal_cache = []
 known_person_cache = []
@@ -41,6 +40,8 @@ def analyze_each_video(videoUrl, camera_id):
             if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                 logger.debug("passed object detection")
+                data = requests.post(NOTIFICATION_URL+str(camera_id))
+                logger.info("Detected activity sent notification, response : {0}".format(data.reason))
                 analyze_face(image, frame_count, criminal_cache, known_person_cache)
                 complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + datetime.now().strftime(
                     "%Y%m%d%H%M") + '.jpg'
