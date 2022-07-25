@@ -1,14 +1,15 @@
 # import the opencv module
 import cv2
 from datetime import datetime
+from customLogging.customLogging import get_logger
 import os
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
-from service.faceService import analyze_face
-from service.fileService import archive_file
-from service.imageLoadService import load_criminal_images, load_known_images
-from service.logging import customLogging
+from faceService import analyze_face
+from fileService import archive_file
+from imageLoadService import load_criminal_images, load_known_images
+
 import requests
 
 VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
@@ -27,7 +28,7 @@ criminal_cache = []
 known_person_cache = []
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
-logger = customLogging.get_logger("Motion Detection")
+logger = get_logger("Motion Detection")
 
 
 def analyze_each_video(videoUrl, camera_id):

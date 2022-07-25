@@ -1,6 +1,6 @@
 import time
 
-from service.logging import customLogging
+from logging import customLogging
 from PIL import Image
 import cv2
 import face_recognition
