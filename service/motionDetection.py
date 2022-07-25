@@ -39,32 +39,18 @@ def analyze_each_video(videoUrl, camera_id):
     image_number = 1
     if capture.isOpened():
         ret, image = capture.read()
-        video_length = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
-        if video_length > 0:
-            logger.info(" Processing file {0} and  number of frames:{1}".format(videoUrl, video_length))
-            while ret:
-                file_processed = 1
-                if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
-                        and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
-                    logger.debug("passed object detection".format(video_length))
-                    analyze_face(image, frame_count)
-                    complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
-                        image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
-                    cv2.imwrite(complete_file_name, image)
-                    image_number += 1
-                ret, image = capture.read()
-        else:
-            file_processed = 0
-            logger.debug(
-                "file {0} and  number of frames:{1}  not processed".format(videoUrl, video_length))
-    else:
-        capture.release()
-        # file_processed = 1
-        logger.debug("Not processed seems to be some issue with file {0}".format(videoUrl))
-    # Archive the file since it has been processed
-    if bool(file_processed):
-        requests.post(VISITOR_NOTIFICATION_URL)
-        archive_file(videoUrl)
+        logger.info(" Processing file {0} ".format(videoUrl))
+        while ret:
+            file_processed = 1
+            if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
+                    and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
+                logger.debug("passed object detection")
+                analyze_face(image, frame_count)
+                complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(
+                    image_number) + "-" + datetime.now().strftime("%Y%m%d%H%M") + '.jpg'
+                cv2.imwrite(complete_file_name, image)
+                image_number += 1
+            ret, image = capture.read()
 
 
 def start_monitoring():
