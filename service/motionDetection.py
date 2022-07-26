@@ -9,7 +9,7 @@ from faceService import analyze_face
 from imageLoadService import load_criminal_images, load_known_images
 import threading
 import requests
-
+import base64
 
 # For writing
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
@@ -38,7 +38,9 @@ def monitor_camera_stream(streamUrl, camera_id):
             if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
                     and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                 logger.debug("passed object detection")
-                file = {'image': image}
+                retval, buffer = cv2.imencode('.jpg', image)
+                encoded_image = base64.b64encode(buffer)
+                file = {'image': encoded_image}
                 data = requests.post(NOTIFICATION_URL + str(camera_id), files=file)
                 logger.info("Detected activity sent notification, response : {0}".format(data.reason))
                 analyze_face(image, frame_count, criminal_cache, known_person_cache)
