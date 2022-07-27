@@ -49,7 +49,7 @@ def monitor_camera_stream(streamUrl, camera_id):
                 image_count = image_count + 1
                 cv2.imwrite(complete_file_name, image)
                 if (time.time() - detection_counter) > 10:
-                    data = requests.post(NOTIFICATION_URL + str(camera_id))
+                    data = requests.post(NOTIFICATION_URL)
                     logger.info("Detected activity sent notification, response : {0}".format(data.reason))
                     object_detection_flag = 0
 
