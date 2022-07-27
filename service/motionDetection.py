@@ -18,14 +18,12 @@ GARAGE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/1/stream'
 GATE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/2/stream'
 NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
 count = 0
-criminal_cache = []
-known_person_cache = []
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
 logger = get_logger("Motion Detection")
 
 
-def monitor_camera_stream(streamUrl, camera_id):
+def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cache ):
     capture = cv2.VideoCapture(streamUrl)
     if not capture.isOpened():
         logger.error("Error opening video file {}".format(streamUrl))
@@ -58,10 +56,10 @@ def monitor_camera_stream(streamUrl, camera_id):
 
 def start_monitoring():
     try:
-        load_criminal_images()
-        load_known_images()
-        t1 = threading.Thread(target=monitor_camera_stream, args=(GARAGE_EXTERNAL_CAMERA_STREAM, 1))
-        t2 = threading.Thread(target=monitor_camera_stream, args=(GATE_EXTERNAL_CAMERA_STREAM, 2))
+        criminal_cache = load_criminal_images()
+        known_person_cache = load_known_images()
+        t1 = threading.Thread(target=monitor_camera_stream, args=(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache))
+        t2 = threading.Thread(target=monitor_camera_stream, args=(GATE_EXTERNAL_CAMERA_STREAM, 2,  criminal_cache, known_person_cache))
         t1.start()
         t2.start()
         # monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1)
