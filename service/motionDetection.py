@@ -14,8 +14,8 @@ import requests
 # For writing
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
 
-GARAGE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/1/stream'
-GATE_EXTERNAL_CAMERA_STREAM = 'http://my-security.local:7776/2/stream'
+GARAGE_EXTERNAL_CAMERA_STREAM = '/dev/video4'
+GATE_EXTERNAL_CAMERA_STREAM = '/dev/video5'
 NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
 count = 0
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
