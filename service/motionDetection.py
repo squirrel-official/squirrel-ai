@@ -48,7 +48,7 @@ def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cac
                     if (time.time() - detection_counter) > 5:
                         object_detection_flag = 0
                         data = requests.post(NOTIFICATION_URL)
-                        logger.info("Detected activity sent notification, response : {0}".format(data.reason))
+                        logger.info("Detected activity sent notification, response : {0}".format(data))
 
                     analyze_face(image, frame_count, criminal_cache, known_person_cache)
 
