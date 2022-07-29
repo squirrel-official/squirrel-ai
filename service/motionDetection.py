@@ -10,7 +10,6 @@ from imageLoadService import load_criminal_images, load_known_images
 import threading
 import requests
 
-
 # For writing
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
 
@@ -23,7 +22,7 @@ efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/effic
 logger = get_logger("Motion Detection")
 
 
-def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cache ):
+def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cache):
     capture = cv2.VideoCapture(streamUrl)
     if not capture.isOpened():
         logger.error("Error opening video file {}".format(streamUrl))
@@ -42,14 +41,15 @@ def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cac
                     detection_counter = time.time()
                     object_detection_flag = 1
 
-                analyze_face(image, frame_count, criminal_cache, known_person_cache)
                 complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(image_count) + '.jpg'
                 image_count = image_count + 1
                 cv2.imwrite(complete_file_name, image)
                 if (time.time() - detection_counter) > 5:
+                    object_detection_flag = 0
                     data = requests.post(NOTIFICATION_URL)
                     logger.info("Detected activity sent notification, response : {0}".format(data.reason))
-                    object_detection_flag = 0
+
+                analyze_face(image, frame_count, criminal_cache, known_person_cache)
 
             ret, image = capture.read()
 
@@ -58,8 +58,10 @@ def start_monitoring():
     try:
         criminal_cache = load_criminal_images()
         known_person_cache = load_known_images()
-        t1 = threading.Thread(target=monitor_camera_stream, args=(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache))
-        t2 = threading.Thread(target=monitor_camera_stream, args=(GATE_EXTERNAL_CAMERA_STREAM, 2,  criminal_cache, known_person_cache))
+        t1 = threading.Thread(target=monitor_camera_stream,
+                              args=(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache))
+        t2 = threading.Thread(target=monitor_camera_stream,
+                              args=(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache))
         t1.start()
         t2.start()
         # monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1)
