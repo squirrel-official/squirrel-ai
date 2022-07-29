@@ -23,35 +23,39 @@ logger = get_logger("Motion Detection")
 
 
 def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cache):
-    capture = cv2.VideoCapture(streamUrl)
-    if not capture.isOpened():
-        logger.error("Error opening video file {}".format(streamUrl))
+    try:
+        capture = cv2.VideoCapture(streamUrl)
+        if not capture.isOpened():
+            logger.error("Error opening video file {}".format(streamUrl))
 
-    frame_count = 1
-    image_count = 1
-    object_detection_flag = 0
-    if capture.isOpened():
-        ret, image = capture.read()
-        logger.info(" Processing file {0} ".format(streamUrl))
-        while ret:
-            if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
-                    and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
-                logger.debug("Object detected, flag :{0}".format(object_detection_flag))
-                if object_detection_flag == 0:
-                    detection_counter = time.time()
-                    object_detection_flag = 1
-
-                complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(image_count) + '.jpg'
-                image_count = image_count + 1
-                cv2.imwrite(complete_file_name, image)
-                if (time.time() - detection_counter) > 5:
-                    object_detection_flag = 0
-                    data = requests.post(NOTIFICATION_URL)
-                    logger.info("Detected activity sent notification, response : {0}".format(data.reason))
-
-                analyze_face(image, frame_count, criminal_cache, known_person_cache)
-
+        frame_count = 1
+        image_count = 1
+        object_detection_flag = 0
+        if capture.isOpened():
             ret, image = capture.read()
+            logger.info(" Processing file {0} ".format(streamUrl))
+            while ret:
+                if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
+                        and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
+                    logger.debug("Object detected, flag :{0}".format(object_detection_flag))
+                    if object_detection_flag == 0:
+                        detection_counter = time.time()
+                        object_detection_flag = 1
+
+                    complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(image_count) + '.jpg'
+                    image_count = image_count + 1
+                    cv2.imwrite(complete_file_name, image)
+                    if (time.time() - detection_counter) > 5:
+                        object_detection_flag = 0
+                        data = requests.post(NOTIFICATION_URL)
+                        logger.info("Detected activity sent notification, response : {0}".format(data.reason))
+
+                    analyze_face(image, frame_count, criminal_cache, known_person_cache)
+
+                ret, image = capture.read()
+    except Exception as e:
+        logger.error("An exception occurred.")
+        logger.error(e, exc_info=True)
 
 
 def start_monitoring():
