@@ -41,17 +41,15 @@ def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cac
                     if object_detection_flag == 0:
                         detection_counter = time.time()
                         object_detection_flag = 1
-
                     complete_file_name = UNKNOWN_VISITORS_PATH + str(camera_id) + "-" + str(image_count) + '.jpg'
                     image_count = image_count + 1
                     cv2.imwrite(complete_file_name, image)
-                    if (time.time() - detection_counter) > 5:
-                        object_detection_flag = 0
-                        data = requests.post(NOTIFICATION_URL)
-                        logger.info("Detected activity sent notification, response : {0}".format(data))
-
                     analyze_face(image, frame_count, criminal_cache, known_person_cache)
 
+                if (time.time() - detection_counter) > 3 and object_detection_flag == 1:
+                    object_detection_flag = 0
+                    data = requests.post(NOTIFICATION_URL)
+                    logger.info("Detected activity sent notification, response : {0}".format(data))
                 ret, image = capture.read()
     except Exception as e:
         logger.error("An exception occurred.")
