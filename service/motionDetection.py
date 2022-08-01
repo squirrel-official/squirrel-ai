@@ -31,6 +31,7 @@ def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cac
         frame_count = 1
         image_count = 1
         object_detection_flag = 0
+        detection_counter = time.time()
         if capture.isOpened():
             ret, image = capture.read()
             logger.info(" Processing file {0} ".format(streamUrl))
