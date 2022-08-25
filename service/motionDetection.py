@@ -63,8 +63,6 @@ def start_monitoring():
         t1 = threading.Thread(target=monitor_camera_stream,
                               args=(CAMERA_STREAM, 1, criminal_cache, known_person_cache))
         t1.start()
-        # monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1)
-        # monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2)
 
     except Exception as e:
         logger.error("An exception occurred.")
