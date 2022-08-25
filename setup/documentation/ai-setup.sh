@@ -13,7 +13,7 @@ sudo apt-get update
 sudo apt-get install -y cmake
 
 pip3 install Pillow
-pip3 install dlib --force-reinstall --no-cache-dir --global-option=build_ext
+pip3 install dlib
 pip3 install face_recognition -v
 pip3 install numpy --upgrade
 pip3 install opencv-contrib-python -v
@@ -23,8 +23,8 @@ pip3 install tflite-support
 sudo apt install python3-h5py -y
 pip3 install tensorflow-aarch64
 sudo apt-get install libportaudio2
-
-sudo apt-get install v4l2loopback-dkms
+ sudo apt-get install libatlas-base-dev -y
+sudo apt-get install v4l2loopback-dkms -y
 
 #Added for RaspberryPi
 echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
