@@ -24,7 +24,7 @@ sudo apt install python3-h5py -y
 pip3 install tensorflow-aarch64
 sudo apt-get install libportaudio2
 
-sudo apt-get install v4l2loopback-dkms
+sudo apt-get install v4l2loopback-dkms -y
 
 #Added for RaspberryPi
 echo "deb https://packages.cloud.google.com/apt coral-edgetpu-stable main" | sudo tee /etc/apt/sources.list.d/coral-edgetpu.list
