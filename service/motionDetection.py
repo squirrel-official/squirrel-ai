@@ -7,14 +7,13 @@ from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 from faceService import analyze_face
 from imageLoadService import load_criminal_images, load_known_images
-import threading
 import requests
 
 # For writing
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
 
 CAMERA_STREAM = '/dev/video0'
-NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
+NOTIFICATION_URL = 'http://ai-security.local:8087/visitor'
 count = 0
 ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
@@ -60,10 +59,7 @@ def start_monitoring():
     try:
         criminal_cache = load_criminal_images()
         known_person_cache = load_known_images()
-        t1 = threading.Thread(target=monitor_camera_stream,
-                              args=(CAMERA_STREAM, 1, criminal_cache, known_person_cache))
-        t1.start()
-
+        monitor_camera_stream(CAMERA_STREAM, 1, criminal_cache, known_person_cache)
     except Exception as e:
         logger.error("An exception occurred.")
         logger.error(e, exc_info=True)
