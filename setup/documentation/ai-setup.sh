@@ -34,3 +34,5 @@ sudo apt-get update
 sudo apt-get install python3-tflite-runtime
 
 sudo chmod -R 777 .
+
+sudo wget -q https://git.io/vM1kx -O /tmp/rpizram && bash /tmp/rpizram
