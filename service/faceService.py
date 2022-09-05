@@ -36,6 +36,7 @@ def analyze_face(image, count_index, criminal_cache, known_person_cache):
         for each_criminal_encoding in criminal_cache:
             if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
                                             "eachWantedCriminalPath"):
+                logger.debug("Facial comparison with a criminal matched")
                 cv2.imwrite('{}criminal-frame{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, count_index),
                             unknown_face_image)
                 requests.post(CRIMINAL_NOTIFICATION_URL)
@@ -43,6 +44,7 @@ def analyze_face(image, count_index, criminal_cache, known_person_cache):
         for each_known_encoding in known_person_cache:
             if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
                                             "eachWantedKnownPath"):
+                logger.debug("Facial comparison with a Known person matched")
                 cv2.imwrite('{}known-frame{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
                             unknown_face_image)
                 requests.post(FRIEND_NOTIFICATION_URL)
