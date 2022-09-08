@@ -121,7 +121,7 @@ def compare_faces_with_path(known_image_path, unknown_image_path):
 
         # You can access the actual face itself like this:
         unknown_face_image = unknown_image[top:bottom, left:right]
-        pil_image = Image.fromarray(unknown_face_image)
+        # pil_image = Image.fromarray(unknown_face_image)
         unknown_encoding = face_recognition.face_encodings(unknown_face_image)[0]
         face_compare_list = face_recognition.compare_faces([unknown_encoding], known_image_encoding)
         # show the image if it  has matched

@@ -19,6 +19,7 @@ logger = get_logger("Motion Detection")
 
 def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
     try:
+        cv2.setUseOptimized(True)
         capture = cv2.VideoCapture(streamUrl)
         if not capture.isOpened():
             logger.error("Error opening video file {}".format(streamUrl))
