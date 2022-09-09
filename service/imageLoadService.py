@@ -2,6 +2,9 @@ import time
 import glob
 from face_recognition import load_image_file, face_encodings
 from customLogging.customLogging import get_logger
+import PIL.Image
+from PIL import Image
+import numpy as np
 
 count = 0
 
@@ -42,3 +45,12 @@ def load_known_images():
     logger.info(
         "Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (time.time() - start_date_time)))
     return known_person_cache
+
+
+def load_image_file(file, mode='RGB'):
+    im = PIL.Image.open(file)
+    width, height = im.size
+    if width > 400 or height > 600:
+        im = im.resize((300, 500), Image.ANTIALIAS)
+    im = im.convert(mode)
+    return np.array(im)
