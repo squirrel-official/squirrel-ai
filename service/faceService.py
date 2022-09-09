@@ -49,7 +49,7 @@ def analyze_face(image, count_index, criminal_cache, known_person_cache):
                 logger.debug("Facial comparison with a Known person matched")
                 cv2.imwrite('{}known-face{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
                             unknown_face_image)
-                cv2.imwrite('{}known-frame{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, count_index),
+                cv2.imwrite('{}known-frame{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
                             image)
                 requests.post(FRIEND_NOTIFICATION_URL)
         logger.debug("Total comparison time is {0} seconds".format((time.time() - start_date_time)))
