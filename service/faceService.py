@@ -35,7 +35,7 @@ def analyze_face(image, count_index, criminal_cache, known_person_cache):
         start_date_time = time.time()
         for each_criminal_encoding in criminal_cache:
             if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
-                                            "eachWantedCriminalPath"):
+                                            "Criminal Match"):
                 logger.debug("Facial comparison with a criminal matched")
                 cv2.imwrite('{}criminal-frame{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, count_index),
                             unknown_face_image)
@@ -43,7 +43,7 @@ def analyze_face(image, count_index, criminal_cache, known_person_cache):
 
         for each_known_encoding in known_person_cache:
             if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
-                                            "eachWantedKnownPath"):
+                                            "Known Person Match"):
                 logger.debug("Facial comparison with a Known person matched")
                 cv2.imwrite('{}known-frame{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
                             unknown_face_image)
@@ -92,13 +92,13 @@ def extract_unknown_face_encodings(unknown_image):
     return unknown_face_encoding_list
 
 
-def compare_faces_with_encodings(known_image_encoding, unknown_image_encoding_list, each_wanted_criminal_path):
+def compare_faces_with_encodings(known_image_encoding, unknown_image_encoding_list, match_type):
     for each_unknown_face_encoding in unknown_image_encoding_list:
         face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.5)
         # show the image if it  has matched
         for face_compare in face_compare_list:
             if face_compare:
-                print("face comparison match with %s" % each_wanted_criminal_path)
+                print("face comparison match : %s" % match_type)
                 return True
 
 
