@@ -21,9 +21,9 @@ KNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/known-visitors/'
 FAMILIAR_FACES_PATH = '/usr/local/squirrel-ai/data/familiar-faces/*'
 WANTED_CRIMINALS_PATH = '/usr/local/squirrel-ai/data/wanted-criminals/*'
 
-CRIMINAL_NOTIFICATION_URL = 'http://my-security.local:8087/criminal'
-VISITOR_NOTIFICATION_URL = 'http://my-security.local:8087/visitor'
-FRIEND_NOTIFICATION_URL = 'http://my-security.local:8087/friend'
+CRIMINAL_NOTIFICATION_URL = 'http://ai-security.local:8087/criminal'
+VISITOR_NOTIFICATION_URL = 'http://ai-security.local:8087/visitor'
+FRIEND_NOTIFICATION_URL = 'http://ai-security.local:8087/friend'
 
 
 def analyze_face(image, count_index, criminal_cache, known_person_cache):
@@ -103,11 +103,9 @@ def compare_faces_with_encodings(known_image_encoding, unknown_image_encoding_li
 
 
 def compare_faces_with_path(known_image_path, unknown_image_path):
-    # known_image = face_recognition.load_image_file("/Users/anil/Desktop/saurabh.jpeg")
     known_image = load_image_file(known_image_path)
     known_image_encoding = face_encodings(known_image)[0]
 
-    # image = face_recognition.load_image_file("/Users/anil/Desktop/test1.png")
     unknown_image = load_image_file(unknown_image_path)
     unknown_face_locations = face_recognition.face_locations(unknown_image)
 
@@ -121,11 +119,9 @@ def compare_faces_with_path(known_image_path, unknown_image_path):
 
         # You can access the actual face itself like this:
         unknown_face_image = unknown_image[top:bottom, left:right]
-        # pil_image = Image.fromarray(unknown_face_image)
         unknown_encoding = face_recognition.face_encodings(unknown_face_image)[0]
         face_compare_list = face_recognition.compare_faces([unknown_encoding], known_image_encoding)
         # show the image if it  has matched
         for face_compare in face_compare_list:
             if face_compare:
-                # pil_image.show()
                 return True

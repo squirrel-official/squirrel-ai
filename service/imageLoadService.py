@@ -40,7 +40,7 @@ def load_known_images():
             known_person_image_encoding = face_encodings(known_person_image)[0]
             known_person_cache.append(known_person_image_encoding)
         except IndexError as e:
-            logger.error("Error occurred for {0} : {1}".format(e, eachWantedCriminalPath))
+            logger.error("Error occurred for {0} : {1}".format(e, eachWantedKnownPersonPath))
     # Once the loading is done then print
     logger.info(
         "Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (time.time() - start_date_time)))
