@@ -35,4 +35,16 @@ sudo apt-get install python3-tflite-runtime
 
 sudo chmod -R 777 .
 
+sudo apt-get install openjdk-11-jdk -y
+
+#sudo dphys-swapfile swapoff
+#sudo nano /etc/dphys-swapfile
+#
+#change  CONF_SWAPSIZE=100 to following
+#CONF_SWAPSIZE=2048
+#
+#sudo dphys-swapfile setup
+#sudo dphys-swapfile swapon
+
+
 #sudo wget -q https://git.io/vM1kx -O /tmp/rpizram && bash /tmp/rpizram
