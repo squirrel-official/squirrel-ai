@@ -5,7 +5,7 @@ import numpy as np
 import importlib.util
 from memory_profiler import profile
 
-@profile
+
 def tensor_coco_ssd_mobilenet(image, ssd_model_path):
     MODEL_NAME = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
     GRAPH_NAME = 'detect.tflite'
