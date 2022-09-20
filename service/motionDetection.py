@@ -16,7 +16,7 @@ ssd_model_path = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
 efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/efficientdet_lite0.tflite'
 logger = get_logger("Motion Detection")
 
-
+@profile
 def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
     try:
         cv2.setUseOptimized(True)
@@ -40,7 +40,7 @@ def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
         logger.error("An exception occurred.")
         logger.error(e, exc_info=True)
 
-@profile
+
 def start_monitoring():
     try:
         criminal_cache = load_criminal_images()
