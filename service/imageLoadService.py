@@ -15,11 +15,11 @@ WANTED_CRIMINALS_PATH = '/usr/local/squirrel-ai/data/wanted-criminals/*'
 
 logger = get_logger("ImageLoadService")
 
-@profile
+
 def load_criminal_images():
     criminal_cache = []
     start_date_time = time.time()
-    for eachWantedCriminalPath in glob.glob(WANTED_CRIMINALS_PATH):
+    for eachWantedCriminalPath in glob.iglob(WANTED_CRIMINALS_PATH):
         criminal_image = load_image_file(eachWantedCriminalPath)
         try:
             criminal_image_encoding = face_encodings(criminal_image)[0]
@@ -31,11 +31,11 @@ def load_criminal_images():
         "Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (time.time() - start_date_time)))
     return criminal_cache
 
-@profile
+
 def load_known_images():
     known_person_cache = []
     start_date_time = time.time()
-    for eachWantedKnownPersonPath in glob.glob(FAMILIAR_FACES_PATH):
+    for eachWantedKnownPersonPath in glob.iglob(FAMILIAR_FACES_PATH):
         known_person_image = load_image_file(eachWantedKnownPersonPath)
         try:
             known_person_image_encoding = face_encodings(known_person_image)[0]

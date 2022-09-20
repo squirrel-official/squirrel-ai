@@ -40,7 +40,7 @@ def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
         logger.error("An exception occurred.")
         logger.error(e, exc_info=True)
 
-
+@profile
 def start_monitoring():
     try:
         criminal_cache = load_criminal_images()
