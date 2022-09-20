@@ -47,7 +47,7 @@ def load_known_images():
         "Loaded known  {0} images in {1} seconds".format(len(known_person_cache), (time.time() - start_date_time)))
     return known_person_cache
 
-
+@profile
 def load_image_file(file, mode='RGB'):
     im = PIL.Image.open(file)
     width, height = im.size
