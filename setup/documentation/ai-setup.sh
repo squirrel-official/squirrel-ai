@@ -23,8 +23,9 @@ pip3 install tflite-support==0.4.2
 pip install  flatbuffers==2.0.7
 sudo apt install python3-h5py -y
 pip3 install tensorflow-aarch64
+pip3 install -U memory_profiler
 sudo apt-get install libportaudio2
- sudo apt-get install libatlas-base-dev -y
+sudo apt-get install libatlas-base-dev -y
 sudo apt-get install v4l2loopback-dkms -y
 
 #Added for RaspberryPi
