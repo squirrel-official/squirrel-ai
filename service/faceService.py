@@ -1,11 +1,11 @@
 import time
 
 from customLogging.customLogging import get_logger
-from PIL import Image
 import cv2
 import face_recognition
 from face_recognition import load_image_file, face_encodings
 import requests
+from memory_profiler import profile
 
 logger = get_logger("FaceComparisonUtil")
 MOTION_VIDEO_URL = '/var/lib/motion/*'
@@ -25,7 +25,7 @@ CRIMINAL_NOTIFICATION_URL = 'http://ai-security.local:8087/criminal'
 VISITOR_NOTIFICATION_URL = 'http://ai-security.local:8087/visitor'
 FRIEND_NOTIFICATION_URL = 'http://ai-security.local:8087/friend'
 
-
+@profile
 def analyze_face(image, count_index, criminal_cache, known_person_cache):
     unknown_face_image = extract_face(image)
     if unknown_face_image is not None:
