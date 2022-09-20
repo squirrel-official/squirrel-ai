@@ -5,7 +5,7 @@ from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
 from detection.tensorflow.tf_lite_algorithm import perform_object_detection
 from faceService import analyze_face
 from imageLoadService import load_criminal_images, load_known_images
-
+from memory_profiler import profile
 # For writing
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
 

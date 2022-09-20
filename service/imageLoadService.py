@@ -5,6 +5,7 @@ from customLogging.customLogging import get_logger
 import PIL.Image
 from PIL import Image
 import numpy as np
+from memory_profiler import profile
 
 count = 0
 
@@ -14,7 +15,7 @@ WANTED_CRIMINALS_PATH = '/usr/local/squirrel-ai/data/wanted-criminals/*'
 
 logger = get_logger("ImageLoadService")
 
-
+@profile
 def load_criminal_images():
     criminal_cache = []
     start_date_time = time.time()
@@ -30,7 +31,7 @@ def load_criminal_images():
         "Loaded criminal  {0} images in {1} seconds".format(len(criminal_cache), (time.time() - start_date_time)))
     return criminal_cache
 
-
+@profile
 def load_known_images():
     known_person_cache = []
     start_date_time = time.time()
