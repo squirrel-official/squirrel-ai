@@ -6,6 +6,7 @@ import face_recognition
 from face_recognition import load_image_file, face_encodings
 import requests
 from memory_profiler import profile
+import random
 
 logger = get_logger("FaceComparisonUtil")
 MOTION_VIDEO_URL = '/var/lib/motion/*'
@@ -27,6 +28,8 @@ FRIEND_NOTIFICATION_URL = 'http://ai-security.local:8087/friend'
 
 @profile
 def analyze_face(image, count_index, criminal_cache, known_person_cache):
+    cv2.imwrite('{}test-frame{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, random.randint(0, 1000)),
+                image)
     unknown_face_image = extract_face(image)
     if unknown_face_image is not None:
         logger.debug('A new person identified by face so processing it')
