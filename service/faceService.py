@@ -113,7 +113,7 @@ def extract_unknown_face_encodings(unknown_image):
 
 def compare_faces_with_encodings(known_image_encoding, unknown_image_encoding_list, match_type):
     for each_unknown_face_encoding in unknown_image_encoding_list:
-        face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.4)
+        face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.5)
         # show the image if it  has matched
         for face_compare in face_compare_list:
             if face_compare:
