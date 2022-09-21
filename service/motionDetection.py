@@ -24,9 +24,9 @@ def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
     try:
         cv2.setUseOptimized(True)
         capture = cv2.VideoCapture(streamUrl, cv2.CAP_V4L2)
-        # 2048 * 1536
-        capture.set(cv2.CAP_PROP_FRAME_WIDTH, 2592)
-        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1944)
+        # 2048 * 1536 , 2592 * 1944 ,
+        capture.set(cv2.CAP_PROP_FRAME_WIDTH, 2272)
+        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1704)
         if not capture.isOpened():
             logger.error("Error opening video file {0}".format(streamUrl))
 
@@ -37,6 +37,7 @@ def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
             while ret:
                 # cv2.imwrite('{}All-frame{:d}.jpg'.format('/usr/local/squirrel-ai/result/captured-criminals/',
                 #                                          random.randint(0, 1000)), image)
+                logger.info("Frame rate: {0} ".format(capture.get(cv2.CV_CAP_PROP_FPS)))
                 if tensor_coco_ssd_mobilenet(image, ssd_model_path) \
                         and perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                     logger.debug("Object detected")
