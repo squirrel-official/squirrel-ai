@@ -33,7 +33,7 @@ def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
         frame_count = 1
         if capture.isOpened():
             ret, image = capture.read()
-            logger.info(" Processing file {0} ".format(streamUrl))
+            logger.info("Processing file {0} ".format(streamUrl))
             logger.info("Frame rate: {0} ".format(capture.get(cv2.CAP_PROP_FPS)))
             while ret:
                 # cv2.imwrite('{}All-frame{:d}.jpg'.format('/usr/local/squirrel-ai/result/captured-criminals/', random.randint(0, 1000)), image)
