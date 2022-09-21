@@ -28,8 +28,6 @@ FRIEND_NOTIFICATION_URL = 'http://ai-security.local:8087/friend'
 
 @profile
 def analyze_face(image, count_index, criminal_cache, known_person_cache):
-    cv2.imwrite('{}test-frame{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, random.randint(0, 1000)),
-                image)
     unknown_face_image = extract_face(image)
     if unknown_face_image is not None:
         logger.debug('A new person identified by face so processing it')
@@ -110,7 +108,7 @@ def extract_unknown_face_encodings(unknown_image):
 
 def compare_faces_with_encodings(known_image_encoding, unknown_image_encoding_list, match_type):
     for each_unknown_face_encoding in unknown_image_encoding_list:
-        face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.5)
+        face_compare_list = face_recognition.compare_faces([each_unknown_face_encoding], known_image_encoding, 0.6)
         # show the image if it  has matched
         for face_compare in face_compare_list:
             if face_compare:
