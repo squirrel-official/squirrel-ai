@@ -28,50 +28,52 @@ FRIEND_NOTIFICATION_URL = 'http://ai-security.local:8087/friend'
 
 @profile
 def analyze_face(image, count_index, criminal_cache, known_person_cache):
-    unknown_face_image = extract_face(image)
-    if unknown_face_image is not None:
-        match: bool = False
-        logger.debug('A new person identified by face so processing it')
-        unknown_face_image_encodings = extract_unknown_face_encodings(unknown_face_image)
-        # saving the image to visitor folder
-        start_date_time = time.time()
-        for each_criminal_encoding in criminal_cache:
-            if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
-                                            "Criminal Match"):
-                logger.debug("Facial comparison with a criminal matched")
-                cv2.imwrite('{}criminal-face{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, count_index),
-                            unknown_face_image)
-                cv2.imwrite('{}criminal-frame{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, count_index),
-                            image)
-                match = True
-                try:
-                    requests.post(CRIMINAL_NOTIFICATION_URL)
-                except Exception as e:
-                    logger.error("An error happened {0}", e)
-                    pass
+    unknown_face_images = extract_face(image)
+    if unknown_face_images is not None:
+        for each_unknown_face_image in unknown_face_images:
+            match: bool = False
+            logger.debug('A new person identified by face so processing it')
+            unknown_face_image_encodings = extract_unknown_face_encodings(each_unknown_face_image)
+            # saving the image to visitor folder
+            start_date_time = time.time()
+            for each_criminal_encoding in criminal_cache:
+                if compare_faces_with_encodings(each_criminal_encoding, unknown_face_image_encodings,
+                                                "Criminal Match"):
+                    logger.debug("Facial comparison with a criminal matched")
+                    cv2.imwrite('{}criminal-face{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, count_index),
+                                each_unknown_face_image)
+                    cv2.imwrite('{}criminal-frame{:d}.jpg'.format(CAPTURED_CRIMINALS_PATH, count_index),
+                                image)
+                    match = True
+                    try:
+                        requests.post(CRIMINAL_NOTIFICATION_URL)
+                    except Exception as e:
+                        logger.error("An error happened {0}", e)
+                        pass
 
-        for each_known_encoding in known_person_cache:
-            if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
-                                            "Known Person Match"):
-                logger.debug("Facial comparison with a Known person matched")
-                cv2.imwrite('{}known-face{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
-                            unknown_face_image)
-                cv2.imwrite('{}known-frame{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
-                            image)
-                match = True
-                try:
-                    requests.post(FRIEND_NOTIFICATION_URL)
-                except Exception as e:
-                    logger.error("An error happened {0}", e)
-                    pass
-        if not match:
-            cv2.imwrite('{}unknownFace{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), unknown_face_image)
-            cv2.imwrite('{}unknownFrame{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), image)
-        logger.debug("Total comparison time is {0} seconds".format((time.time() - start_date_time)))
-        count_index += 1
+            for each_known_encoding in known_person_cache:
+                if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
+                                                "Known Person Match"):
+                    logger.debug("Facial comparison with a Known person matched")
+                    cv2.imwrite('{}known-face{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
+                                each_unknown_face_image)
+                    cv2.imwrite('{}known-frame{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
+                                image)
+                    match = True
+                    try:
+                        requests.post(FRIEND_NOTIFICATION_URL)
+                    except Exception as e:
+                        logger.error("An error happened {0}", e)
+                        pass
+            if not match:
+                cv2.imwrite('{}unknownFace{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), each_unknown_face_image)
+                cv2.imwrite('{}unknownFrame{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), image)
+            logger.debug("Total comparison time is {0} seconds".format((time.time() - start_date_time)))
+            count_index += 1
 
 
 def extract_face(image):
+    faces = []
     face_locations = face_recognition.face_locations(image)
     for face_location in face_locations:
         # Print the location of each face in this image
@@ -80,8 +82,9 @@ def extract_face(image):
         #                                                                                             right))
         # You can access the actual face itself like this:
         face_image = image[top:bottom, left:right]
+        faces.append(face_image)
         # pil_image = Image.fromarray(face_image)
-        return face_image
+    return faces
 
 
 def compare_faces(known_image_encoding, unknown_image_encoding, each_wanted_criminal_path):
