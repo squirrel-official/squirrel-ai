@@ -25,8 +25,8 @@ def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
         cv2.setUseOptimized(True)
         capture = cv2.VideoCapture(streamUrl, cv2.CAP_V4L2)
         # 2048 * 1536 , 2592 * 1944 , 2272 * 1704,
-        capture.set(cv2.CAP_PROP_FRAME_WIDTH, 2160)
-        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1620)
+        capture.set(cv2.CAP_PROP_FRAME_WIDTH, 2048)
+        capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1536)
         if not capture.isOpened():
             logger.error("Error opening video file {0}".format(streamUrl))
 
