@@ -36,8 +36,7 @@ def monitor_camera_stream(streamUrl, criminal_cache, known_person_cache):
             logger.info(" Processing file {0} ".format(streamUrl))
             logger.info("Frame rate: {0} ".format(capture.get(cv2.CAP_PROP_FPS)))
             while ret:
-                cv2.imwrite('{}All-frame{:d}.jpg'.format('/usr/local/squirrel-ai/result/captured-criminals/', random.randint(0, 1000)), image)
-
+                # cv2.imwrite('{}All-frame{:d}.jpg'.format('/usr/local/squirrel-ai/result/captured-criminals/', random.randint(0, 1000)), image)
                 if perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                     logger.debug("Object detected")
                     analyze_face(image, frame_count, criminal_cache, known_person_cache)
