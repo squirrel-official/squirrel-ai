@@ -31,6 +31,7 @@ def monitor_camera_stream(criminal_cache, known_person_cache):
         while True:
             image = picam2.capture_array()
             # logger.info(type(image))
+            cv2.imwrite('{}All-frame{:d}.jpg'.format('/usr/local/squirrel-ai/result/captured-criminals/', random.randint(0, 1000)), image)
             if perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                 logger.debug("Object detected")
                 analyze_face(image, frame_count, criminal_cache, known_person_cache)
