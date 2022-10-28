@@ -36,7 +36,7 @@ sudo apt-get install python3-tflite-runtime
 
 sudo chmod -R 777 .
 
-sudo apt-get install openjdk-11-jdk -y
+sudo apt-get install openjdk-17-jdk -y
 
 #sudo dphys-swapfile swapoff
 #sudo nano /etc/dphys-swapfile
