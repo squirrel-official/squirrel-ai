@@ -4,8 +4,9 @@ import cv2
 
 from detection.tensorflow.object_detector import ObjectDetector
 from detection.tensorflow.object_detector import ObjectDetectorOptions
-from detection.tensorflow.utils import visualize
-from memory_profiler import profile
+from customLogging.customLogging import get_logger
+
+logger = get_logger("Motion Detection")
 
 
 def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
@@ -32,5 +33,13 @@ def perform_object_detection(image, model: str, enable_edgetpu: bool) -> None:
     # Run object detection estimation using the model.
     detections = detector.detect(image)
 
-    # Draw points and edges on input image
-    return visualize(image, detections)
+    if len(detections) == 0:
+        return bool(0)
+    else:
+        for detection in detections:
+            category = detection.categories[0]
+            class_name = category.label
+            probability = round(category.score, 2)
+            result_text = class_name + ' (' + str(probability) + ')'
+            logger.info(result_text)
+        return bool(1)
