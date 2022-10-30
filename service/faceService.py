@@ -26,7 +26,7 @@ CRIMINAL_NOTIFICATION_URL = 'http://ai-security.local:8087/criminal'
 VISITOR_NOTIFICATION_URL = 'http://ai-security.local:8087/visitor'
 FRIEND_NOTIFICATION_URL = 'http://ai-security.local:8087/friend'
 
-@profile
+# @profile
 def analyze_face(image, count_index, criminal_cache, known_person_cache):
     unknown_face_images = extract_face(image)
     if unknown_face_images is not None:
