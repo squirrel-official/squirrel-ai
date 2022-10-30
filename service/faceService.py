@@ -65,6 +65,8 @@ def analyze_face(image, count_index, criminal_cache, known_person_cache):
                     except Exception as e:
                         logger.error("An error happened {0}", e)
                         pass
+
+            logger.info("match value : {}", match)
             if not match:
                 cv2.imwrite('{}unknownFace{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), each_unknown_face_image)
                 cv2.imwrite('{}unknownFrame{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), image)
