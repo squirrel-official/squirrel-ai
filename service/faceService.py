@@ -30,6 +30,7 @@ FRIEND_NOTIFICATION_URL = 'http://ai-security.local:8087/friend'
 def analyze_face(image, count_index, criminal_cache, known_person_cache):
     unknown_face_images = extract_face(image)
     if unknown_face_images is not None:
+        logger.debug("Unknown face image is not none")
         for each_unknown_face_image in unknown_face_images:
             match: bool = False
             logger.debug('A new person identified by face so processing it')
