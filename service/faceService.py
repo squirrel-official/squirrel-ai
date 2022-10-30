@@ -72,8 +72,8 @@ def analyze_face(image, count_index, criminal_cache, known_person_cache):
                 cv2.imwrite('{}unknownFace{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), each_unknown_face_image)
                 cv2.imwrite('{}unknownFrame{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), image)
 
-        logger.debug("Total comparison time is {0} seconds".format((time.time() - start_date_time)))
-        count_index += 1
+            logger.debug("Total comparison time is {0} seconds".format((time.time() - start_date_time)))
+            count_index += 1
 
 
 def extract_face(image):
