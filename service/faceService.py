@@ -30,7 +30,7 @@ FRIEND_NOTIFICATION_URL = 'http://ai-security.local:8087/friend'
 def analyze_face(image, count_index, criminal_cache, known_person_cache):
     unknown_face_images = extract_face(image)
     if unknown_face_images is not None:
-        logger.debug("Unknown face image is not none")
+        logger.debug(len(unknown_face_images))
         for each_unknown_face_image in unknown_face_images:
             match: bool = False
             logger.debug('A new person identified by face so processing it')
@@ -52,25 +52,25 @@ def analyze_face(image, count_index, criminal_cache, known_person_cache):
                         logger.error("An error happened {0}", e)
                         pass
 
-        for each_known_encoding in known_person_cache:
-            if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
-                                            "Known Person Match"):
-                logger.debug("Facial comparison with a Known person matched")
-                cv2.imwrite('{}known-face{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
-                            each_unknown_face_image)
-                cv2.imwrite('{}known-frame{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
-                            image)
-                match = True
-                try:
-                    requests.post(FRIEND_NOTIFICATION_URL)
-                except Exception as e:
-                    logger.error("An error happened {0}", e)
-                    pass
+            for each_known_encoding in known_person_cache:
+                if compare_faces_with_encodings(each_known_encoding, unknown_face_image_encodings,
+                                                "Known Person Match"):
+                    logger.debug("Facial comparison with a Known person matched")
+                    cv2.imwrite('{}known-face{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
+                                each_unknown_face_image)
+                    cv2.imwrite('{}known-frame{:d}.jpg'.format(KNOWN_VISITORS_PATH, count_index),
+                                image)
+                    match = True
+                    try:
+                        requests.post(FRIEND_NOTIFICATION_URL)
+                    except Exception as e:
+                        logger.error("An error happened {0}", e)
+                        pass
 
-        logger.debug("match value : {}", match)
-        if not match:
-            cv2.imwrite('{}unknownFace{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), each_unknown_face_image)
-            cv2.imwrite('{}unknownFrame{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), image)
+            logger.debug("match value : {}", match)
+            if not match:
+                cv2.imwrite('{}unknownFace{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), each_unknown_face_image)
+                cv2.imwrite('{}unknownFrame{:d}.jpg'.format(UNKNOWN_VISITORS_PATH, count_index), image)
 
         logger.debug("Total comparison time is {0} seconds".format((time.time() - start_date_time)))
         count_index += 1
