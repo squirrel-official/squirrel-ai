@@ -23,14 +23,14 @@ def monitor_camera_stream(criminal_cache, known_person_cache):
     try:
         cv2.setUseOptimized(True)
         picam2 = Picamera2()
-        camera_config = picam2.create_still_configuration(main={"size": (1920, 1080)}, lores={"size": (640, 480)},
+        camera_config = picam2.create_still_configuration(main={"size": (2592, 1944)}, lores={"size": (2592, 1944)},
                                                           display="lores")
         picam2.configure(camera_config)
         picam2.start()
         frame_count = 1
         while True:
             image = picam2.capture_array()
-            # cv2.imwrite('{}All-frame{:d}.jpg'.format('/usr/local/squirrel-ai/result/captured-criminals/', random.randint(0, 1000)), image)
+            cv2.imwrite('{}All-frame{:d}.jpg'.format('/usr/local/squirrel-ai/result/captured-criminals/', random.randint(0, 1000)), image)
             if perform_object_detection(image, efficientdet_lite0_path, bool(0)):
                 logger.debug("Object detected")
                 analyze_face(image, frame_count, criminal_cache, known_person_cache)
