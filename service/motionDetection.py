@@ -23,7 +23,7 @@ def monitor_camera_stream(criminal_cache, known_person_cache):
     try:
         cv2.setUseOptimized(True)
         picam2 = Picamera2()
-        camera_config = picam2.create_still_configuration()
+        camera_config = picam2.create_video_configuration()
         picam2.configure(camera_config)
         picam2.start()
         frame_count = 1
