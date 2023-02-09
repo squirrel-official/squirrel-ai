@@ -12,10 +12,10 @@ pi  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service  motion start
 
 
 #Update motion permissions
-chmod -R 777 /usr/local/person-service/src/main/resources/detection.sh
-chmod -R 777 /usr/local/person-service/src/main/resources/motion-restart.sh
-chmod -R 777 /var/log/motion
-chmod -R 777 /var/lib/motion
+sudo chmod -R 777 /usr/local/person-service/src/main/resources/detection.sh
+sudo chmod -R 777 /usr/local/person-service/src/main/resources/motion-restart.sh
+sudo chmod -R 777 /var/log/motion
+sudo chmod -R 777 /var/lib/motion
 sudo chmod -R 777 /etc/motion
 
 
