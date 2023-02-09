@@ -19,4 +19,10 @@ sudo chmod -R 777 /var/lib/motion
 sudo chmod -R 777 /etc/motion
 
 
+#if unable to connect using  my-security.local then use following command and update the hostname
+#from previousname to new hostname
+
+#sudo nano /etc/hostname
+
+
 
