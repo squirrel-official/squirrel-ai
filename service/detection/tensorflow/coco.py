@@ -18,7 +18,7 @@ net.setInputSwapRB(True)
 
 
 # This is to set up what the drawn box size/colour is and the font/size/colour of the name tag and confidence label
-def any_object_found(img, threshold, nms, draw=True, objects=[]):
+def any_object_found(img, threshold, nms, draw=True, objects=['person', 'bicycle', 'car', 'motorcycle', 'bus', 'truck', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow', 'elephant', 'bear', 'zebra', 'giraffe', 'knife']):
     classIds, confs, bbox = net.detect(img, confThreshold=threshold, nmsThreshold=nms)
     object_found = 0
     if len(objects) == 0: objects = classNames
@@ -32,5 +32,8 @@ def any_object_found(img, threshold, nms, draw=True, objects=[]):
                 objectInfo.append([box, className])
                 if (draw):
                     cv2.rectangle(img, box, color=(0, 255, 0), thickness=2)
-
+                    cv2.putText(img, classNames[classId - 1].upper(), (box[0] + 10, box[1] + 30),
+                                cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
+                    cv2.putText(img, str(round(confidence * 100, 2)), (box[0] + 200, box[1] + 30),
+                                cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
     return bool(object_found)
