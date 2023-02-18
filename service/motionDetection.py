@@ -36,7 +36,7 @@ def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cac
             ret, image = capture.read()
             logger.info(" Processing file {0} ".format(streamUrl))
             while ret:
-                if any_object_found(image, 0.45,0.2) and tensor_coco_ssd_mobilenet(image, ssd_model_path):
+                if any_object_found(image, 0.60, 0.4):
                     logger.debug("Object detected, flag :{0}".format(object_detection_flag))
                     if object_detection_flag == 0:
                         detection_counter = time.time()
