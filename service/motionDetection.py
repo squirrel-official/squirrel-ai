@@ -4,7 +4,7 @@ import cv2
 from customLogging.customLogging import get_logger
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
-from detection.yolov3.detect import yolov3
+from detection.opencv.detection_util import is_human_present
 from faceService import analyze_face
 from imageLoadService import load_criminal_images, load_known_images
 import requests
@@ -21,7 +21,7 @@ efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/effic
 logger = get_logger("Motion Detection")
 
 
-def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cache):
+def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cache, hog):
     try:
         capture = cv2.VideoCapture(streamUrl)
         if not capture.isOpened():
@@ -35,7 +35,7 @@ def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cac
             ret, image = capture.read()
             logger.info(" Processing file {0} ".format(streamUrl))
             while ret:
-                if yolov3(image) and  tensor_coco_ssd_mobilenet(image, ssd_model_path):
+                if is_human_present(hog, image) and tensor_coco_ssd_mobilenet(image, ssd_model_path):
                     logger.debug("Object detected, flag :{0}".format(object_detection_flag))
                     if object_detection_flag == 0:
                         detection_counter = time.time()
@@ -59,8 +59,9 @@ def start_monitoring():
     try:
         criminal_cache = load_criminal_images()
         known_person_cache = load_known_images()
-        monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache)
-        monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache)
+        hog = cv2.HOGDescriptor()
+        monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache, hog)
+        monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache, hog)
 
     except Exception as e:
         logger.error("An exception occurred.")
