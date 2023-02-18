@@ -4,10 +4,9 @@ import cv2
 from customLogging.customLogging import get_logger
 # Initializing things
 from detection.tensorflow.tf_coco_ssd_algorithm import tensor_coco_ssd_mobilenet
-from detection.tensorflow.tf_lite_algorithm import perform_object_detection
+from detection.yolov3.detect import yolov3
 from faceService import analyze_face
 from imageLoadService import load_criminal_images, load_known_images
-import threading
 import requests
 
 # For writing
@@ -36,7 +35,7 @@ def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cac
             ret, image = capture.read()
             logger.info(" Processing file {0} ".format(streamUrl))
             while ret:
-                if tensor_coco_ssd_mobilenet(image, ssd_model_path):
+                if yolov3(image) and  tensor_coco_ssd_mobilenet(image, ssd_model_path):
                     logger.debug("Object detected, flag :{0}".format(object_detection_flag))
                     if object_detection_flag == 0:
                         detection_counter = time.time()
