@@ -21,7 +21,7 @@ efficientdet_lite0_path = '/usr/local/squirrel-ai/model/efficientdet-lite0/effic
 logger = get_logger("Motion Detection")
 
 
-def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cache, hog):
+def monitor_camera_stream(streamUrl, camera_id, criminal_cache, known_person_cache):
     try:
         capture = cv2.VideoCapture(streamUrl)
         if not capture.isOpened():
@@ -59,9 +59,8 @@ def start_monitoring():
     try:
         criminal_cache = load_criminal_images()
         known_person_cache = load_known_images()
-        hog = cv2.HOGDescriptor()
-        monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache, hog)
-        monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache, hog)
+        monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache)
+        monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache)
 
     except Exception as e:
         logger.error("An exception occurred.")
