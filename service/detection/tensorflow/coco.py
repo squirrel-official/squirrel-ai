@@ -1,5 +1,4 @@
 import cv2
-
 # This is to pull the information about what each object is called
 classNames = []
 classFile = "/usr/local/squirrel-ai/model/coco/coco.names"
@@ -29,9 +28,9 @@ def any_object_found(img, threshold, nms, draw=True, objects=[]):
         for classId, confidence, box in zip(classIds.flatten(), confs.flatten(), bbox):
             className = classNames[classId - 1]
             if className in objects:
+                print(className)
                 objectInfo.append([box, className])
                 if (draw):
                     cv2.rectangle(img, box, color=(0, 255, 0), thickness=2)
 
     return bool(object_found)
-
