@@ -8,6 +8,7 @@ from detection.tensorflow.coco import any_object_found
 from faceService import analyze_face
 from imageLoadService import load_criminal_images, load_known_images
 import requests
+from multiprocessing import Process
 
 # For writing
 UNKNOWN_VISITORS_PATH = '/usr/local/squirrel-ai/result/unknown-visitors/'
@@ -61,7 +62,12 @@ def start_monitoring():
         known_person_cache = load_known_images()
         monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache)
         monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache)
-
+        p1 = Process(target=monitor_camera_stream, args=(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache,))
+        p1.start()
+        p2 = Process(target=monitor_camera_stream, args=(GATE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache,))
+        p2.start()
+        p1.join()
+        p2.join()
     except Exception as e:
         logger.error("An exception occurred.")
         logger.error(e, exc_info=True)
