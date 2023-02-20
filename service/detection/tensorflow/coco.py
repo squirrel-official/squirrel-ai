@@ -24,11 +24,10 @@ def any_object_found(img, threshold, nms, draw=True, objects=['person', 'bicycle
     if len(objects) == 0: objects = classNames
     objectInfo = []
     if len(classIds) != 0:
-        object_found = 1
         for classId, confidence, box in zip(classIds.flatten(), confs.flatten(), bbox):
             className = classNames[classId - 1]
             if className in objects:
-                print(className)
+                object_found = 1
                 objectInfo.append([box, className])
                 if (draw):
                     cv2.rectangle(img, box, color=(0, 255, 0), thickness=2)

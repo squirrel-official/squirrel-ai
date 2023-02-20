@@ -5,7 +5,7 @@ import numpy as np
 import importlib.util
 
 
-def tensor_coco_ssd_mobilenet(image, ssd_model_path):
+def tensor_coco_ssd_mobilenet(image):
     MODEL_NAME = '/usr/local/squirrel-ai/model/coco-ssd-mobilenet'
     GRAPH_NAME = 'detect.tflite'
     LABELMAP_NAME = 'labelmap.txt'
