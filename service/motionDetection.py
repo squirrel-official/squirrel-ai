@@ -60,8 +60,8 @@ def start_monitoring():
     try:
         criminal_cache = load_criminal_images()
         known_person_cache = load_known_images()
-        monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache)
-        monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache)
+        # monitor_camera_stream(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache)
+        # monitor_camera_stream(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache)
         p1 = Process(target=monitor_camera_stream, args=(GARAGE_EXTERNAL_CAMERA_STREAM, 1, criminal_cache, known_person_cache,))
         p1.start()
         p2 = Process(target=monitor_camera_stream, args=(GATE_EXTERNAL_CAMERA_STREAM, 2, criminal_cache, known_person_cache,))
