@@ -11,6 +11,14 @@ sudo chmod -R 777 /etc/motion
 sudo systemctl enable motion
 
 
+#add following using
+
+sudo visudo
+
+root  ALL=(ALL:ALL) NOPASSWD: /usr/local/squirrel-ai/motion-restart.sh
+pi  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service  motion stop
+pi  ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service  motion start
+
 
 
 
